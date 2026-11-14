@@ -13,11 +13,12 @@ private:
     double flight_speed = 0.5;
     double cockpit_pressure = 101.3;
     double engineering_pressure = 101.3;
-    
+
     bool is_eclss_working = true;
     bool is_hull_breached = false;
     bool is_bulkhead_closed = false;
     bool is_mission_active = true;
+    bool is_player_in_engineering = false;
 protected:
     static void _bind_methods();
 
@@ -55,6 +56,9 @@ public:
 
     bool get_is_mission_active() const;
     void set_is_mission_active(bool active);
+
+    bool get_is_player_in_engineering() const;
+    void set_is_player_in_engineering(bool val);
 
     // // Методи керування аваріями
     void trigger_co2_failure();

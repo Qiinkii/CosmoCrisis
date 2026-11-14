@@ -38,6 +38,10 @@ void ShipTelemetry::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_is_bulkhead_closed", "close"), &ShipTelemetry::set_is_bulkhead_closed);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_bulkhead_closed"), "set_is_bulkhead_closed", "get_is_bulkhead_closed");
 
+    ClassDB::bind_method(D_METHOD("get_is_player_in_engineering"), &ShipTelemetry::get_is_player_in_engineering);
+    ClassDB::bind_method(D_METHOD("set_is_player_in_engineering", "val"), &ShipTelemetry::set_is_player_in_engineering);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_player_in_engineering"), "set_is_player_in_engineering", "get_is_player_in_engineering");
+
     ClassDB::bind_method(D_METHOD("get_is_mission_active"), &ShipTelemetry::get_is_mission_active);
     ClassDB::bind_method(D_METHOD("set_is_mission_active", "active"), &ShipTelemetry::set_is_mission_active);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_mission_active"), "set_is_mission_active", "get_is_mission_active");
@@ -195,4 +199,12 @@ void ShipTelemetry::trigger_hull_breach(){
 
 void ShipTelemetry::repair_hull_breach(){
     is_hull_breached = false;
+}
+
+bool ShipTelemetry::get_is_player_in_engineering() const{
+    return is_player_in_engineering;
+}
+
+void ShipTelemetry::set_is_player_in_engineering(bool val){
+    is_player_in_engineering = val;
 }

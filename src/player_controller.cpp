@@ -68,8 +68,31 @@ void PlayerController::_input(const Ref<InputEvent> &event){
     }
 
     if(interaction_ray->is_colliding()){
-        Interactable *target = Object::cast_to<Interactable>(interaction_ray->get_collider());
+        Interactable *target = nullptr;
+        if (interaction_ray->is_colliding()) {
+            target = Object::cast_to<Interactable>(interaction_ray->get_collider());
+        }
+
+        if (target != nullptr) {
+            emit_signal("interaction_prompt_changed", true, target->get_prompt_text());
         
+            if (Input::get_singleton()->is_action_just_pressed("interact")) {
+                if (target->get_is_pickup() && held_item_id.is_empty()) {
+                    held_item_id = target->get_item_id();
+                    target->reparent(hand_slot, false);
+                    target->set_position(Vector3(0, 0, 0));
+                    target->set_monitoring(false);
+                    target->set_monitorable(false);
+                    emit_signal("held_item_changed", held_item_id);
+                    target->interact(this);
+                } else if (!target->get_is_pickup()) {
+                    target->interact(this);
+                }
+            }
+        }
+            else {
+                emit_signal("interaction_prompt_changed", false, "");
+            }
     }
 }
 

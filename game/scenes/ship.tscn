@@ -1,9 +1,19 @@
 [gd_scene format=3 uid="uid://5obrr453us73"]
 
 [ext_resource type="PackedScene" uid="uid://4bpmk276jowh" path="res://scenes/player.tscn" id="1_q631a"]
+[ext_resource type="Script" uid="uid://b7i54xlvgwkn" path="res://scripts/engineering_zone.gd" id="2_2gnfn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
+size = Vector3(0.35, 0.35, 0.35)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+size = Vector3(0.3, 0.3, 0.3)
 
 [sub_resource type="Environment" id="Environment_yf5fn"]
 background_mode = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(5.8, 2.8, 5.8)
 
 [node name="Ship" type="Node3D" unique_id=901573337]
 
@@ -19,6 +29,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 operation = 2
 size = Vector3(6, 3, 6)
 
+[node name="Interactable" type="Interactable" parent="CSGCombiner3D/CockpitRoom" unique_id=245890067]
+prompt_text = "Take cube"
+item_id = "test_item"
+is_pickup = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.5)
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGCombiner3D/CockpitRoom/Interactable" unique_id=220964480]
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CSGCombiner3D/CockpitRoom/Interactable" unique_id=211107350]
+mesh = SubResource("BoxMesh_g4v7s")
+
 [node name="AirlockCorridor" type="CSGBox3D" parent="CSGCombiner3D" unique_id=427795950]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -4.5)
 operation = 2
@@ -30,7 +53,7 @@ operation = 2
 size = Vector3(6, 3, 6)
 
 [node name="Player" parent="CSGCombiner3D" unique_id=641960212 instance=ExtResource("1_q631a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 1.5)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146275382]
 environment = SubResource("Environment_yf5fn")
@@ -42,3 +65,13 @@ omni_range = 8.0
 [node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=583435589]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -9)
 omni_range = 8.0
+
+[node name="Area3D" type="Area3D" parent="." unique_id=2054795951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -9)
+script = ExtResource("2_2gnfn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1535599599]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
+[connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]
