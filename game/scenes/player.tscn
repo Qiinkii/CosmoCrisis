@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://4bpmk276jowh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
+radius = 0.4
+height = 1.8
+
+[node name="Player" type="PlayerController" unique_id=641960212]
+
+[node name="Body" type="CollisionShape3D" parent="." unique_id=1939830448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_g4v7s")
+
+[node name="Head" type="Node3D" parent="." unique_id=1561016517]
+transform = Transform3D(0.9996101, 0, 0.02792164, 0, 1, 0, -0.02792164, 0, 0.9996101, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1113580809]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+current = true
+
+[node name="InteractionRay" type="RayCast3D" parent="Head/Camera3D" unique_id=628908749]
+target_position = Vector3(0, 0, -2.5)
+collide_with_areas = true
+
+[node name="HandSlot" type="Marker3D" parent="Head/Camera3D" unique_id=1088124432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, -0.3, -0.6)
