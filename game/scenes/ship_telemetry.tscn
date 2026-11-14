@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://cxs7bhejye52s"]
+
+[node name="ShipTelemetry" type="ShipTelemetry" unique_id=125482279]

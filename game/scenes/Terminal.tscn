@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cefxgu6liscws"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nlrkg"]
+size = Vector3(1.0844727, 1, 1.0666504)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_enqfd"]
+size = Vector3(0.5, 0.7, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i12f4"]
+size = Vector3(1.2, 1.2, 1)
+
+[node name="Terminal" type="StaticBody3D" unique_id=891120400]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1540179905]
+layers = 2
+mesh = SubResource("BoxMesh_nlrkg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1317940695]
+shape = SubResource("BoxShape3D_enqfd")
+disabled = true
+
+[node name="EclssTerminal" type="EclssTerminal" parent="." unique_id=967760203]
+telemetry_path = NodePath("../../ShipTelemetry")
+repair_ui_path = NodePath("../../EclssRepairUI")
+prompt_text = "Установить картридж LiOH [E]"
+item_id = "lioh_cartridge"
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EclssTerminal" unique_id=1196511287]
+shape = SubResource("BoxShape3D_i12f4")
