@@ -2,12 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://4bpmk276jowh" path="res://scenes/player.tscn" id="1_q631a"]
 [ext_resource type="Script" uid="uid://b7i54xlvgwkn" path="res://scripts/engineering_zone.gd" id="2_2gnfn"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
-size = Vector3(0.35, 0.35, 0.35)
-
-[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
-size = Vector3(0.3, 0.3, 0.3)
+[ext_resource type="PackedScene" uid="uid://cgmvebg2bgkmk" path="res://scenes/pickup_item.tscn" id="2_4tobq"]
 
 [sub_resource type="Environment" id="Environment_yf5fn"]
 background_mode = 1
@@ -29,19 +24,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 operation = 2
 size = Vector3(6, 3, 6)
 
-[node name="Interactable" type="Interactable" parent="CSGCombiner3D/CockpitRoom" unique_id=245890067]
-prompt_text = "Take cube"
-item_id = "test_item"
-is_pickup = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1.5)
-collision_layer = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGCombiner3D/CockpitRoom/Interactable" unique_id=220964480]
-shape = SubResource("BoxShape3D_yf5fn")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CSGCombiner3D/CockpitRoom/Interactable" unique_id=211107350]
-mesh = SubResource("BoxMesh_g4v7s")
-
 [node name="AirlockCorridor" type="CSGBox3D" parent="CSGCombiner3D" unique_id=427795950]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -4.5)
 operation = 2
@@ -54,6 +36,9 @@ size = Vector3(6, 3, 6)
 
 [node name="Player" parent="CSGCombiner3D" unique_id=641960212 instance=ExtResource("1_q631a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="PickupItem" parent="CSGCombiner3D" unique_id=1987923263 instance=ExtResource("2_4tobq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.46358776, -2.738804)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146275382]
 environment = SubResource("Environment_yf5fn")

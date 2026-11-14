@@ -4,6 +4,8 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/input.hpp>
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
+#include <godot_cpp/classes/scene_tree.hpp>
+#include <godot_cpp/classes/rigid_body3d.hpp>
 
 using namespace godot;
 
@@ -57,6 +59,21 @@ void PlayerController::_input(const Ref<InputEvent> &event){
         return;
     }
 
+    // ui unblock
+    if(event->is_action_pressed("ui_cancel")){
+        Input *input = Input::get_singleton();
+        if(input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED){
+            input->set_mouse_mode(Input::MOUSE_MODE_VISIBLE);
+        } else {
+            input->set_mouse_mode(Input::MOUSE_MODE_CAPTURED);
+        }
+        return;
+    }
+
+    if(!can_move || Input::get_singleton()->get_mouse_mode() != Input::MOUSE_MODE_CAPTURED){
+        return;
+    }
+
     Ref<InputEventMouseMotion> mouse_event = event;
     if(mouse_event.is_valid()){
         rotate_y(-mouse_event->get_relative().x * mouse_sensitivity);
@@ -95,31 +112,77 @@ void PlayerController::_physics_process(double delta){
     set_velocity(velocity);
     move_and_slide();
 
+    // взяття предметів
     Interactable *target = nullptr;
     if(interaction_ray->is_colliding()){
-        if (interaction_ray->is_colliding()) {
-            target = Object::cast_to<Interactable>(interaction_ray->get_collider());
-        }
+        target = Object::cast_to<Interactable>(interaction_ray->get_collider());
+    }
 
-        if (target != nullptr) {
-            emit_signal("interaction_prompt_changed", true, target->get_prompt_text());
-        
-            if (Input::get_singleton()->is_action_just_pressed("interact")) {
-                if (target->get_is_pickup() && held_item_id.is_empty()) {
-                    held_item_id = target->get_item_id();
+    if(target != nullptr){
+        emit_signal("interaction_prompt_changed", true, target->get_prompt_text());
+
+        if(Input::get_singleton()->is_action_just_pressed("interact")){
+            if(target->get_is_pickup() && held_item_id.is_empty()){
+                held_item_id = target->get_item_id();
+
+                RigidBody3D *rb = Object::cast_to<RigidBody3D>(target->get_parent());
+                if(rb != nullptr){
+                    rb->set_freeze_enabled(true);
+                    rb->set_collision_layer(0);
+                    rb->set_collision_mask(0);
+                    rb->reparent(hand_slot, false);
+                    rb->set_position(Vector3(0, 0, 0));
+                    rb->set_rotation(Vector3(0, 0, 0));
+                } else {
                     target->reparent(hand_slot, false);
                     target->set_position(Vector3(0, 0, 0));
-                    target->set_monitoring(false);
-                    target->set_monitorable(false);
-                    emit_signal("held_item_changed", held_item_id);
-                    target->interact(this);
-                } else if (!target->get_is_pickup()) {
-                    target->interact(this);
                 }
+
+                target->set_monitoring(false);
+                target->set_monitorable(false);
+                emit_signal("held_item_changed", held_item_id);
+                target->interact(this);
+            } else if(!target->get_is_pickup()){
+                target->interact(this);
             }
         }
-        else {
-            emit_signal("interaction_prompt_changed", false, "");
+    } 
+    else {
+        emit_signal("interaction_prompt_changed", false, "");
+    }
+
+    // кидання предметів 
+    if(Input::get_singleton()->is_action_just_pressed("drop")){
+        if(!held_item_id.is_empty() && hand_slot->get_child_count() > 0){
+            Node3D *held_node = Object::cast_to<Node3D>(hand_slot->get_child(0));
+            RigidBody3D *rb = Object::cast_to<RigidBody3D>(held_node);
+            Vector3 forward = -camera->get_global_transform().basis.get_column(2);
+
+            if(rb != nullptr){
+                rb->reparent(get_tree()->get_current_scene(), true);
+                rb->set_global_position(camera->get_global_position() + forward * 0.8);
+                rb->set_collision_layer(1);
+                rb->set_collision_mask(1);
+                rb->set_freeze_enabled(false);
+                rb->apply_central_impulse(forward * 2.5);
+
+                Interactable *inter = rb->get_node<Interactable>("Interactable");
+                if(inter != nullptr){
+                    inter->set_monitoring(true);
+                    inter->set_monitorable(true);
+                }
+            } else {
+                Interactable *held_item = Object::cast_to<Interactable>(held_node);
+                if(held_item != nullptr){
+                    held_item->reparent(get_tree()->get_current_scene(), true);
+                    held_item->set_global_position(camera->get_global_position() + forward * 0.8);
+                    held_item->set_monitoring(true);
+                    held_item->set_monitorable(true);
+                }
+            }
+
+            held_item_id = "";
+            emit_signal("held_item_changed", held_item_id);
         }
     }
 }
@@ -128,6 +191,9 @@ godot::String PlayerController::get_held_item_id() const{
     return held_item_id;
 }
 void PlayerController::clear_held_item(){
+    if (hand_slot != nullptr && hand_slot->get_child_count() > 0) {
+        hand_slot->get_child(0)->queue_free(); 
+    }
     held_item_id = "";
     emit_signal("held_item_changed", held_item_id);
 }
