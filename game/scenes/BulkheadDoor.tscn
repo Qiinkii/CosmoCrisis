@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://j0kt1d2vu0kq"]
+
+[ext_resource type="Script" uid="uid://hjc2y7cx6n1r" path="res://scripts/bulkhead_door.gd" id="1_kdmhl"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+size = Vector3(2.2, 2.5, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(2.2, 2.5, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_57qmd"]
+size = Vector3(0.1, 0.3, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
+size = Vector3(0.3, 0.4, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_57qmd"]
+size = Vector3(2.2, 2.5, 0.3)
+
+[node name="BulkheadDoor" type="Node3D" unique_id=1006830687]
+script = ExtResource("1_kdmhl")
+
+[node name="DoorLeaf" type="AnimatableBody3D" parent="." unique_id=1904701131]
+collision_layer = 5
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DoorLeaf" unique_id=1883831912]
+mesh = SubResource("BoxMesh_yf5fn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorLeaf" unique_id=1226488955]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="ControlPanel" type="Interactable" parent="." unique_id=1554864877]
+prompt_text = "Switch door"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, 0, 0.45)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ControlPanel" unique_id=1709768504]
+mesh = SubResource("BoxMesh_57qmd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ControlPanel" unique_id=971769676]
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="ControlPanel2" type="Interactable" parent="." unique_id=1151242844]
+prompt_text = "Switch door"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, 0, -0.45)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ControlPanel2" unique_id=1678315887]
+mesh = SubResource("BoxMesh_57qmd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ControlPanel2" unique_id=1616199696]
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="DoorWaySensor" type="Area3D" parent="." unique_id=927780522]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorWaySensor" unique_id=1557304614]
+shape = SubResource("BoxShape3D_57qmd")

@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var prompt_label: Label = $CenterContainer/VBoxContainer/PromptLabel
+@onready var prompt_label: Label = $PromptLabel
 @onready var progress_label: Label = $MarginContainer/VBoxContainer/ProgressLabel
 @onready var co2_label: Label = $MarginContainer/VBoxContainer/CO2Label
 @onready var pressure_label: Label = $MarginContainer/VBoxContainer/PressureLabel
@@ -11,8 +11,8 @@ func _ready() -> void:
 		player.interaction_prompt_changed.connect(_on_prompt_changed)
 	ShipTelemetryGlobal.telemetry_updated.connect(_on_telemetry_updated)
 
-func _on_prompt_changed(promt_visible: bool, text: String) -> void:
-	prompt_label.visible = promt_visible
+func _on_prompt_changed(prompt_visible: bool, text: String) -> void:
+	prompt_label.visible = prompt_visible
 	prompt_label.text = "[E] " + text
 
 func _on_telemetry_updated() -> void:
