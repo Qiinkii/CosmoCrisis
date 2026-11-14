@@ -1,9 +1,9 @@
 [configuration]
-
-entry_symbol = "orbital_library_init"
-compatibility_minimum = "4.1"
+entry_symbol = "orbital_crisis_init"
+compatibility_minimum = "4.2"
 
 [libraries]
-
-windows.debug.x86_64 = "res://bin/liborbital_crisis.windows.template_debug.x86_64.dll"
-windows.release.x86_64 = "res://bin/liborbital_crisis.windows.template_release.x86_64.dll"
+linux.debug.x86_64 = "res://bin/liborbital_crisis.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://bin/liborbital_crisis.linux.template_release.x86_64.so"
+windows.debug.x86_64 = "res://bin/orbital_crisis.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://bin/orbital_crisis.windows.template_release.x86_64.dll"
