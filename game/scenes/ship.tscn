@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://4bpmk276jowh" path="res://scenes/player.tscn" id="1_q631a"]
 [ext_resource type="Script" uid="uid://b7i54xlvgwkn" path="res://scripts/engineering_zone.gd" id="2_2gnfn"]
 [ext_resource type="PackedScene" uid="uid://cgmvebg2bgkmk" path="res://scenes/pickup_item.tscn" id="2_4tobq"]
+[ext_resource type="PackedScene" uid="uid://de8xoqngnhmss" path="res://ui/hud.tscn" id="2_tfsc7"]
 
 [sub_resource type="Environment" id="Environment_yf5fn"]
 background_mode = 1
@@ -36,6 +37,8 @@ size = Vector3(6, 3, 6)
 
 [node name="Player" parent="CSGCombiner3D" unique_id=641960212 instance=ExtResource("1_q631a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="Hud" parent="CSGCombiner3D/Player" unique_id=1293581850 instance=ExtResource("2_tfsc7")]
 
 [node name="PickupItem" parent="CSGCombiner3D" unique_id=1987923263 instance=ExtResource("2_4tobq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.46358776, -2.738804)
