@@ -33,7 +33,7 @@ size = Vector3(6, 3, 6)
 prompt_text = "Take cube"
 item_id = "test_item"
 is_pickup = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1.5)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CSGCombiner3D/CockpitRoom/Interactable" unique_id=220964480]
