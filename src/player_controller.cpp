@@ -66,34 +66,6 @@ void PlayerController::_input(const Ref<InputEvent> &event){
             (real_t)Math::deg_to_rad(-85.0),(real_t)Math::deg_to_rad(85.0));
         head->set_rotation(head_rot);
     }
-
-    if(interaction_ray->is_colliding()){
-        Interactable *target = nullptr;
-        if (interaction_ray->is_colliding()) {
-            target = Object::cast_to<Interactable>(interaction_ray->get_collider());
-        }
-
-        if (target != nullptr) {
-            emit_signal("interaction_prompt_changed", true, target->get_prompt_text());
-        
-            if (Input::get_singleton()->is_action_just_pressed("interact")) {
-                if (target->get_is_pickup() && held_item_id.is_empty()) {
-                    held_item_id = target->get_item_id();
-                    target->reparent(hand_slot, false);
-                    target->set_position(Vector3(0, 0, 0));
-                    target->set_monitoring(false);
-                    target->set_monitorable(false);
-                    emit_signal("held_item_changed", held_item_id);
-                    target->interact(this);
-                } else if (!target->get_is_pickup()) {
-                    target->interact(this);
-                }
-            }
-        }
-            else {
-                emit_signal("interaction_prompt_changed", false, "");
-            }
-    }
 }
 
 void PlayerController::_physics_process(double delta){
@@ -122,6 +94,34 @@ void PlayerController::_physics_process(double delta){
     }
     set_velocity(velocity);
     move_and_slide();
+
+    Interactable *target = nullptr;
+    if(interaction_ray->is_colliding()){
+        if (interaction_ray->is_colliding()) {
+            target = Object::cast_to<Interactable>(interaction_ray->get_collider());
+        }
+
+        if (target != nullptr) {
+            emit_signal("interaction_prompt_changed", true, target->get_prompt_text());
+        
+            if (Input::get_singleton()->is_action_just_pressed("interact")) {
+                if (target->get_is_pickup() && held_item_id.is_empty()) {
+                    held_item_id = target->get_item_id();
+                    target->reparent(hand_slot, false);
+                    target->set_position(Vector3(0, 0, 0));
+                    target->set_monitoring(false);
+                    target->set_monitorable(false);
+                    emit_signal("held_item_changed", held_item_id);
+                    target->interact(this);
+                } else if (!target->get_is_pickup()) {
+                    target->interact(this);
+                }
+            }
+        }
+        else {
+            emit_signal("interaction_prompt_changed", false, "");
+        }
+    }
 }
 
 godot::String PlayerController::get_held_item_id() const{

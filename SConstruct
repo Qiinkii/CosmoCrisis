@@ -9,7 +9,7 @@ env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 
 library = env.SharedLibrary(
-    "game/bin/liborbital_crisis{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+    "game/bin/orbital_crisis{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
     source=sources,
 )
 
