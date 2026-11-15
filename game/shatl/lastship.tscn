@@ -26192,7 +26192,7 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HATAK_Ship_002/Engineering_002/ECLSS_Rack_002/CartridgeSlot/Interactable" unique_id=750465788]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -0.037, 0.22300005, 0.01619947)
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -0.0009857714, 0.22300005, 0.01619947)
 shape = SubResource("BoxShape3D_t0vjo")
 
 [node name="Engine_Port_Service_002" type="Node3D" parent="HATAK_Ship_002/Engineering_002" unique_id=1425182725]
@@ -26512,7 +26512,7 @@ transform = Transform3D(0.9999999, 0, 3.5527137e-15, 0, 0.9999999, 0, -3.5527137
 freeze = true
 
 [node name="Filter_Cartridge_Spare_00_body_002" type="MeshInstance3D" parent="HATAK_Ship_002/Engineering_002/Engineering_stowage_002/Filter_Cartridge_Spare_00_002" unique_id=1035402356]
-transform = Transform3D(0.9999999, 0, 3.5527137e-15, 0, 0.9999999, 0, -3.5527137e-15, 0, 0.9999999, -0.050508372, 0, 0.10656595)
+transform = Transform3D(0.9999999, 0, 3.5527137e-15, 0, 0.9999999, 0, -3.5527137e-15, 0, 0.9999999, 0, 0, 0)
 mesh = SubResource("ArrayMesh_w73ga")
 
 [node name="Filter_Cartridge_Spare_00_Label_002" type="MeshInstance3D" parent="HATAK_Ship_002/Engineering_002/Engineering_stowage_002/Filter_Cartridge_Spare_00_002/Filter_Cartridge_Spare_00_body_002" unique_id=797525708]
@@ -26526,7 +26526,7 @@ shape = SubResource("CylinderShape3D_0xljv")
 prompt_text = "Взять картридж LiOH"
 item_id = "lioh_cartridge"
 is_pickup = true
-transform = Transform3D(0.9999998, 0, -3.5527137e-15, 0, 0.9999998, 0, 3.5527137e-15, 0, 0.9999998, -0.05050832, 0, 0.24817038)
+transform = Transform3D(0.9999998, 0, -1.0658141e-14, 0, 0.9999998, 0, 1.0658141e-14, 0, 0.9999998, -0.05127836, 0, 0.27211905)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HATAK_Ship_002/Engineering_002/Engineering_stowage_002/Filter_Cartridge_Spare_00_002/Interactable" unique_id=1208619939]

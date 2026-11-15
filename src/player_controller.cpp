@@ -14,6 +14,7 @@ void PlayerController::_bind_methods(){
     ClassDB::bind_method(D_METHOD("get_held_item_id"), &PlayerController::get_held_item_id);
     ClassDB::bind_method(D_METHOD("clear_held_item"), &PlayerController::clear_held_item);
     ClassDB::bind_method(D_METHOD("take_held_item"), &PlayerController::take_held_item);
+    ClassDB::bind_method(D_METHOD("place_held_item", "target_slot"), &PlayerController::place_held_item);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "held_item_id"), "", "get_held_item_id");
 
     ClassDB::bind_method(D_METHOD("get_can_move"), &PlayerController::get_can_move);
@@ -53,8 +54,8 @@ void PlayerController::_ready(){
     camera = get_node<Camera3D>("Head/Camera3D");
     interaction_ray = get_node<RayCast3D>("Head/Camera3D/InteractionRay");
     if (interaction_ray != nullptr) {
-    interaction_ray->add_exception(this);
-}
+        interaction_ray->add_exception(this);
+    }
     hand_slot = get_node<Marker3D>("Head/Camera3D/HandSlot");
     Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_CAPTURED);
 }
@@ -64,7 +65,6 @@ void PlayerController::_input(const Ref<InputEvent> &event){
         return;
     }
 
-    // ui unblock
     if(event->is_action_pressed("ui_cancel")){
         Input *input = Input::get_singleton();
         if(input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED){
@@ -117,7 +117,6 @@ void PlayerController::_physics_process(double delta){
     set_velocity(velocity);
     move_and_slide();
 
-    // 1. Обновление подсказки при наведении луча
     if (interaction_ray != nullptr && interaction_ray->is_colliding()) {
         Interactable *target = Object::cast_to<Interactable>(interaction_ray->get_collider());
         if (target != nullptr) {
@@ -130,8 +129,7 @@ void PlayerController::_physics_process(double delta){
         emit_signal("interaction_prompt_changed", false, "");
     }
 
-    // 2. Взаимодействие при нажатии E ("interact")
-  if (Input::get_singleton()->is_action_just_pressed("interact")) {
+    if (Input::get_singleton()->is_action_just_pressed("interact")) {
         UtilityFunctions::print("E pressed | colliding: ", interaction_ray != nullptr && interaction_ray->is_colliding());
         if (interaction_ray != nullptr && interaction_ray->is_colliding()) {
             Object *col = interaction_ray->get_collider();
@@ -160,14 +158,12 @@ void PlayerController::_physics_process(double delta){
                         }
                     }
                 } else {
-                    // Взаимодействие со щитком (срабатывает и с кубом в руке, и без него)
                     target->interact(this);
                 }
             }
         }
     }
 
-    // 3. Выбрасывание предметов куба
     if(Input::get_singleton()->is_action_just_pressed("drop")){
         if(!held_item_id.is_empty() && hand_slot->get_child_count() > 0){
             Node3D *held_node = Object::cast_to<Node3D>(hand_slot->get_child(0));
@@ -228,6 +224,44 @@ Node3D *PlayerController::take_held_item() {
     emit_signal("held_item_changed", held_item_id);
     return nullptr;
 }
+
+bool PlayerController::place_held_item(Node3D *target_slot) {
+    if (target_slot == nullptr || hand_slot == nullptr || hand_slot->get_child_count() == 0) {
+        return false;
+    }
+
+    Node3D *item = Object::cast_to<Node3D>(hand_slot->get_child(0));
+    if (item == nullptr) {
+        return false;
+    }
+
+    item->reparent(target_slot, false);
+    item->set_position(Vector3(0, 0, 0));
+    item->set_rotation(Vector3(0, 0, 0));
+    item->set_visible(true);
+
+    RigidBody3D *rb = Object::cast_to<RigidBody3D>(item);
+    if (rb != nullptr) {
+        rb->set_linear_velocity(Vector3(0, 0, 0));
+        rb->set_angular_velocity(Vector3(0, 0, 0));
+        rb->set_freeze_enabled(true);
+        rb->set_collision_layer(0);
+        rb->set_collision_mask(0);
+    }
+
+    Interactable *inter = Object::cast_to<Interactable>(item->get_node_or_null("Interactable"));
+    if (inter != nullptr) {
+        inter->set_collision_layer(0);
+        inter->set_monitoring(false);
+        inter->set_monitorable(false);
+        inter->set_is_pickup(false);
+    }
+
+    held_item_id = "";
+    emit_signal("held_item_changed", held_item_id);
+    return true;
+}
+
 bool PlayerController::get_can_move() const{
     return can_move;
 }

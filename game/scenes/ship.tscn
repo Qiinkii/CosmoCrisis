@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://b7i54xlvgwkn" path="res://scripts/engineering_zone.gd" id="2_2gnfn"]
 [ext_resource type="PackedScene" uid="uid://cgmvebg2bgkmk" path="res://scenes/pickup_item.tscn" id="2_4tobq"]
 [ext_resource type="PackedScene" uid="uid://de8xoqngnhmss" path="res://ui/hud.tscn" id="2_tfsc7"]
-[ext_resource type="PackedScene" uid="uid://cefxgu6liscws" path="res://scenes/Terminal.tscn" id="6_7j21i"]
 [ext_resource type="PackedScene" uid="uid://dwrtrmx44vagq" path="res://scenes/hypercapnia_effects.tscn" id="7_3m36u"]
 [ext_resource type="PackedScene" uid="uid://j0kt1d2vu0kq" path="res://scenes/BulkheadDoor.tscn" id="7_8qiel"]
 [ext_resource type="PackedScene" uid="uid://bpr7yvpmlus3w" path="res://shatl/lastship.tscn" id="8_8qiel"]
@@ -76,9 +75,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -4.5)
 
 [node name="lastship" parent="." unique_id=1299875653 instance=ExtResource("8_8qiel")]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 13.086802, -0.090648144, 0.49577707)
-
-[node name="Terminal" parent="." unique_id=891120400 instance=ExtResource("6_7j21i")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.914794, 1, -9)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]

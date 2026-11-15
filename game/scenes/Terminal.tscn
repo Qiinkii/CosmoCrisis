@@ -24,11 +24,7 @@ disabled = true
 
 [node name="EclssTerminal" type="EclssTerminal" parent="." unique_id=967760203]
 telemetry_path = NodePath("/root/ShipTelemetryGlobal")
-repair_ui_path = NodePath("../EclssRepairUI")
 cartridge_slot_path = NodePath("CartridgeSlot")
-prompt_text = "Установить картридж LiOH"
-item_id = "lioh_cartridge"
-collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EclssTerminal" unique_id=1196511287]
 shape = SubResource("BoxShape3D_i12f4")

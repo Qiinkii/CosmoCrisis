@@ -17,21 +17,18 @@ func _ready() -> void:
 	effect_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	effect_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	# Гарантированно подключаем шейдер
 	shader_mat = effect_rect.material as ShaderMaterial
 	if shader_mat == null:
 		shader_mat = ShaderMaterial.new()
 		shader_mat.shader = load("res://Shaders/hypercapnia.gdshader")
 		effect_rect.material = shader_mat
 
-	# Ищем ShipTelemetry любым способом (путь, группа, рекурсивный поиск по свойству co2_level)
 	telemetry = get_node_or_null(telemetry_path)
 	if telemetry == null and get_tree().current_scene != null:
 		telemetry = get_tree().current_scene.find_child("ShipTelemetry", true, false)
 	if telemetry == null:
 		telemetry = _find_node_with_property(get_tree().root, "co2_level")
 
-	# Ищем Player
 	player = get_node_or_null(player_path)
 	if player == null:
 		player = get_tree().get_first_node_in_group("player")
@@ -42,8 +39,6 @@ func _ready() -> void:
 		base_move_speed = player.move_speed
 	if player != null and "mouse_sensitivity" in player:
 		base_mouse_sensitivity = player.mouse_sensitivity
-
-	print("HypercapniaEffects: telemetry = ", telemetry, " | player = ", player)
 
 	effect_rect.visible = false
 	shader_mat.set_shader_parameter("blur_strength", 0.0)
@@ -69,7 +64,6 @@ func _process(_delta: float) -> void:
 		return
 
 	var co2: float = float(telemetry.get("co2_level"))
-	# Эффект начинается при CO2 > 0.5% и достигает максимума при 2.0%
 	var severity: float = clampf((co2 - 0.5) / 1.5, 0.0, 1.0)
 
 	effect_rect.visible = severity > 0.01

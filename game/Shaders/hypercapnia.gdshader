@@ -8,7 +8,6 @@ void fragment() {
 	vec2 pixel_size = SCREEN_PIXEL_SIZE * blur_strength * 2.5;
 	vec4 color = texture(screen_texture, SCREEN_UV) * 0.2;
 
-	// 8 направлений размытия вокруг пикселя
 	color += texture(screen_texture, SCREEN_UV + vec2(pixel_size.x, 0.0)) * 0.1;
 	color += texture(screen_texture, SCREEN_UV + vec2(-pixel_size.x, 0.0)) * 0.1;
 	color += texture(screen_texture, SCREEN_UV + vec2(0.0, pixel_size.y)) * 0.1;
@@ -18,7 +17,6 @@ void fragment() {
 	color += texture(screen_texture, SCREEN_UV + vec2(pixel_size.x, -pixel_size.y) * 0.707) * 0.1;
 	color += texture(screen_texture, SCREEN_UV + vec2(-pixel_size.x, pixel_size.y) * 0.707) * 0.1;
 
-	// Виньетка (потемнение по углам)
 	vec2 center_dist = SCREEN_UV - vec2(0.5);
 	float dist = length(center_dist) * 1.4142;
 	float inner_radius = mix(0.85, 0.22, vignette_strength);

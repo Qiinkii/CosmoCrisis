@@ -7,7 +7,7 @@
 #include <godot_cpp/classes/tween.hpp>
 #include <godot_cpp/classes/property_tweener.hpp>
 #include <godot_cpp/classes/callback_tweener.hpp>
-#include <godot_cpp/classes/rigid_body3d.hpp>
+#include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
@@ -84,6 +84,14 @@ void EclssTerminal::set_interactable_active(Interactable *inter, bool active, bo
 void EclssTerminal::_ready() {
     if (Engine::get_singleton()->is_editor_hint()) return;
 
+    Node3D *lever1_pivot = Object::cast_to<Node3D>(get_node_or_null(lever1_pivot_path));
+    if (lever1_pivot) {
+        // Исходное рабочее состояние красного рычага — вниз (+lever_pull_deg)
+        Vector3 init_rot = lever1_pivot->get_rotation_degrees();
+        init_rot.x += lever_pull_deg;
+        lever1_pivot->set_rotation_degrees(init_rot);
+    }
+
     Interactable *valve_inter = Object::cast_to<Interactable>(get_node_or_null(valve_interactable_path));
     Interactable *lever1_inter = Object::cast_to<Interactable>(get_node_or_null(lever1_interactable_path));
     Interactable *lever2_inter = Object::cast_to<Interactable>(get_node_or_null(lever2_interactable_path));
@@ -96,6 +104,7 @@ void EclssTerminal::_ready() {
 
     if (valve_inter) {
         valve_inter->connect("interacted", Callable(this, "on_valve_interacted"));
+        valve_inter->set_prompt_text(String::utf8("Перекрыть вентиль"));
         set_interactable_active(valve_inter, true, false);
     }
     if (lever1_inter) {
@@ -118,31 +127,32 @@ void EclssTerminal::_ready() {
 }
 
 void EclssTerminal::_process(double delta) {
-    if (Engine::get_singleton()->is_editor_hint()) return;
+    if (Engine::get_singleton()->is_editor_hint() || step != 3) return;
 
-    if (step == 3) {
-        Interactable *cart_inter = Object::cast_to<Interactable>(get_node_or_null(cartridge_interactable_path));
-        bool removed = false;
-        if (cart_inter == nullptr || !cart_inter->is_inside_tree()) {
+    Interactable *cart_inter = Object::cast_to<Interactable>(get_node_or_null(cartridge_interactable_path));
+    bool removed = false;
+    if (cart_inter == nullptr || !cart_inter->is_inside_tree()) {
+        removed = true;
+    } else {
+        Node3D *cart_body = Object::cast_to<Node3D>(cart_inter->get_parent());
+        float dist_inter = cart_inter->get_global_position().distance_to(old_cart_initial_pos);
+        float dist_body = cart_body ? cart_body->get_global_position().distance_to(old_cart_initial_pos) : 999.0f;
+        if (dist_inter > 0.1f || dist_body > 0.1f || !cart_inter->is_visible_in_tree()) {
             removed = true;
-        } else {
-            Node3D *cart_body = Object::cast_to<Node3D>(cart_inter->get_parent());
-            float dist_inter = cart_inter->get_global_position().distance_to(old_cart_initial_pos);
-            float dist_body = cart_body ? cart_body->get_global_position().distance_to(old_cart_initial_pos) : 999.0f;
-            if (dist_inter > 0.1f || dist_body > 0.1f || !cart_inter->is_visible_in_tree()) {
-                removed = true;
-            }
         }
+    }
 
-        if (removed) {
-            step = 4;
-            Interactable *slot_inter = Object::cast_to<Interactable>(get_node_or_null(slot_interactable_path));
-            if (slot_inter == nullptr && !cartridge_slot_path.is_empty()) {
-                slot_inter = Object::cast_to<Interactable>(get_node_or_null(String(cartridge_slot_path) + "/Interactable"));
-            }
-            set_interactable_active(slot_inter, true, false);
-            UtilityFunctions::print(String::utf8("Старий картридж вийнято! slot_inter = "), slot_inter);
+    if (removed) {
+        step = 4;
+        Interactable *slot_inter = Object::cast_to<Interactable>(get_node_or_null(slot_interactable_path));
+        if (slot_inter == nullptr && !cartridge_slot_path.is_empty()) {
+            slot_inter = Object::cast_to<Interactable>(get_node_or_null(String(cartridge_slot_path) + "/Interactable"));
         }
+        if (slot_inter) {
+            slot_inter->set_prompt_text(String::utf8("Установить новый картридж LiOH"));
+        }
+        set_interactable_active(slot_inter, true, false);
+        UtilityFunctions::print(String::utf8("Старый картридж извлечён. Установите новый картридж LiOH."));
     }
 }
 
@@ -173,14 +183,13 @@ void EclssTerminal::on_valve_interacted(Node *player) {
         }
 
         if (lever1_inter) {
-            lever1_inter->set_prompt_text(String::utf8("Переключить клапан"));
+            lever1_inter->set_prompt_text(String::utf8("Выключить красный рычаг (вверх)"));
             set_interactable_active(lever1_inter, true, false);
         }
-        UtilityFunctions::print(String::utf8("Вентиль перекрито. Переключіть перший важіль."));
     }
-    else if (step == 7) {
+    else if (step == 5) {
         set_interactable_active(valve_inter, false, false);
-        step = 8;
+        step = 6;
 
         if (valve_pivot) {
             is_animating = true;
@@ -193,11 +202,10 @@ void EclssTerminal::on_valve_interacted(Node *player) {
             tw->tween_callback(Callable(this, "on_anim_finished"));
         }
 
-         Node *telemetry = get_node_or_null(telemetry_path);
+        Node *telemetry = get_node_or_null(telemetry_path);
         if (telemetry == nullptr && get_tree() != nullptr) {
             telemetry = get_tree()->get_first_node_in_group("telemetry");
         }
-        // 2. Рекурсивный перебор всех узлов в дереве по классу ShipTelemetry или наличию метода repair_co2_system()
         if (telemetry == nullptr && get_tree() != nullptr && get_tree()->get_root() != nullptr) {
             Array stack;
             stack.push_back(get_tree()->get_root());
@@ -216,114 +224,64 @@ void EclssTerminal::on_valve_interacted(Node *player) {
 
         if (telemetry != nullptr) {
             telemetry->call("repair_co2_system");
-            UtilityFunctions::print(String::utf8("РЕГЕНЕРАЦІЯ CO2 ВІДНОВЛЕНА! Показники повертаються в норму."));
-        } else {
-            UtilityFunctions::print(String::utf8("ПОМИЛКА: у сцені взагалі немає вузла з методом repair_co2_system()!"));
+            UtilityFunctions::print(String::utf8("РЕГЕНЕРАЦИЯ CO2 ВОССТАНОВЛЕНА!"));
         }
     }
 }
 
 void EclssTerminal::on_lever1_interacted(Node *player) {
-    if (is_animating) return;
+    if (is_animating || step != 1) return;
 
     Node3D *lever1_pivot = Object::cast_to<Node3D>(get_node_or_null(lever1_pivot_path));
     Interactable *lever1_inter = Object::cast_to<Interactable>(get_node_or_null(lever1_interactable_path));
     Interactable *lever2_inter = Object::cast_to<Interactable>(get_node_or_null(lever2_interactable_path));
-    Interactable *valve_inter = Object::cast_to<Interactable>(get_node_or_null(valve_interactable_path));
 
-    if (step == 1) {
-        set_interactable_active(lever1_inter, false, false);
-        step = 2;
+    // Выключаем красный рычаг -> вверх (-lever_pull_deg)
+    set_interactable_active(lever1_inter, false, false);
+    step = 2;
 
-        if (lever1_pivot) {
-            is_animating = true;
-            Vector3 target_rot = lever1_pivot->get_rotation_degrees();
-            target_rot.x += lever_pull_deg;
+    if (lever1_pivot) {
+        is_animating = true;
+        Vector3 target_rot = lever1_pivot->get_rotation_degrees();
+        target_rot.x -= lever_pull_deg;
 
-            Ref<Tween> tw = create_tween();
-            tw->tween_property(lever1_pivot, "rotation_degrees", target_rot, 0.4)
-              ->set_trans(Tween::TRANS_BACK)->set_ease(Tween::EASE_OUT);
-            tw->tween_callback(Callable(this, "on_anim_finished"));
-        }
-
-        if (lever2_inter) {
-            lever2_inter->set_prompt_text(String::utf8("Открыть слот CO2"));
-            set_interactable_active(lever2_inter, true, false);
-        }
-        UtilityFunctions::print(String::utf8("Перший клапан перемкнуто. Відкрийте червоний фіксатор CO2."));
+        Ref<Tween> tw = create_tween();
+        tw->tween_property(lever1_pivot, "rotation_degrees", target_rot, 0.4)
+          ->set_trans(Tween::TRANS_BACK)->set_ease(Tween::EASE_OUT);
+        tw->tween_callback(Callable(this, "on_anim_finished"));
     }
-    else if (step == 6) {
-        set_interactable_active(lever1_inter, false, false);
-        step = 7;
 
-        if (lever1_pivot) {
-            is_animating = true;
-            Vector3 target_rot = lever1_pivot->get_rotation_degrees();
-            target_rot.x -= lever_pull_deg;
-
-            Ref<Tween> tw = create_tween();
-            tw->tween_property(lever1_pivot, "rotation_degrees", target_rot, 0.4)
-              ->set_trans(Tween::TRANS_BACK)->set_ease(Tween::EASE_OUT);
-            tw->tween_callback(Callable(this, "on_anim_finished"));
-        }
-
-        if (valve_inter) {
-            valve_inter->set_prompt_text(String::utf8("Открыть вентиль"));
-            set_interactable_active(valve_inter, true, false);
-        }
-        UtilityFunctions::print(String::utf8("Перший клапан закрито. Відкрийте вентиль подачі."));
+    if (lever2_inter) {
+        lever2_inter->set_prompt_text(String::utf8("Включить синий рычаг (вниз)"));
+        set_interactable_active(lever2_inter, true, false);
     }
 }
 
 void EclssTerminal::on_lever2_interacted(Node *player) {
-    if (is_animating) return;
+    if (is_animating || step != 2) return;
 
     Node3D *lever2_pivot = Object::cast_to<Node3D>(get_node_or_null(lever2_pivot_path));
     Interactable *lever2_inter = Object::cast_to<Interactable>(get_node_or_null(lever2_interactable_path));
     Interactable *cart_inter = Object::cast_to<Interactable>(get_node_or_null(cartridge_interactable_path));
-    Interactable *lever1_inter = Object::cast_to<Interactable>(get_node_or_null(lever1_interactable_path));
 
-    if (step == 2) {
-        set_interactable_active(lever2_inter, false, false);
-        step = 3;
+    // Включаем синий рычаг -> вниз (+lever_pull_deg)
+    set_interactable_active(lever2_inter, false, false);
+    step = 3;
 
-        if (lever2_pivot) {
-            is_animating = true;
-            Vector3 target_rot = lever2_pivot->get_rotation_degrees();
-            target_rot.x += lever_pull_deg;
+    if (lever2_pivot) {
+        is_animating = true;
+        Vector3 target_rot = lever2_pivot->get_rotation_degrees();
+        target_rot.x += lever_pull_deg;
 
-            Ref<Tween> tw = create_tween();
-            tw->tween_property(lever2_pivot, "rotation_degrees", target_rot, 0.4)
-              ->set_trans(Tween::TRANS_BACK)->set_ease(Tween::EASE_OUT);
-            tw->tween_callback(Callable(this, "on_anim_finished"));
-        }
-
-        if (cart_inter) {
-            old_cart_initial_pos = cart_inter->get_global_position();
-            set_interactable_active(cart_inter, true, true);
-        }
-        UtilityFunctions::print(String::utf8("Фіксатор відкрито! Дістаньте відпрацьований балон CO2."));
+        Ref<Tween> tw = create_tween();
+        tw->tween_property(lever2_pivot, "rotation_degrees", target_rot, 0.4)
+          ->set_trans(Tween::TRANS_BACK)->set_ease(Tween::EASE_OUT);
+        tw->tween_callback(Callable(this, "on_anim_finished"));
     }
-    else if (step == 5) {
-        set_interactable_active(lever2_inter, false, false);
-        step = 6;
 
-        if (lever2_pivot) {
-            is_animating = true;
-            Vector3 target_rot = lever2_pivot->get_rotation_degrees();
-            target_rot.x -= lever_pull_deg;
-
-            Ref<Tween> tw = create_tween();
-            tw->tween_property(lever2_pivot, "rotation_degrees", target_rot, 0.4)
-              ->set_trans(Tween::TRANS_BACK)->set_ease(Tween::EASE_OUT);
-            tw->tween_callback(Callable(this, "on_anim_finished"));
-        }
-
-        if (lever1_inter) {
-            lever1_inter->set_prompt_text(String::utf8("Вернуть клапан"));
-            set_interactable_active(lever1_inter, true, false);
-        }
-        UtilityFunctions::print(String::utf8("Червоний фіксатор заблоковано. Поверніть перший важіль."));
+    if (cart_inter) {
+        old_cart_initial_pos = cart_inter->get_global_position();
+        set_interactable_active(cart_inter, true, true);
     }
 }
 
@@ -335,41 +293,20 @@ void EclssTerminal::on_old_cartridge_interacted(Node *player) {
     if (slot_inter == nullptr && !cartridge_slot_path.is_empty()) {
         slot_inter = Object::cast_to<Interactable>(get_node_or_null(String(cartridge_slot_path) + "/Interactable"));
     }
+    if (slot_inter) {
+        slot_inter->set_prompt_text(String::utf8("Установить новый картридж LiOH"));
+    }
     set_interactable_active(slot_inter, true, false);
-    UtilityFunctions::print(String::utf8("Старий картридж вийнято. Встановіть новий картридж LiOH."));
 }
 
 void EclssTerminal::on_slot_interacted(Node *player) {
-    UtilityFunctions::print(String::utf8("DEBUG: on_slot_interacted вызван! step = "), step);
     if (step != 4) return;
 
     PlayerController *pc = Object::cast_to<PlayerController>(player);
-    if (pc == nullptr) return;
-
-    if (pc->get_held_item_id() != required_item_id) {
-        UtilityFunctions::print(String::utf8("Потрібен новий запасний картридж LiOH! У руці: "), pc->get_held_item_id());
-        return;
-    }
+    if (pc == nullptr || pc->get_held_item_id() != required_item_id) return;
 
     Node3D *slot = Object::cast_to<Node3D>(get_node_or_null(cartridge_slot_path));
-    if (slot == nullptr) return;
-
-    Node3D *new_cart = pc->take_held_item();
-    if (new_cart != nullptr) {
-        new_cart->reparent(slot, false);
-        new_cart->set_position(Vector3(0, 0, 0));
-        new_cart->set_rotation(Vector3(0, 0, 0));
-
-        RigidBody3D *rb = Object::cast_to<RigidBody3D>(new_cart);
-        if (rb != nullptr) {
-            rb->set_freeze_enabled(true);
-            rb->set_collision_layer(0);
-            rb->set_collision_mask(0);
-        }
-
-        Interactable *new_inter = Object::cast_to<Interactable>(new_cart->get_node_or_null("Interactable"));
-        set_interactable_active(new_inter, false, false);
-    }
+    if (slot == nullptr || !pc->place_held_item(slot)) return;
 
     Interactable *slot_inter = Object::cast_to<Interactable>(get_node_or_null(slot_interactable_path));
     if (slot_inter == nullptr && !cartridge_slot_path.is_empty()) {
@@ -377,13 +314,14 @@ void EclssTerminal::on_slot_interacted(Node *player) {
     }
     set_interactable_active(slot_inter, false, false);
 
+    // Сразу после установки картриджа остаётся только закрыть вентиль
     step = 5;
-    Interactable *lever2_inter = Object::cast_to<Interactable>(get_node_or_null(lever2_interactable_path));
-    if (lever2_inter) {
-        lever2_inter->set_prompt_text(String::utf8("Закрыть фиксатор CO2"));
-        set_interactable_active(lever2_inter, true, false);
+    Interactable *valve_inter = Object::cast_to<Interactable>(get_node_or_null(valve_interactable_path));
+    if (valve_inter) {
+        valve_inter->set_prompt_text(String::utf8("Закрыть вентиль"));
+        set_interactable_active(valve_inter, true, false);
     }
-    UtilityFunctions::print(String::utf8("Новий картридж встановлено! Закрийте червоний фіксатор."));
+    UtilityFunctions::print(String::utf8("Новый картридж установлен! Закройте вентиль."));
 }
 
 void EclssTerminal::set_telemetry_path(const NodePath &p) { telemetry_path = p; }
