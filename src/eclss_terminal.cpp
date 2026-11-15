@@ -139,7 +139,7 @@ void EclssTerminal::_ready() {
         }
     }
 
-    set_inter_state(all_inters[0], true, String::utf8("Перекрыть вентиль"));
+    set_inter_state(all_inters[0], true, String::utf8("Close the valve"));
 }
 
 void EclssTerminal::_process(double delta) {
@@ -158,7 +158,7 @@ void EclssTerminal::_process(double delta) {
     if (removed) {
         step = 4;
         set_inter_state(cart_inter, false);
-        set_inter_state(get_slot_inter(), true, String::utf8("Установить новый картридж LiOH"));
+        set_inter_state(get_slot_inter(), true, String::utf8("Install a new LiOH cartridge"));
     }
 }
 
@@ -171,7 +171,7 @@ void EclssTerminal::on_interacted(Node *player) {
         case 0: // 1. Перекрываем вентиль -> активируем красный рычаг
             set_inter_state(get_inter(valve_interactable_path), false);
             animate_pivot_by(valve_pivot_path, Vector3(0, 0, valve_turn_deg), 0.75, Tween::TRANS_SINE);
-            set_inter_state(get_inter(lever1_interactable_path), true, String::utf8("Выключить красный рычаг (вверх)"));
+            set_inter_state(get_inter(lever1_interactable_path), true, String::utf8("Push the red lever up"));
             step = 1;
             break;
 
@@ -182,7 +182,7 @@ void EclssTerminal::on_interacted(Node *player) {
                 target.x = 0.0f;
                 animate_pivot_to(lever1_pivot_path, target, 0.4, Tween::TRANS_BACK);
             }
-            set_inter_state(get_inter(lever2_interactable_path), true, String::utf8("Включить синий рычаг (вниз)"));
+            set_inter_state(get_inter(lever2_interactable_path), true, String::utf8("Flip the blue lever (down)"));
             step = 2;
             break;
 
@@ -196,14 +196,14 @@ void EclssTerminal::on_interacted(Node *player) {
             if (Interactable *cart = get_inter(cartridge_interactable_path)) {
                 Node3D *cart_body = Object::cast_to<Node3D>(cart->get_parent());
                 old_cart_initial_pos = cart_body ? cart_body->get_global_position() : cart->get_global_position();
-                set_inter_state(cart, true, String::utf8("Достать отработанный картридж"), true);
+                set_inter_state(cart, true, String::utf8("Remove the used cartridge"), true);
             }
             step = 3;
             break;
 
         case 3: // Игрок забрал старый картридж -> открываем слот для нового
             set_inter_state(get_inter(cartridge_interactable_path), false);
-            set_inter_state(get_slot_inter(), true, String::utf8("Установить новый картридж LiOH"));
+            set_inter_state(get_slot_inter(), true, String::utf8("Install a new LiOH cartridge"));
             step = 4;
             break;
 
@@ -214,7 +214,7 @@ void EclssTerminal::on_interacted(Node *player) {
             if (!pc->place_held_item(slot)) return;
 
             set_inter_state(get_slot_inter(), false);
-            set_inter_state(get_inter(valve_interactable_path), true, String::utf8("Закрыть вентиль"));
+            set_inter_state(get_inter(valve_interactable_path), true, String::utf8("Close the valve"));
             step = 5;
             break;
         }
@@ -246,6 +246,6 @@ void EclssTerminal::repair_telemetry() {
     }
     if (telemetry != nullptr) {
         telemetry->call("repair_co2_system");
-        UtilityFunctions::print(String::utf8("РЕГЕНЕРАЦИЯ CO2 ВОССТАНОВЛЕНА!"));
+        UtilityFunctions::print(String::utf8("CO2 REGENERATION HAS BEEN RESTORED!"));
     }
 }

@@ -362,9 +362,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func prompt_for(action: String) -> String:
 	if action.begins_with("radiator_"):
-		return "Радиатор " + action.right(1) + " — раскрыть / сложить"
+		return "Radiator " + action.right(1) + " — expand / collapse"
 	if action.begins_with("throttle_"):
-		return "РУД " + action.right(1) + " — колесо или E / Shift+E"
+		return "RUD " + action.right(1) + " — the wheel or E / Shift+E"
 	if action.begins_with("switch_"):
-		return "Тумблер " + action.trim_prefix("switch_") + " — вкл. / выкл."
+		return "Tumbler " + action.trim_prefix("switch_") + " — on / off"
 	return action.trim_prefix("aux_")

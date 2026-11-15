@@ -22299,7 +22299,7 @@ transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, -4
 transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 2.789248, 0.80317456, 0)
 
 [node name="Breach" parent="." unique_id=1573815054 instance=ExtResource("38_s7kvc")]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -0.031999994, -0.2809999, 1.1848035)
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -0.22967143, -0.2809999, 1.1753985)
 
 [node name="Breach2" parent="." unique_id=962242649 instance=ExtResource("38_s7kvc")]
 location_id = 2
