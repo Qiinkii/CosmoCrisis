@@ -1,8 +1,8 @@
 [gd_scene format=4 uid="uid://j0kt1d2vu0kq"]
 
+[ext_resource type="Script" uid="uid://hjc2y7cx6n1r" path="res://scripts/bulkhead_door.gd" id="1_kdmhl"]
 [ext_resource type="Texture2D" uid="uid://dvhwhif0j0ke6" path="res://shatl2/lastship_armour.png" id="2_g58as"]
 [ext_resource type="Texture2D" uid="uid://cmm5m4angs0bj" path="res://shatl2/lastship_lights.png" id="3_0kgcp"]
-[ext_resource type="Texture2D" uid="uid://bhwkbc64y8e1w" path="res://shatl2/lastship_Seal_rubber.png" id="4_d2pip"]
 [ext_resource type="Texture2D" uid="uid://3ibake6lg088" path="res://shatl2/lastship_Brushed_titanium.png" id="5_k7f1n"]
 [ext_resource type="Texture2D" uid="uid://c5svo4yuvwfta" path="res://shatl2/lastship_instrument_atlas.png" id="6_bnyqc"]
 [ext_resource type="Texture2D" uid="uid://b3tdp6aibvv8x" path="res://shatl2/lastship_Hull_charcoal.png" id="7_g06g4"]
