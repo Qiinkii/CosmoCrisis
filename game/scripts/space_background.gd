@@ -4,8 +4,6 @@ extends SubViewportContainer
 ##
 ## The sky is infinitely far away, so as the camera circles the hole and keeps
 ## looking at it, the stars drift past exactly like a real change of heading.
-## The black hole itself turns with the camera (see `view_follow`) so the
-## accretion disk and lensing arcs keep facing the viewer.
 ## The star layout is randomised on every launch via the shader's
 ## `seed_offset` uniform.
 
@@ -17,10 +15,6 @@ extends SubViewportContainer
 ## +/- this many degrees around `front_azimuth_deg` instead of a full lap.
 @export_range(0.0, 180.0, 1.0) var sweep_half_angle_deg: float = 0.0
 @export var front_azimuth_deg: float = 0.0
-## How much the black hole turns with the camera's view angle.
-## 1 = its front always faces the camera, 0 = it stays fixed and the camera
-## really circles around it (the far side of the lensing arcs becomes visible).
-@export_range(0.0, 1.0, 0.05) var view_follow: float = 1.0
 ## Average camera height above the disk plane, plus a slow up/down sway.
 @export var elevation_deg: float = 14.0
 @export var elevation_sway_deg: float = 8.0
@@ -32,7 +26,6 @@ extends SubViewportContainer
 
 @onready var camera: Camera3D = %Camera
 @onready var black_hole: Node3D = %BlackHole
-@onready var black_hole_pivot: Node3D = %BlackHolePivot
 @onready var world_environment: WorldEnvironment = %WorldEnvironment
 
 var _azimuth_deg: float = 0.0
@@ -67,32 +60,20 @@ func _apply_camera() -> void:
 		elevation_deg + sin(_time * TAU / elevation_period) * elevation_sway_deg
 	)
 	var azimuth := deg_to_rad(_azimuth_deg)
-
-	# Turn the black hole with the camera. The pivot rotates around world Y only,
-	# so the model keeps the disk tilt it was authored with.
-	black_hole_pivot.rotation.y = azimuth * view_follow
-
 	var center := black_hole.global_position
 	var direction := Vector3(
 		sin(azimuth) * cos(elevation),
 		sin(elevation),
 		cos(azimuth) * cos(elevation)
 	)
-	var cam_pos := center + direction * orbit_distance
-	camera.look_at_from_position(cam_pos, center, Vector3.UP)
+	camera.look_at_from_position(center + direction * orbit_distance, center, Vector3.UP)
 
-	# Make the hole appear off-centre: slide the camera sideways/up in its own
-	# frame (a parallel shift, so it still looks straight at the hole's direction).
-	# Moving the camera LEFT makes the hole appear to the RIGHT, hence the minus.
-	# Sized from the visible width/height at the hole's distance so the position
-	# holds at any window shape. h_offset/v_offset are not used on purpose.
+	# Slide the camera sideways/up in its own frame so the hole appears off-centre
+	# (parallel shift, so the orbit itself is unchanged). Sized from the visible
+	# width/height at the hole's distance so it holds at any window shape.
 	var view_size := get_size()
 	var aspect := view_size.x / maxf(view_size.y, 1.0)
 	var half_height := orbit_distance * tan(deg_to_rad(camera.fov) * 0.5)
 	var half_width := half_height * aspect
-	var cam_basis := camera.global_transform.basis
-	camera.global_position = cam_pos \
-		- cam_basis.x * (2.0 * hole_screen_x * half_width) \
-		- cam_basis.y * (2.0 * hole_screen_y * half_height)
-	camera.h_offset = 0.0
-	camera.v_offset = 0.0
+	camera.h_offset = -2.0 * hole_screen_x * half_width
+	camera.v_offset = -2.0 * hole_screen_y * half_height
