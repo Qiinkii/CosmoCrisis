@@ -72,7 +72,11 @@ void ShipTelemetry::_process(double delta){
         emit_signal("mission_completed");
         return;
     }
-
+    if(!co2_crisis_triggered && flight_progress >= 15.0){
+        co2_crisis_triggered = true;
+        is_eclss_working = false;
+        UtilityFunctions::print(String::utf8("УВАГА! Впав тиск водню в реакторі Сабатьє!"));
+    }
     if(is_eclss_working){
         co2_level = Math::move_toward(co2_level, 0.04, 0.08 * delta);
     }
