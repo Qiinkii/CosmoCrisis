@@ -40,7 +40,10 @@ render_target_update_mode = 4
 unique_name_in_owner = true
 environment = SubResource("Environment_menu")
 
-[node name="BlackHole" parent="SubViewport" instance=ExtResource("3_hole")]
+[node name="BlackHolePivot" type="Node3D" parent="SubViewport"]
+unique_name_in_owner = true
+
+[node name="BlackHole" parent="SubViewport/BlackHolePivot" instance=ExtResource("3_hole")]
 unique_name_in_owner = true
 
 [node name="Camera" type="Camera3D" parent="SubViewport"]
