@@ -39,7 +39,7 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -40.0
-offset_bottom = 77.0
+offset_bottom = 101.0
 grow_horizontal = 0
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
@@ -52,6 +52,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 
 [node name="CO2Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=843653543]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="TemperatureLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 
