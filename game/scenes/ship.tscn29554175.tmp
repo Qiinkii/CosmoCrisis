@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://5obrr453us73"]
+
+[ext_resource type="PackedScene" uid="uid://4bpmk276jowh" path="res://scenes/player.tscn" id="1_q631a"]
+[ext_resource type="Script" uid="uid://b7i54xlvgwkn" path="res://scripts/engineering_zone.gd" id="2_2gnfn"]
+[ext_resource type="PackedScene" uid="uid://cgmvebg2bgkmk" path="res://scenes/pickup_item.tscn" id="2_4tobq"]
+[ext_resource type="PackedScene" uid="uid://de8xoqngnhmss" path="res://ui/hud.tscn" id="2_tfsc7"]
+
+[sub_resource type="Environment" id="Environment_yf5fn"]
+background_mode = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(5.8, 2.8, 5.8)
+
+[node name="Ship" type="Node3D" unique_id=901573337]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=1655473689]
+use_collision = true
+
+[node name="OtherHull" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1880356400]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
+size = Vector3(8, 4, 18)
+
+[node name="CockpitRoom" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1980279254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+operation = 2
+size = Vector3(6, 3, 6)
+
+[node name="AirlockCorridor" type="CSGBox3D" parent="CSGCombiner3D" unique_id=427795950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -4.5)
+operation = 2
+size = Vector3(2.2, 2.5, 4)
+
+[node name="EngineeringRoom" type="CSGBox3D" parent="CSGCombiner3D" unique_id=298602418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -9)
+operation = 2
+size = Vector3(6, 3, 6)
+
+[node name="Player" parent="CSGCombiner3D" unique_id=641960212 instance=ExtResource("1_q631a")]
+
+[node name="Hud" parent="CSGCombiner3D/Player" unique_id=1293581850 instance=ExtResource("2_tfsc7")]
+
+[node name="PickupItem" parent="CSGCombiner3D" unique_id=1987923263 instance=ExtResource("2_4tobq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.46358776, -2.738804)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146275382]
+environment = SubResource("Environment_yf5fn")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1297775780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+omni_range = 8.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=583435589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -9)
+omni_range = 8.0
+
+[node name="Area3D" type="Area3D" parent="." unique_id=2054795951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -9)
+script = ExtResource("2_2gnfn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1535599599]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
+[connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]

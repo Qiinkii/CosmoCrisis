@@ -17,8 +17,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 current = true
 
 [node name="InteractionRay" type="RayCast3D" parent="Head/Camera3D" unique_id=628908749]
-target_position = Vector3(0, 0, -2.5)
-collision_mask = 3
+target_position = Vector3(0, 0, -3)
+collision_mask = 2
+hit_from_inside = true
 collide_with_areas = true
 
 [node name="HandSlot" type="Marker3D" parent="Head/Camera3D" unique_id=1088124432]

@@ -19,8 +19,8 @@ shape = SubResource("BoxShape3D_yf5fn")
 mesh = SubResource("BoxMesh_57qmd")
 
 [node name="Interactable" type="Interactable" parent="." unique_id=419055933]
-prompt_text = "Take item"
-item_id = "test_item"
+prompt_text = "Взяти картридж LiOH"
+item_id = "lioh_cartridge"
 is_pickup = true
 collision_layer = 2
 collision_mask = 0
