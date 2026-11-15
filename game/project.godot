@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 ShipTelemetryGlobal="*uid://cxs7bhejye52s"
 DeathScreen="*res://ui/death_screen.tscn"
+MissionCompleteScreen="*res://ui/mission_complete_screen.tscn"
 
 [display]
 
