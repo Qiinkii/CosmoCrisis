@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 ShipTelemetryGlobal="*uid://cxs7bhejye52s"
-GlassApplier="*res://scripts/apply_glass.gd"
 
 [display]
 
