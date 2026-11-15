@@ -14,5 +14,7 @@ void fragment() {
     float vignette = smoothstep(inner_radius, outer_radius, dist);
 
     color.rgb *= 1.0 - vignette * vignette_strength * 0.8;
-    COLOR = color;
+
+    // FIX: force full opacity so sky and bright pixels can't show through.
+    COLOR = vec4(color.rgb, 1.0);
 }

@@ -1,7 +1,22 @@
 [gd_scene format=3 uid="uid://be3f47wk2jfbl"]
 
 [ext_resource type="PackedScene" uid="uid://dq0afvfplh7hf" path="res://shatl/lastship.glb" id="1_o5qli"]
+[ext_resource type="Shader" path="res://shaders/space_sky.gdshader" id="2_space_sky"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_space_sky"]
+shader = ExtResource("2_space_sky")
+
+[sub_resource type="Sky" id="Sky_space"]
+sky_material = SubResource("ShaderMaterial_space_sky")
+
+[sub_resource type="Environment" id="Environment_space"]
+background_mode = 2
+sky = SubResource("Sky_space")
+background_energy_multiplier = 1.0
 
 [node name="Main" type="Node3D" unique_id=1074127878]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146275382]
+environment = SubResource("Environment_space")
 
 [node name="lastship" parent="." unique_id=1299875653 instance=ExtResource("1_o5qli")]
