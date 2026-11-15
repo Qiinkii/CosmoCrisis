@@ -7,6 +7,7 @@
 using namespace godot;
 
 void ShipTelemetry::_bind_methods(){
+    UtilityFunctions::print("ShipTelemetry::_bind_methods v2");
     ClassDB::bind_method(D_METHOD("get_co2_level"), &ShipTelemetry::get_co2_level);
     ClassDB::bind_method(D_METHOD("set_co2_level", "p_level"), &ShipTelemetry::set_co2_level);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "co2_level"), "set_co2_level", "get_co2_level");
