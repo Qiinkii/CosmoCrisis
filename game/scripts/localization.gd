@@ -38,7 +38,7 @@ func set_language(locale_code: String) -> String:
 	current_language = locale_code
 	return current_language
 
-func tr(key: String, default_value: String = "") -> String:
+func translate_key(key: String, default_value: String = "") -> String:
 	if _locales.is_empty():
 		_load_locales()
 	if _locales.has(current_language) and _locales[current_language].has(key):
@@ -50,7 +50,7 @@ func tr(key: String, default_value: String = "") -> String:
 	return key
 
 func trf(key: String, args: Array = []) -> String:
-	var text := tr(key)
+	var text := translate_key(key)
 	if args.is_empty():
 		return text
 	return text % args
