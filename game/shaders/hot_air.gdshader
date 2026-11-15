@@ -9,12 +9,13 @@ void fragment() {
     float fine_wave = sin(uv.y * 78.0 - TIME * 4.2 + sin(uv.x * 11.0 + TIME) * 0.8);
     float horizontal_flow = sin(uv.x * 22.0 + TIME * 1.7 + uv.y * 13.0);
 
-    uv.x += (slow_wave * 0.0018 + fine_wave * 0.00065) * heat_haze_strength;
-    uv.y += horizontal_flow * 0.00055 * heat_haze_strength;
+    // Keep the refraction subtle so the heat shimmer doesn't dominate the scene.
+    uv.x += (slow_wave * 0.0010 + fine_wave * 0.00035) * heat_haze_strength;
+    uv.y += horizontal_flow * 0.0003 * heat_haze_strength;
     uv = clamp(uv, vec2(0.001), vec2(0.999));
 
     vec4 color = textureLod(screen_texture, uv, 0.0);
-    // A restrained warm veil helps the shimmer read as heat without obscuring the scene.
-    color.rgb = mix(color.rgb, color.rgb * vec3(1.04, 1.015, 0.98), heat_haze_strength * 0.28);
+    // Add a restrained red-warm cast that grows with the heat haze.
+    color.rgb = mix(color.rgb, color.rgb * vec3(1.04, 0.98, 0.97), heat_haze_strength * 0.22);
     COLOR = color;
 }
