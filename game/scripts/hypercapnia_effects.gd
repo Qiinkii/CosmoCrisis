@@ -43,8 +43,8 @@ func _process(_delta: float) -> void:
 
 	# CO2 symptoms start at 0.5% and intensify independently of temperature.
 	var co2_severity: float = clampf((telemetry.co2_level - 0.5) / 1.5, 0.0, 1.0)
-	# Heat shimmer starts around 30°C and builds toward the 50°C failure threshold.
-	var heat_severity: float = clampf((telemetry.air_temperature - 30.0) / 20.0, 0.0, 1.0)
+	# Heat haze starts gently at 40°C and ramps linearly to its maximum at 50°C.
+	var heat_severity: float = clampf((telemetry.air_temperature - 40.0) / 10.0, 0.0, 1.0)
 
 	co2_effect.visible = co2_severity > 0.01
 	heat_effect.visible = heat_severity > 0.01
