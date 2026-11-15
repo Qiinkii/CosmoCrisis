@@ -1,64 +1,165 @@
-; Engine configuration file.
-; It's best edited using the editor UI and not directly,
-; since the parameters here are not all obvious.
+[gd_scene format=3]
 
-config_version=5
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
+[ext_resource type="PackedScene" path="res://ui/space_background.tscn" id="2_bg"]
 
-[application]
+[sub_resource type="Gradient" id="Gradient_dim"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0, 0, 0, 0.6, 0, 0, 0, 0.2, 0, 0, 0, 0)
 
-config/name="Prototipe"
-run/main_scene="res://ui/main_menu.tscn"
-config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dim"]
+gradient = SubResource("Gradient_dim")
+fill_from = Vector2(0, 0)
+fill_to = Vector2(1, 0)
 
-[autoload]
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
 
-ShipTelemetryGlobal="*uid://cxs7bhejye52s"
-DeathScreen="*res://ui/death_screen.tscn"
-MissionCompleteScreen="*res://ui/mission_complete_screen.tscn"
-Localization="*res://scripts/localization.gd"
+[node name="SpaceBackground" parent="." instance=ExtResource("2_bg")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[display]
+[node name="LeftShade" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_dim")
+expand_mode = 1
+stretch_mode = 0
 
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 48
 
-[input]
+[node name="Content" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/separation = 14
 
-move_forward={
-"deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":87)]
-}
-move_backward={
-"deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":83)]
-}
-move_left={
-"deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":65)]
-}
-move_right={
-"deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":68)]
-}
-interact={
-"deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":69)]
-}
-drop={
-"deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":81)]
-}
-jump={
-"deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":32)]
-}
+[node name="TitleLabel" type="Label" parent="Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 64
+text = "COSMOCRISIS"
 
-[physics]
+[node name="SubtitleLabel" type="Label" parent="Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 20
+text = "ВИЖИТИ ДО КІНЦЯ ПОЛЬОТУ"
 
-common/physics_ticks_per_second=120
-3d/physics_engine="Jolt Physics"
+[node name="Spacer" type="Control" parent="Margin/Content"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
 
-[rendering]
+[node name="MainBox" type="VBoxContainer" parent="Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
 
-rendering_device/driver.windows="d3d12"
+[node name="StartButton" type="Button" parent="Margin/Content/MainBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "ПОЧАТИ МІСІЮ"
+
+[node name="SettingsButton" type="Button" parent="Margin/Content/MainBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "НАЛАШТУВАННЯ"
+
+[node name="QuitButton" type="Button" parent="Margin/Content/MainBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "ВИЙТИ"
+
+[node name="SettingsBox" type="VBoxContainer" parent="Margin/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SettingsTitle" type="Label" parent="Margin/Content/SettingsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "НАЛАШТУВАННЯ"
+
+[node name="VolumeRow" type="HBoxContainer" parent="Margin/Content/SettingsBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="VolumeLabel" type="Label" parent="Margin/Content/SettingsBox/VolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Гучність"
+
+[node name="VolumeSlider" type="HSlider" parent="Margin/Content/SettingsBox/VolumeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="LanguageRow" type="HBoxContainer" parent="Margin/Content/SettingsBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LanguageLabel" type="Label" parent="Margin/Content/SettingsBox/LanguageRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Мова"
+
+[node name="LanguageOption" type="OptionButton" parent="Margin/Content/SettingsBox/LanguageRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 2
+item_0/text = "Українська"
+item_1/text = "English"
+
+[node name="FullscreenCheck" type="CheckButton" parent="Margin/Content/SettingsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Повний екран"
+
+[node name="BackButton" type="Button" parent="Margin/Content/SettingsBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "НАЗАД"

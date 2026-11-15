@@ -11,16 +11,18 @@ const DEFAULT_LANGUAGE := "uk"
 
 @onready var main_box: VBoxContainer = %MainBox
 @onready var settings_box: VBoxContainer = %SettingsBox
+@onready var title_label: Label = $Margin/Content/TitleLabel
+@onready var subtitle_label: Label = $Margin/Content/SubtitleLabel
 @onready var start_button: Button = %StartButton
 @onready var settings_button: Button = %SettingsButton
 @onready var quit_button: Button = %QuitButton
 @onready var volume_slider: HSlider = %VolumeSlider
 @onready var fullscreen_check: CheckButton = %FullscreenCheck
 @onready var back_button: Button = %BackButton
-@onready var language_option: OptionButton = %LanguageOption
 @onready var settings_title: Label = %SettingsTitle
 @onready var volume_label: Label = %VolumeLabel
 @onready var language_label: Label = %LanguageLabel
+@onready var language_option: OptionButton = %LanguageOption
 
 var telemetry: Node = null
 var _is_starting: bool = false
@@ -51,7 +53,23 @@ func _unhandled_input(event: InputEvent) -> void:
 		_show_settings(false)
 		get_viewport().set_input_as_handled()
 
-# --- Navigation -------------------------------------------------------------
+func _configure_language_options() -> void:
+	language_option.clear()
+	language_option.add_item("Українська")
+	language_option.add_item("English")
+
+func _apply_locale_texts() -> void:
+	title_label.text = "COSMOCRISIS"
+	subtitle_label.text = Localization.tr("menu.subtitle")
+	start_button.text = Localization.tr("menu.start")
+	settings_button.text = Localization.tr("menu.settings")
+	quit_button.text = Localization.tr("menu.quit")
+	settings_title.text = Localization.tr("menu.settings_title")
+	volume_label.text = Localization.tr("menu.volume")
+	language_label.text = Localization.tr("menu.language")
+	fullscreen_check.text = Localization.tr("menu.fullscreen")
+	back_button.text = Localization.tr("menu.back")
+	language_option.select(0 if Localization.current_language == "uk" else 1)
 
 func _on_start_pressed() -> void:
 	if _is_starting:
@@ -74,8 +92,6 @@ func _show_settings(show_it: bool) -> void:
 		_save_settings()
 		settings_button.grab_focus()
 
-# --- Settings ---------------------------------------------------------------
-
 func _on_volume_changed(value: float) -> void:
 	_apply_volume(value)
 
@@ -97,22 +113,6 @@ func _apply_fullscreen(enabled: bool) -> void:
 	DisplayServer.window_set_mode(
 		DisplayServer.WINDOW_MODE_FULLSCREEN if enabled else DisplayServer.WINDOW_MODE_WINDOWED
 	)
-
-func _configure_language_options() -> void:
-	language_option.clear()
-	language_option.add_item("Українська", 0)
-	language_option.add_item("English", 1)
-
-func _apply_locale_texts() -> void:
-	start_button.text = Localization.tr("menu.start")
-	settings_button.text = Localization.tr("menu.settings")
-	quit_button.text = Localization.tr("menu.quit")
-	settings_title.text = Localization.tr("menu.settings_title")
-	volume_label.text = Localization.tr("menu.volume")
-	fullscreen_check.text = Localization.tr("menu.fullscreen")
-	back_button.text = Localization.tr("menu.back")
-	language_label.text = Localization.tr("menu.language")
-	language_option.select(0 if Localization.current_language == "uk" else 1)
 
 func _load_settings() -> void:
 	var cfg := ConfigFile.new()
@@ -139,8 +139,6 @@ func _save_settings() -> void:
 	cfg.set_value("video", "fullscreen", fullscreen_check.button_pressed)
 	cfg.set_value("game", "language", Localization.current_language)
 	cfg.save(SETTINGS_PATH)
-
-# --- Telemetry --------------------------------------------------------------
 
 func _reset_telemetry() -> void:
 	if telemetry == null:

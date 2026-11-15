@@ -1,165 +1,62 @@
-[gd_scene format=3]
-
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
-[ext_resource type="PackedScene" path="res://ui/space_background.tscn" id="2_bg"]
-
-[sub_resource type="Gradient" id="Gradient_dim"]
-offsets = PackedFloat32Array(0, 0.55, 1)
-colors = PackedColorArray(0, 0, 0, 0.6, 0, 0, 0, 0.2, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_dim"]
-gradient = SubResource("Gradient_dim")
-fill_from = Vector2(0, 0)
-fill_to = Vector2(1, 0)
-
-[node name="MainMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_menu")
-
-[node name="SpaceBackground" parent="." instance=ExtResource("2_bg")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="LeftShade" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = SubResource("GradientTexture2D_dim")
-expand_mode = 1
-stretch_mode = 0
-
-[node name="Margin" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 96
-theme_override_constants/margin_top = 48
-theme_override_constants/margin_right = 96
-theme_override_constants/margin_bottom = 48
-
-[node name="Content" type="VBoxContainer" parent="Margin"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_constants/separation = 14
-
-[node name="TitleLabel" type="Label" parent="Margin/Content"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.45, 0.8, 0.9, 1)
-theme_override_font_sizes/font_size = 64
-text = "COSMOCRISIS"
-
-[node name="SubtitleLabel" type="Label" parent="Margin/Content"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
-theme_override_font_sizes/font_size = 20
-text = "ВИЖИТИ ДО КІНЦЯ ПОЛЬОТУ"
-
-[node name="Spacer" type="Control" parent="Margin/Content"]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-
-[node name="MainBox" type="VBoxContainer" parent="Margin/Content"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="StartButton" type="Button" parent="Margin/Content/MainBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "ПОЧАТИ МІСІЮ"
-
-[node name="SettingsButton" type="Button" parent="Margin/Content/MainBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "НАЛАШТУВАННЯ"
-
-[node name="QuitButton" type="Button" parent="Margin/Content/MainBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "ВИЙТИ"
-
-[node name="SettingsBox" type="VBoxContainer" parent="Margin/Content"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="SettingsTitle" type="Label" parent="Margin/Content/SettingsBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "НАЛАШТУВАННЯ"
-
-[node name="VolumeRow" type="HBoxContainer" parent="Margin/Content/SettingsBox"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="VolumeLabel" type="Label" parent="Margin/Content/SettingsBox/VolumeRow"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Гучність"
-
-[node name="VolumeSlider" type="HSlider" parent="Margin/Content/SettingsBox/VolumeRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-max_value = 1.0
-step = 0.05
-value = 1.0
-
-[node name="LanguageRow" type="HBoxContainer" parent="Margin/Content/SettingsBox"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="LanguageLabel" type="Label" parent="Margin/Content/SettingsBox/LanguageRow"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Мова"
-
-[node name="LanguageOption" type="OptionButton" parent="Margin/Content/SettingsBox/LanguageRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-item_count = 2
-item_0/text = "Українська"
-item_1/text = "English"
-
-[node name="FullscreenCheck" type="CheckButton" parent="Margin/Content/SettingsBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Повний екран"
-
-[node name="BackButton" type="Button" parent="Margin/Content/SettingsBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "НАЗАД"
+{
+  "uk": {
+    "menu.subtitle": "ВИЖИТИ ДО КІНЦЯ ПОЛЬОТУ",
+    "menu.start": "ПОЧАТИ МІСІЮ",
+    "menu.settings": "НАЛАШТУВАННЯ",
+    "menu.quit": "ВИЙТИ",
+    "menu.settings_title": "НАЛАШТУВАННЯ",
+    "menu.volume": "Гучність",
+    "menu.language": "Мова",
+    "menu.fullscreen": "Повний екран",
+    "menu.back": "НАЗАД",
+    "hud.progress": "ПОЛІТ: %.1f%%",
+    "hud.co2": "CO2: %.2f%%",
+    "hud.temperature": "ТЕМПЕРАТУРА: %.1f°C",
+    "hud.pressure": "ТИСК (КАБ / ІНЖ): %.1f / %.1f кПа",
+    "death.title": "МІСІЮ ПРОВАЛЕНО",
+    "death.subtitle": "ЕКІПАЖ ВТРАЧЕНО",
+    "death.restart": "ПОЧАТИ ЗНОВУ",
+    "death.menu": "ГОЛОВНЕ МЕНЮ",
+    "death.quit": "ВИЙТИ",
+    "death.progress": "Пройдено шляху: %.1f%%",
+    "mission.title": "МІСІЮ ВИКОНАНО",
+    "mission.subtitle": "ЕКІПАЖ ДОСТАВЛЕНО ДО ПУНКТУ ПРИЗНАЧЕННЯ",
+    "mission.restart": "ЛЕТІТИ ЗНОВУ",
+    "mission.menu": "ГОЛОВНЕ МЕНЮ",
+    "mission.quit": "ВИЙТИ",
+    "mission.arrival": "Корабель досяг пункту призначення.",
+    "mission.perfect": "Усі системи корабля справні. Бездоганний політ.",
+    "mission.faults": "Корабель долетів, але частина систем залишилась несправною (%d з 3).",
+    "mission.stats": "Пройдено шляху: %.0f%%\nCO₂ на борту: %.2f%%\nТемпература повітря: %.1f °C\nТиск: кабіна %.1f кПа / машинне відділення %.1f кПа"
+  },
+  "en": {
+    "menu.subtitle": "SURVIVE UNTIL THE END OF THE FLIGHT",
+    "menu.start": "START MISSION",
+    "menu.settings": "SETTINGS",
+    "menu.quit": "QUIT",
+    "menu.settings_title": "SETTINGS",
+    "menu.volume": "Volume",
+    "menu.language": "Language",
+    "menu.fullscreen": "Fullscreen",
+    "menu.back": "BACK",
+    "hud.progress": "FLIGHT: %.1f%%",
+    "hud.co2": "CO2: %.2f%%",
+    "hud.temperature": "TEMPERATURE: %.1f°C",
+    "hud.pressure": "PRESSURE (COCKPIT / ENGINEERING): %.1f / %.1f kPa",
+    "death.title": "MISSION FAILED",
+    "death.subtitle": "CREW LOST",
+    "death.restart": "RESTART",
+    "death.menu": "MAIN MENU",
+    "death.quit": "QUIT",
+    "death.progress": "Distance traveled: %.1f%%",
+    "mission.title": "MISSION COMPLETE",
+    "mission.subtitle": "CREW DELIVERED TO DESTINATION",
+    "mission.restart": "FLY AGAIN",
+    "mission.menu": "MAIN MENU",
+    "mission.quit": "QUIT",
+    "mission.arrival": "The ship reached its destination.",
+    "mission.perfect": "All ship systems are operational. A flawless flight.",
+    "mission.faults": "The ship made it, but some systems remain damaged (%d of 3).",
+    "mission.stats": "Distance traveled: %.0f%%\nCO₂ on board: %.2f%%\nAir temperature: %.1f °C\nPressure: cockpit %.1f kPa / engineering %.1f kPa"
+  }
+}
