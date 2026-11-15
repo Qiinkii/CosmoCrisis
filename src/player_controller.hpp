@@ -22,7 +22,7 @@ private:
     double acceleration = 12.0;
     double friction = 10.0;
     double mouse_sensitivity = 0.002;
-    double garvity = 3;
+    double gravity = 3;
     double jump_velocity = 4;
 
     // У приватній секції player_controller.hpp:
@@ -61,8 +61,8 @@ public:
     void set_friction(double val);
     double get_mouse_sensitivity() const;
     void set_mouse_sensitivity(double val);
-    double get_garvity() const;
-    void set_garvity(double val);
+    double get_gravity() const;
+    void set_gravity(double val);
     double get_jump_velocity() const;
     void set_jump_velocity(double val);
 };
