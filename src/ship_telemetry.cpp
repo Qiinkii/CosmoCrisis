@@ -127,10 +127,10 @@ void ShipTelemetry::_process(double delta){
         engineering_pressure += flow;
     }
 
-    if(air_temperature >= 50.0){
-        air_temperature = 50.0;
+    if(air_temperature >= 60.0){
+        air_temperature = 60.0;
         is_mission_active = false;
-        emit_signal("mission_failed", "Небезпечний перегрів: температура повітря на кораблі досягла 50°C.");
+        emit_signal("mission_failed", "Небезпечний перегрів: температура повітря на кораблі досягла 60°C.");
         return;
     }
 

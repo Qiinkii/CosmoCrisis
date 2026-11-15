@@ -33,6 +33,7 @@ func _ready() -> void:
 	_set_shader_parameter(co2_effect, "blur_strength", 0.0)
 	_set_shader_parameter(co2_effect, "vignette_strength", 0.0)
 	_set_shader_parameter(heat_effect, "heat_haze_strength", 0.0)
+	_set_shader_parameter(heat_effect, "blackout_strength", 0.0)
 
 	if telemetry != null and not telemetry.mission_failed.is_connected(_on_mission_failed):
 		telemetry.mission_failed.connect(_on_mission_failed)
@@ -43,14 +44,17 @@ func _process(_delta: float) -> void:
 
 	# CO2 symptoms start at 0.5% and intensify independently of temperature.
 	var co2_severity: float = clampf((telemetry.co2_level - 0.5) / 1.5, 0.0, 1.0)
-	# Heat haze starts gently at 40°C and ramps linearly to its maximum at 50°C.
-	var heat_severity: float = clampf((telemetry.air_temperature - 40.0) / 10.0, 0.0, 1.0)
+	# Red heat haze gradually intensifies from 40°C through 55°C.
+	var heat_severity: float = clampf((telemetry.air_temperature - 40.0) / 15.0, 0.0, 1.0)
+	# Vision progressively blacks out from 55°C to the revised 60°C failure threshold.
+	var blackout_severity: float = clampf((telemetry.air_temperature - 55.0) / 5.0, 0.0, 1.0)
 
 	co2_effect.visible = co2_severity > 0.01
-	heat_effect.visible = heat_severity > 0.01
+	heat_effect.visible = heat_severity > 0.01 or blackout_severity > 0.01
 	_set_shader_parameter(co2_effect, "blur_strength", co2_severity * 2.0)
 	_set_shader_parameter(co2_effect, "vignette_strength", co2_severity * 0.75)
 	_set_shader_parameter(heat_effect, "heat_haze_strength", heat_severity)
+	_set_shader_parameter(heat_effect, "blackout_strength", blackout_severity)
 
 	# Only CO2 sickness affects movement and focus; heat remains a visual effect.
 	if player != null:
