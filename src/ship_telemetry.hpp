@@ -9,6 +9,7 @@ private:
     double print_timer = 0.0;
 
     double co2_level = 0.04;
+    double air_temperature = 22.0;
     double flight_progress = 0.0;
     double flight_speed = 0.5;
     double cockpit_pressure = 101.3;
@@ -18,6 +19,8 @@ private:
     bool is_eclss_working = true;
     bool breach_crisis_triggered = false;
     bool co2_crisis_triggered = false;
+    bool cooling_crisis_triggered = false;
+    bool is_cooling_system_working = true;
     bool is_hull_breached = false;
     bool is_bulkhead_closed = false;
     bool is_mission_active = true;
@@ -36,6 +39,9 @@ public:
     double get_co2_level() const;
     void set_co2_level(double p_level);
 
+    double get_air_temperature() const;
+    void set_air_temperature(double p_temperature);
+
     double get_flight_progress() const;
     void set_flight_progress(double p_val);
 
@@ -50,7 +56,10 @@ public:
 
     bool get_is_eclss_working() const;
     void set_is_eclss_working(bool working);
-    
+
+    bool get_is_cooling_system_working() const;
+    void set_is_cooling_system_working(bool working);
+
     bool get_is_hull_breached() const;
     void set_is_hull_breached(bool breached);
 
@@ -66,6 +75,8 @@ public:
     // // Методи керування аваріями
     void trigger_co2_failure();
     void repair_co2_system();
+    void trigger_cooling_failure();
+    void repair_cooling_system();
     void trigger_hull_breach();
     void repair_hull_breach();
 };

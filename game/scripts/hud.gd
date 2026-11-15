@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var prompt_label: Label = $PromptLabel
 @onready var progress_label: Label = $MarginContainer/VBoxContainer/ProgressLabel
 @onready var co2_label: Label = $MarginContainer/VBoxContainer/CO2Label
+@onready var temperature_label: Label = $MarginContainer/VBoxContainer/TemperatureLabel
 @onready var pressure_label: Label = $MarginContainer/VBoxContainer/PressureLabel
 @onready var ShipTelemetryGlobal: ShipTelemetry = get_node_or_null("/root/ShipTelemetryGlobal")
 
@@ -20,6 +21,7 @@ func _on_prompt_changed(promt_visible: bool, text: String) -> void:
 func _on_telemetry_updated() -> void:
 	progress_label.text = "ПОЛІТ: %.1f%%" % ShipTelemetryGlobal.flight_progress
 	co2_label.text = "CO2: %.2f%%" % ShipTelemetryGlobal.co2_level
+	temperature_label.text = "ТЕМПЕРАТУРА: %.1f°C" % ShipTelemetryGlobal.air_temperature
 	pressure_label.text = "ТИСК (КАБ / ІНЖ): %.1f / %.1f кПа" % [
 		ShipTelemetryGlobal.cockpit_pressure,
 		ShipTelemetryGlobal.engineering_pressure
