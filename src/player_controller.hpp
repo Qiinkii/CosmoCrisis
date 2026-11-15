@@ -20,7 +20,8 @@ private:
     double acceleration = 12.0;
     double friction = 10.0;
     double mouse_sensitivity = 0.002;
-    double garvity = 9.8;
+    double garvity = 3;
+    double jump_velocity = 4;
 
     godot::String held_item_id = "";
     bool can_move = true;
@@ -51,4 +52,6 @@ public:
     void set_mouse_sensitivity(double val);
     double get_garvity() const;
     void set_garvity(double val);
+    double get_jump_velocity() const;
+    void set_jump_velocity(double val);
 };
