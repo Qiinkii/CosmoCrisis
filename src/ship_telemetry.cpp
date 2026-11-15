@@ -283,3 +283,26 @@ bool ShipTelemetry::get_is_player_in_engineering() const{
 void ShipTelemetry::set_is_player_in_engineering(bool val){
     is_player_in_engineering = val;
 }
+
+void ShipTelemetry::reset_mission(){
+    print_timer = 0.0;
+
+    co2_level = 0.04;
+    air_temperature = 22.0;
+    flight_progress = 0.0;
+    cockpit_pressure = 101.3;
+    engineering_pressure = 101.3;
+    active_breach_id = 0;
+
+    is_eclss_working = true;
+    is_cooling_system_working = true;
+    is_hull_breached = false;
+    is_bulkhead_closed = false;
+    is_player_in_engineering = false;
+
+    breach_crisis_triggered = false;
+    co2_crisis_triggered = false;
+    cooling_crisis_triggered = false;
+
+    is_mission_active = true;
+}
