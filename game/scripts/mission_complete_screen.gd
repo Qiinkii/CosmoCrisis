@@ -1,19 +1,18 @@
 extends CanvasLayer
-## Full-screen "mission failed" overlay.
-##
-## Registered as an autoload (see project.godot) so it keeps listening to
-## ShipTelemetryGlobal across scene reloads. When the telemetry emits
-## `mission_failed`, the game is paused, the overlay fades in and the player
-## can restart the mission, return to the main menu or quit.
+## Mission complete overlay.
 
-const FADE_DURATION := 1.5
+const PANEL_FADE := 1.6
+const REPORT_FADE := 0.9
+const BUTTONS_FADE := 0.6
 const MAIN_MENU_SCENE := "res://ui/main_menu.tscn"
 
 @onready var root: Control = %Root
 @onready var title_label: Label = $Root/Center/Panel/Margin/Content/TitleLabel
 @onready var subtitle_label: Label = $Root/Center/Panel/Margin/Content/SubtitleLabel
-@onready var reason_label: Label = %ReasonLabel
+@onready var message_label: Label = %MessageLabel
 @onready var stats_label: Label = %StatsLabel
+@onready var report_box: VBoxContainer = %ReportBox
+@onready var buttons_row: HBoxContainer = %ButtonsRow
 @onready var restart_button: Button = %RestartButton
 @onready var main_menu_button: Button = %MainMenuButton
 @onready var quit_button: Button = %QuitButton
@@ -24,72 +23,73 @@ var _is_showing: bool = false
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
-
 	restart_button.pressed.connect(_on_restart_pressed)
 	main_menu_button.pressed.connect(_on_main_menu_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 	_apply_locale_texts()
-
 	telemetry = get_node_or_null("/root/ShipTelemetryGlobal")
-	if telemetry != null and telemetry.has_signal("mission_failed"):
-		telemetry.connect("mission_failed", show_death_screen)
+	if telemetry != null and telemetry.has_signal("mission_completed"):
+		telemetry.connect("mission_completed", show_mission_complete_screen)
 
 func _apply_locale_texts() -> void:
-	title_label.text = Localization.tr("death.title")
-	subtitle_label.text = Localization.tr("death.subtitle")
-	restart_button.text = Localization.tr("death.restart")
-	main_menu_button.text = Localization.tr("death.menu")
-	quit_button.text = Localization.tr("death.quit")
+	title_label.text = Localization.translate_key("mission.title")
+	subtitle_label.text = Localization.translate_key("mission.subtitle")
+	restart_button.text = Localization.translate_key("mission.restart")
+	main_menu_button.text = Localization.translate_key("mission.menu")
+	quit_button.text = Localization.translate_key("mission.quit")
 
-func show_death_screen(reason: String) -> void:
+func show_mission_complete_screen() -> void:
 	if _is_showing:
 		return
 	_is_showing = true
-
-	var progress: float = 0.0
-	if telemetry != null:
-		progress = float(telemetry.get("flight_progress"))
-
-	reason_label.text = reason
-	stats_label.text = Localization.trf("death.progress", [progress])
-	_apply_locale_texts()
-
-	restart_button.disabled = true
-	main_menu_button.disabled = true
-	quit_button.disabled = true
-
+	_fill_report()
+	_set_buttons_disabled(true)
 	root.modulate.a = 0.0
+	report_box.modulate.a = 0.0
+	buttons_row.modulate.a = 0.0
 	visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	get_tree().paused = true
-
 	var tween := create_tween()
-	tween.tween_property(root, "modulate:a", 1.0, FADE_DURATION)
-	tween.finished.connect(_on_fade_finished)
+	tween.tween_property(root, "modulate:a", 1.0, PANEL_FADE)
+	tween.tween_property(report_box, "modulate:a", 1.0, REPORT_FADE)
+	tween.tween_property(buttons_row, "modulate:a", 1.0, BUTTONS_FADE)
+	tween.finished.connect(_on_reveal_finished)
 
-func _on_fade_finished() -> void:
-	restart_button.disabled = false
-	main_menu_button.disabled = false
-	quit_button.disabled = false
+func _fill_report() -> void:
+	if telemetry == null:
+		message_label.text = Localization.translate_key("mission.arrival")
+		stats_label.text = ""
+		return
+	var faults := 0
+	if not bool(telemetry.get("is_eclss_working")):
+		faults += 1
+	if not bool(telemetry.get("is_cooling_system_working")):
+		faults += 1
+	if bool(telemetry.get("is_hull_breached")):
+		faults += 1
+	message_label.text = Localization.translate_key("mission.perfect") if faults == 0 else Localization.trf("mission.faults", [faults])
+	stats_label.text = Localization.trf("mission.stats", [float(telemetry.get("flight_progress")), float(telemetry.get("co2_level")), float(telemetry.get("air_temperature")), float(telemetry.get("cockpit_pressure")), float(telemetry.get("engineering_pressure"))])
+
+func _set_buttons_disabled(disabled: bool) -> void:
+	restart_button.disabled = disabled
+	main_menu_button.disabled = disabled
+	quit_button.disabled = disabled
+
+func _on_reveal_finished() -> void:
+	_set_buttons_disabled(false)
 	restart_button.grab_focus()
 
 func _on_restart_pressed() -> void:
-	restart_button.disabled = true
-	main_menu_button.disabled = true
-	quit_button.disabled = true
-
+	_set_buttons_disabled(true)
 	_reset_telemetry()
-
 	_is_showing = false
 	visible = false
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 
 func _on_main_menu_pressed() -> void:
-	restart_button.disabled = true
-	main_menu_button.disabled = true
-	quit_button.disabled = true
-
+	_set_buttons_disabled(true)
 	_is_showing = false
 	visible = false
 	get_tree().paused = false
@@ -101,11 +101,9 @@ func _on_quit_pressed() -> void:
 func _reset_telemetry() -> void:
 	if telemetry == null:
 		return
-
 	if telemetry.has_method("reset_mission"):
 		telemetry.call("reset_mission")
 		return
-
 	push_warning("ShipTelemetry.reset_mission() not found - rebuild the GDExtension for a full reset.")
 	telemetry.set("co2_level", 0.04)
 	telemetry.set("air_temperature", 22.0)

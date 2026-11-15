@@ -8,7 +8,6 @@ var _locales: Dictionary = {}
 
 func _ready() -> void:
 	_load_locales()
-	set_language(current_language)
 
 func _load_locales() -> void:
 	if not FileAccess.file_exists(LOCALE_PATH):
@@ -26,14 +25,13 @@ func _load_locales() -> void:
 		push_error("Failed to parse localization JSON: %s" % json.get_error_message())
 		return
 
-	var data = json.data
-	if data is Dictionary:
-		_locales = data
+	if json.data is Dictionary:
+		_locales = json.data
 	else:
 		push_error("Localization data must be a dictionary.")
 
 func set_language(locale_code: String) -> String:
-	if locale_code == "" or not _locales.has(locale_code):
+	if not _locales.has(locale_code):
 		locale_code = DEFAULT_LOCALE
 	current_language = locale_code
 	return current_language
@@ -41,16 +39,14 @@ func set_language(locale_code: String) -> String:
 func translate_key(key: String, default_value: String = "") -> String:
 	if _locales.is_empty():
 		_load_locales()
-	if _locales.has(current_language) and _locales[current_language].has(key):
-		return String(_locales[current_language][key])
-	if _locales.has(DEFAULT_LOCALE) and _locales[DEFAULT_LOCALE].has(key):
-		return String(_locales[DEFAULT_LOCALE][key])
-	if default_value != "":
-		return default_value
-	return key
+	var locale: Dictionary = _locales.get(current_language, {})
+	if locale.has(key):
+		return String(locale[key])
+	var fallback: Dictionary = _locales.get(DEFAULT_LOCALE, {})
+	if fallback.has(key):
+		return String(fallback[key])
+	return default_value if default_value != "" else key
 
 func trf(key: String, args: Array = []) -> String:
 	var text := translate_key(key)
-	if args.is_empty():
-		return text
-	return text % args
+	return text if args.is_empty() else text % args

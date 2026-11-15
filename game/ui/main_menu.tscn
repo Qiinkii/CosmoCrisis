@@ -1,145 +1,165 @@
-extends CanvasLayer
-## Full-screen "mission complete" overlay.
-##
-## Registered as an autoload (see project.godot) next to DeathScreen. When
-## ShipTelemetryGlobal emits `mission_completed` (flight_progress reached 100)
-## the game is paused and the overlay is revealed in three beats: the panel,
-## then the mission report, then the buttons.
+[gd_scene format=3]
 
-const PANEL_FADE := 1.6
-const REPORT_FADE := 0.9
-const BUTTONS_FADE := 0.6
-const MAIN_MENU_SCENE := "res://ui/main_menu.tscn"
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
+[ext_resource type="PackedScene" path="res://ui/space_background.tscn" id="2_bg"]
 
-@onready var root: Control = %Root
-@onready var title_label: Label = $Root/Center/Panel/Margin/Content/TitleLabel
-@onready var subtitle_label: Label = $Root/Center/Panel/Margin/Content/SubtitleLabel
-@onready var message_label: Label = %MessageLabel
-@onready var stats_label: Label = %StatsLabel
-@onready var report_box: VBoxContainer = %ReportBox
-@onready var buttons_row: HBoxContainer = %ButtonsRow
-@onready var restart_button: Button = %RestartButton
-@onready var main_menu_button: Button = %MainMenuButton
-@onready var quit_button: Button = %QuitButton
+[sub_resource type="Gradient" id="Gradient_dim"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0, 0, 0, 0.6, 0, 0, 0, 0.2, 0, 0, 0, 0)
 
-var telemetry: Node = null
-var _is_showing: bool = false
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dim"]
+gradient = SubResource("Gradient_dim")
+fill_from = Vector2(0, 0)
+fill_to = Vector2(1, 0)
 
-func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
-	visible = false
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
 
-	restart_button.pressed.connect(_on_restart_pressed)
-	main_menu_button.pressed.connect(_on_main_menu_pressed)
-	quit_button.pressed.connect(_on_quit_pressed)
-	_apply_locale_texts()
+[node name="SpaceBackground" parent="." instance=ExtResource("2_bg")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-	telemetry = get_node_or_null("/root/ShipTelemetryGlobal")
-	if telemetry != null and telemetry.has_signal("mission_completed"):
-		telemetry.connect("mission_completed", show_mission_complete_screen)
+[node name="LeftShade" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_dim")
+expand_mode = 1
+stretch_mode = 0
 
-func _apply_locale_texts() -> void:
-	title_label.text = Localization.tr("mission.title")
-	subtitle_label.text = Localization.tr("mission.subtitle")
-	restart_button.text = Localization.tr("mission.restart")
-	main_menu_button.text = Localization.tr("mission.menu")
-	quit_button.text = Localization.tr("mission.quit")
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 48
 
-func show_mission_complete_screen() -> void:
-	if _is_showing:
-		return
-	_is_showing = true
+[node name="Content" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/separation = 14
 
-	_fill_report()
-	_set_buttons_disabled(true)
+[node name="TitleLabel" type="Label" parent="Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 64
+text = "COSMOCRISIS"
 
-	root.modulate.a = 0.0
-	report_box.modulate.a = 0.0
-	buttons_row.modulate.a = 0.0
-	visible = true
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	get_tree().paused = true
+[node name="SubtitleLabel" type="Label" parent="Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 20
+text = "ВИЖИТИ ДО КІНЦЯ ПОЛЬОТУ"
 
-	var tween := create_tween()
-	tween.tween_property(root, "modulate:a", 1.0, PANEL_FADE)
-	tween.tween_property(report_box, "modulate:a", 1.0, REPORT_FADE)
-	tween.tween_property(buttons_row, "modulate:a", 1.0, BUTTONS_FADE)
-	tween.finished.connect(_on_reveal_finished)
+[node name="Spacer" type="Control" parent="Margin/Content"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
 
-func _fill_report() -> void:
-	if telemetry == null:
-		message_label.text = Localization.tr("mission.arrival")
-		stats_label.text = ""
-		return
+[node name="MainBox" type="VBoxContainer" parent="Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
 
-	var faults := 0
-	if not bool(telemetry.get("is_eclss_working")):
-		faults += 1
-	if not bool(telemetry.get("is_cooling_system_working")):
-		faults += 1
-	if bool(telemetry.get("is_hull_breached")):
-		faults += 1
+[node name="StartButton" type="Button" parent="Margin/Content/MainBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "ПОЧАТИ МІСІЮ"
 
-	if faults == 0:
-		message_label.text = Localization.tr("mission.perfect")
-	else:
-		message_label.text = Localization.trf("mission.faults", [faults])
+[node name="SettingsButton" type="Button" parent="Margin/Content/MainBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "НАЛАШТУВАННЯ"
 
-	stats_label.text = Localization.trf("mission.stats", [
-		float(telemetry.get("flight_progress")),
-		float(telemetry.get("co2_level")),
-		float(telemetry.get("air_temperature")),
-		float(telemetry.get("cockpit_pressure")),
-		float(telemetry.get("engineering_pressure")),
-	])
+[node name="QuitButton" type="Button" parent="Margin/Content/MainBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "ВИЙТИ"
 
-func _set_buttons_disabled(disabled: bool) -> void:
-	restart_button.disabled = disabled
-	main_menu_button.disabled = disabled
-	quit_button.disabled = disabled
+[node name="SettingsBox" type="VBoxContainer" parent="Margin/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
 
-func _on_reveal_finished() -> void:
-	_set_buttons_disabled(false)
-	restart_button.grab_focus()
+[node name="SettingsTitle" type="Label" parent="Margin/Content/SettingsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "НАЛАШТУВАННЯ"
 
-func _on_restart_pressed() -> void:
-	_set_buttons_disabled(true)
+[node name="VolumeRow" type="HBoxContainer" parent="Margin/Content/SettingsBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
 
-	_reset_telemetry()
+[node name="VolumeLabel" type="Label" parent="Margin/Content/SettingsBox/VolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Гучність"
 
-	_is_showing = false
-	visible = false
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+[node name="VolumeSlider" type="HSlider" parent="Margin/Content/SettingsBox/VolumeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 1.0
 
-func _on_main_menu_pressed() -> void:
-	_set_buttons_disabled(true)
+[node name="LanguageRow" type="HBoxContainer" parent="Margin/Content/SettingsBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
 
-	_is_showing = false
-	visible = false
-	get_tree().paused = false
-	get_tree().change_scene_to_file(MAIN_MENU_SCENE)
+[node name="LanguageLabel" type="Label" parent="Margin/Content/SettingsBox/LanguageRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Мова"
 
-func _on_quit_pressed() -> void:
-	get_tree().quit()
+[node name="LanguageOption" type="OptionButton" parent="Margin/Content/SettingsBox/LanguageRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 2
+item_0/text = "Українська"
+item_1/text = "English"
 
-func _reset_telemetry() -> void:
-	if telemetry == null:
-		return
+[node name="FullscreenCheck" type="CheckButton" parent="Margin/Content/SettingsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Повний екран"
 
-	if telemetry.has_method("reset_mission"):
-		telemetry.call("reset_mission")
-		return
-
-	push_warning("ShipTelemetry.reset_mission() not found - rebuild the GDExtension for a full reset.")
-	telemetry.set("co2_level", 0.04)
-	telemetry.set("air_temperature", 22.0)
-	telemetry.set("flight_progress", 0.0)
-	telemetry.set("cockpit_pressure", 101.3)
-	telemetry.set("engineering_pressure", 101.3)
-	telemetry.set("is_eclss_working", true)
-	telemetry.set("is_cooling_system_working", true)
-	telemetry.set("is_hull_breached", false)
-	telemetry.set("is_bulkhead_closed", false)
-	telemetry.set("is_player_in_engineering", false)
-	telemetry.set("is_mission_active", true)
+[node name="BackButton" type="Button" parent="Margin/Content/SettingsBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "НАЗАД"

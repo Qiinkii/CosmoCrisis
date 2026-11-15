@@ -1,21 +1,25 @@
 extends Control
 ## Main menu: start the mission, change basic settings, or quit.
-##
-## ShipTelemetryGlobal is an autoload and starts with is_mission_active = true,
-## so while the menu is open the telemetry is held inactive. It is reset (which
-## also re-activates it) right before the game scene is loaded.
+## ShipTelemetryGlobal is held inactive while the menu is open and reset before play.
 
 const GAME_SCENE := "res://scenes/ship.tscn"
 const SETTINGS_PATH := "user://settings.cfg"
+const DEFAULT_LANGUAGE := "uk"
 
 @onready var main_box: VBoxContainer = %MainBox
 @onready var settings_box: VBoxContainer = %SettingsBox
+@onready var title_label: Label = $Margin/Content/TitleLabel
+@onready var subtitle_label: Label = $Margin/Content/SubtitleLabel
 @onready var start_button: Button = %StartButton
 @onready var settings_button: Button = %SettingsButton
 @onready var quit_button: Button = %QuitButton
 @onready var volume_slider: HSlider = %VolumeSlider
 @onready var fullscreen_check: CheckButton = %FullscreenCheck
 @onready var back_button: Button = %BackButton
+@onready var settings_title: Label = %SettingsTitle
+@onready var volume_label: Label = %VolumeLabel
+@onready var language_label: Label = %LanguageLabel
+@onready var language_option: OptionButton = %LanguageOption
 
 var telemetry: Node = null
 var _is_starting: bool = false
@@ -23,7 +27,6 @@ var _is_starting: bool = false
 func _ready() -> void:
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
 	telemetry = get_node_or_null("/root/ShipTelemetryGlobal")
 	if telemetry != null:
 		telemetry.set("is_mission_active", false)
@@ -34,8 +37,11 @@ func _ready() -> void:
 	back_button.pressed.connect(_show_settings.bind(false))
 	volume_slider.value_changed.connect(_on_volume_changed)
 	fullscreen_check.toggled.connect(_on_fullscreen_toggled)
+	language_option.item_selected.connect(_on_language_changed)
 
+	_configure_language_options()
 	_load_settings()
+	_apply_locale_texts()
 	start_button.grab_focus()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -43,16 +49,30 @@ func _unhandled_input(event: InputEvent) -> void:
 		_show_settings(false)
 		get_viewport().set_input_as_handled()
 
-# --- Navigation -------------------------------------------------------------
+func _configure_language_options() -> void:
+	language_option.clear()
+	language_option.add_item("Українська")
+	language_option.add_item("English")
+
+func _apply_locale_texts() -> void:
+	title_label.text = "COSMOCRISIS"
+	subtitle_label.text = Localization.translate_key("menu.subtitle")
+	start_button.text = Localization.translate_key("menu.start")
+	settings_button.text = Localization.translate_key("menu.settings")
+	quit_button.text = Localization.translate_key("menu.quit")
+	settings_title.text = Localization.translate_key("menu.settings_title")
+	volume_label.text = Localization.translate_key("menu.volume")
+	language_label.text = Localization.translate_key("menu.language")
+	fullscreen_check.text = Localization.translate_key("menu.fullscreen")
+	back_button.text = Localization.translate_key("menu.back")
+	language_option.select(0 if Localization.current_language == "uk" else 1)
 
 func _on_start_pressed() -> void:
 	if _is_starting:
 		return
 	_is_starting = true
 	start_button.disabled = true
-
 	_reset_telemetry()
-	# The player's _ready() captures the mouse once the scene is loaded.
 	get_tree().change_scene_to_file(GAME_SCENE)
 
 func _on_quit_pressed() -> void:
@@ -67,13 +87,16 @@ func _show_settings(show_it: bool) -> void:
 		_save_settings()
 		settings_button.grab_focus()
 
-# --- Settings ---------------------------------------------------------------
-
 func _on_volume_changed(value: float) -> void:
 	_apply_volume(value)
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
 	_apply_fullscreen(pressed)
+
+func _on_language_changed(index: int) -> void:
+	Localization.set_language("uk" if index == 0 else "en")
+	_apply_locale_texts()
+	_save_settings()
 
 func _apply_volume(value: float) -> void:
 	var bus := AudioServer.get_bus_index("Master")
@@ -81,20 +104,23 @@ func _apply_volume(value: float) -> void:
 	AudioServer.set_bus_volume_db(bus, linear_to_db(maxf(value, 0.001)))
 
 func _apply_fullscreen(enabled: bool) -> void:
-	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if enabled else DisplayServer.WINDOW_MODE_WINDOWED
-	)
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if enabled else DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _load_settings() -> void:
 	var cfg := ConfigFile.new()
 	var volume := 1.0
 	var fullscreen := false
+	var language := DEFAULT_LANGUAGE
 	if cfg.load(SETTINGS_PATH) == OK:
 		volume = float(cfg.get_value("audio", "master_volume", 1.0))
 		fullscreen = bool(cfg.get_value("video", "fullscreen", false))
-
+		language = str(cfg.get_value("game", "language", DEFAULT_LANGUAGE))
+	if language != "uk" and language != "en":
+		language = DEFAULT_LANGUAGE
+	Localization.set_language(language)
 	volume_slider.set_value_no_signal(volume)
 	fullscreen_check.set_pressed_no_signal(fullscreen)
+	language_option.select(0 if language == "uk" else 1)
 	_apply_volume(volume)
 	_apply_fullscreen(fullscreen)
 
@@ -102,19 +128,15 @@ func _save_settings() -> void:
 	var cfg := ConfigFile.new()
 	cfg.set_value("audio", "master_volume", volume_slider.value)
 	cfg.set_value("video", "fullscreen", fullscreen_check.button_pressed)
+	cfg.set_value("game", "language", Localization.current_language)
 	cfg.save(SETTINGS_PATH)
-
-# --- Telemetry --------------------------------------------------------------
 
 func _reset_telemetry() -> void:
 	if telemetry == null:
 		return
-
 	if telemetry.has_method("reset_mission"):
 		telemetry.call("reset_mission")
 		return
-
-	# Fallback for a native library built before reset_mission() existed.
 	push_warning("ShipTelemetry.reset_mission() not found - rebuild the GDExtension for a full reset.")
 	telemetry.set("co2_level", 0.04)
 	telemetry.set("air_temperature", 22.0)
