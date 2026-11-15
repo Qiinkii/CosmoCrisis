@@ -35,6 +35,10 @@ void ShipTelemetry::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_is_eclss_working", "working"), &ShipTelemetry::set_is_eclss_working);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_eclss_working"), "set_is_eclss_working", "get_is_eclss_working");
 
+    ClassDB::bind_method(D_METHOD("get_is_cooling_system_working"), &ShipTelemetry::get_is_cooling_system_working);
+    ClassDB::bind_method(D_METHOD("set_is_cooling_system_working", "working"), &ShipTelemetry::set_is_cooling_system_working);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_cooling_system_working"), "set_is_cooling_system_working", "get_is_cooling_system_working");
+
     ClassDB::bind_method(D_METHOD("get_is_hull_breached"), &ShipTelemetry::get_is_hull_breached);
     ClassDB::bind_method(D_METHOD("set_is_hull_breached", "breached"), &ShipTelemetry::set_is_hull_breached);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_hull_breached"), "set_is_hull_breached", "get_is_hull_breached");
@@ -53,6 +57,8 @@ void ShipTelemetry::_bind_methods(){
 
     ClassDB::bind_method(D_METHOD("trigger_co2_failure"), &ShipTelemetry::trigger_co2_failure);
     ClassDB::bind_method(D_METHOD("repair_co2_system"), &ShipTelemetry::repair_co2_system);
+    ClassDB::bind_method(D_METHOD("trigger_cooling_failure"), &ShipTelemetry::trigger_cooling_failure);
+    ClassDB::bind_method(D_METHOD("repair_cooling_system"), &ShipTelemetry::repair_cooling_system);
     ClassDB::bind_method(D_METHOD("trigger_hull_breach"), &ShipTelemetry::trigger_hull_breach);
     ClassDB::bind_method(D_METHOD("repair_hull_breach"), &ShipTelemetry::repair_hull_breach);
 
@@ -60,6 +66,7 @@ void ShipTelemetry::_bind_methods(){
     ADD_SIGNAL(MethodInfo("mission_failed", PropertyInfo(Variant::STRING, "reason")));
     ADD_SIGNAL(MethodInfo("mission_completed"));
     ADD_SIGNAL(MethodInfo("hull_breach_spawned", PropertyInfo(Variant::INT, "location_id")));
+    ADD_SIGNAL(MethodInfo("cooling_system_failed"));
 }
 
 void ShipTelemetry::_process(double delta){
@@ -87,12 +94,25 @@ void ShipTelemetry::_process(double delta){
         breach_crisis_triggered = true;
         trigger_hull_breach();
     }
+    if(!cooling_crisis_triggered && flight_progress >= 70.0){
+        cooling_crisis_triggered = true;
+        trigger_cooling_failure();
+        emit_signal("cooling_system_failed");
+        UtilityFunctions::print(String::utf8("АВАРІЯ! Система охолодження вийшла з ладу. Температура на кораблі зростає!"));
+    }
+
+    // ECLSS controls CO2 filtering only; temperature is controlled independently by the cooling system.
     if(is_eclss_working){
         co2_level = Math::move_toward(co2_level, 0.04, 0.08 * delta);
-        air_temperature = Math::move_toward(air_temperature, 22.0, 0.2 * delta);
     }
     else{
         co2_level += 0.05 * delta;
+    }
+
+    if(is_cooling_system_working){
+        air_temperature = Math::move_toward(air_temperature, 22.0, 0.2 * delta);
+    }
+    else{
         air_temperature += 0.3 * delta;
     }
 
@@ -192,6 +212,14 @@ void ShipTelemetry::set_is_eclss_working(bool working){
     is_eclss_working = working;
 }
 
+bool ShipTelemetry::get_is_cooling_system_working() const{
+    return is_cooling_system_working;
+}
+
+void ShipTelemetry::set_is_cooling_system_working(bool working){
+    is_cooling_system_working = working;
+}
+
 bool ShipTelemetry::get_is_hull_breached() const{
     return is_hull_breached;
 }
@@ -222,6 +250,14 @@ void ShipTelemetry::trigger_co2_failure(){
 
 void ShipTelemetry::repair_co2_system(){
     is_eclss_working = true;
+}
+
+void ShipTelemetry::trigger_cooling_failure(){
+    is_cooling_system_working = false;
+}
+
+void ShipTelemetry::repair_cooling_system(){
+    is_cooling_system_working = true;
 }
 
 void ShipTelemetry::trigger_hull_breach(){

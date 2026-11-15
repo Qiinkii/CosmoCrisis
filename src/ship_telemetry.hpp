@@ -19,6 +19,8 @@ private:
     bool is_eclss_working = true;
     bool breach_crisis_triggered = false;
     bool co2_crisis_triggered = false;
+    bool cooling_crisis_triggered = false;
+    bool is_cooling_system_working = true;
     bool is_hull_breached = false;
     bool is_bulkhead_closed = false;
     bool is_mission_active = true;
@@ -54,7 +56,10 @@ public:
 
     bool get_is_eclss_working() const;
     void set_is_eclss_working(bool working);
-    
+
+    bool get_is_cooling_system_working() const;
+    void set_is_cooling_system_working(bool working);
+
     bool get_is_hull_breached() const;
     void set_is_hull_breached(bool breached);
 
@@ -70,6 +75,8 @@ public:
     // // Методи керування аваріями
     void trigger_co2_failure();
     void repair_co2_system();
+    void trigger_cooling_failure();
+    void repair_cooling_system();
     void trigger_hull_breach();
     void repair_hull_breach();
 };
