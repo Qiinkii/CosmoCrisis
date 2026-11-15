@@ -34,6 +34,7 @@ public:
     void _physics_process(double delta);
 
     godot::String get_held_item_id() const;
+    void set_held_item_id(const godot::String &id);
     void clear_held_item();
     godot::Node3D *take_held_item();
     bool get_can_move() const;

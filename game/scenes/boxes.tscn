@@ -9414,13 +9414,13 @@ mesh = SubResource("ArrayMesh_1x2du")
 libraries/ = SubResource("AnimationLibrary_igfbf")
 
 [node name="Col_Engineering_Stowage" type="StaticBody3D" parent="." unique_id=826183919]
-transform = Transform3D(-4.3711346e-08, 0, -0.99999976, 0, 0.99999976, 0, 0.99999976, 0, -4.3711346e-08, -3.8441389, 0, 0.7866771)
+transform = Transform3D(-4.3711346e-08, 0, -0.99999976, 0, 0.99999976, 0, 0.99999976, 0, -4.3711346e-08, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Col_Engineering_Stowage" unique_id=447238848]
 shape = SubResource("ConvexPolygonShape3D_xkx8j")
 
 [node name="Engineering_stowage_003" type="Node3D" parent="." unique_id=2128116628]
-transform = Transform3D(-4.371138e-08, 0, 0.99999976, 0, 0.99999976, 0, -0.99999976, 0, -4.371138e-08, -4.7643385, -0.96999985, 0.2176775)
+transform = Transform3D(-4.371138e-08, 0, 0.99999976, 0, 0.99999976, 0, -0.99999976, 0, -4.371138e-08, 0, -0.96999985, 0)
 
 [node name="Filter_Cartridge_Spare_00_002" type="Node3D" parent="Engineering_stowage_003" unique_id=584946746]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16999997, 0.110000014, 0)

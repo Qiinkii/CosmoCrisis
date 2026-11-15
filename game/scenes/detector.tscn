@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://dby46uqtqgjub"]
+
+[ext_resource type="Script" uid="uid://cqw5og5ekiofm" path="res://scripts/leak_detector.gd" id="1_5rtne"]
+[ext_resource type="PackedScene" uid="uid://dmlnxnb6bfsd" path="res://bag_patch/Leak_Detector.glb" id="1_edrlx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_screen"]
+size = Vector2(0.065, 0.075)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_screen"]
+shading_mode = 0
+albedo_color = Color(0.015, 0.03, 0.025, 1)
+
+[node name="Sensor" type="RigidBody3D" unique_id=557809991]
+script = ExtResource("1_5rtne")
+
+[node name="Leak_Detector2" parent="." unique_id=2069227958 instance=ExtResource("1_edrlx")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1064603907]
+transform = Transform3D(0.08874048, 0, 0, 0, 0.20645608, 0, 0, 0, -0.05273587, 0, 0.035933487, 0)
+visible = false
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="Interactable" type="Interactable" parent="." unique_id=529835986]
+prompt_text = "Leak Detector"
+item_id = "leak_detector"
+is_pickup = true
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable" unique_id=1318689159]
+transform = Transform3D(-0.10316513, 0, 0, 0, -0.21638225, 0, 0, 0, -0.08135998, 0, 0.041476496, 0)
+visible = false
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="BeepPlayer" type="AudioStreamPlayer3D" parent="." unique_id=1549047882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14074764, 0)
+
+[node name="ScreenBacking" type="MeshInstance3D" parent="." unique_id=1626508402]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.066, 0.027)
+mesh = SubResource("QuadMesh_screen")
+surface_material_override/0 = SubResource("StandardMaterial3D_screen")
+
+[node name="ScreenLabel" type="Label3D" parent="." unique_id=541161696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.001, 0.066, 0.0276)
+pixel_size = 0.00021
+double_sided = false
+text = " LEAK SCANNER          RDY
+───────────────────────────
+ SIGNAL          ULTRASONIC
+  00 %           SCAN READY
+                 GAIN  AUTO
+  ┌────────────────────────┐
+  │ . . . . . . . . . . . .│
+  │ . . . . . . . . . . . .│
+  │ . . . . . . . . . . . .│
+  │────────────────────────│
+  └────────────────────────┘
+  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+
+ POINT SENSOR AT HULL"
+font_size = 18
+outline_size = 1

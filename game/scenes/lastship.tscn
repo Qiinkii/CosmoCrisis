@@ -36,8 +36,8 @@
 [ext_resource type="Texture2D" uid="uid://dtj84250rrw5b" path="res://shatl2/lastship_flame1.png" id="36_ap1m0"]
 [ext_resource type="Texture2D" uid="uid://cwyjxxng6556q" path="res://shatl2/lastship_flame0.png" id="37_rhbe1"]
 [ext_resource type="Texture2D" uid="uid://b6cathyu811wp" path="res://shatl2/lastship_PV_silicon.png" id="38_ckq42"]
-[ext_resource type="PackedScene" uid="uid://c3nelhnix7t56" path="res://scenes/band_aid.tscn" id="38_kvota"]
 [ext_resource type="PackedScene" uid="uid://c35227ao8h8uu" path="res://scenes/hull_breach_point.tscn" id="38_s7kvc"]
+[ext_resource type="PackedScene" uid="uid://byv2l7fn445df" path="res://scenes/patch_bag.tscn" id="39_s7kvc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6krq2"]
 resource_name = "Cabin lamp diffuser.004"
@@ -27363,9 +27363,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4442139, 0, -0.3017162)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=771491326]
 libraries/ = SubResource("AnimationLibrary_ps4ty")
 
-[node name="BandAid" parent="." unique_id=1664600962 instance=ExtResource("38_kvota")]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -4.498792, -0.42505732, -0.6689105)
-
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1289626828]
 transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0.72263604, 1.0535026, 0)
 
@@ -27379,7 +27376,7 @@ transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, -4
 transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 2.789248, 0.80317456, 0)
 
 [node name="Breach" parent="." unique_id=1573815054 instance=ExtResource("38_s7kvc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.032, -0.281, 1.188)
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -0.031999994, -0.2809999, 1.1848035)
 
 [node name="Breach2" parent="." unique_id=962242649 instance=ExtResource("38_s7kvc")]
 location_id = 2
@@ -27392,3 +27389,6 @@ transform = Transform3D(-0.99999976, 0, 8.742276e-08, 0, 0.99999976, 0, -8.74227
 [node name="Breach4" parent="." unique_id=514485480 instance=ExtResource("38_s7kvc")]
 location_id = 4
 transform = Transform3D(0.9999998, 0, 0, 0, 0.9999998, 0, 0, 0, 0.9999998, -2.1799998, 0.09199999, 1.1195421)
+
+[node name="Node3D" parent="." unique_id=1184822535 instance=ExtResource("39_s7kvc")]
+transform = Transform3D(-4.3711363e-08, 0, -0.99999976, 0, 0.99999976, 0, 0.99999976, 0, -4.3711363e-08, 1.8203263, 0.08951728, -0.7156662)

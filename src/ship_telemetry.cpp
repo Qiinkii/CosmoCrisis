@@ -143,7 +143,7 @@ void ShipTelemetry::_process(double delta){
         return;
     }
 
-    if(cockpit_pressure <= 50.0){
+    if(cockpit_pressure <= 50.0 || engineering_pressure <= 50.0){
         is_mission_active = false;
         emit_signal("mission_failed", "Декомпресія: атмосферний тиск впав нижче межі Армстронга/гіпоксії (50 кПа).");
         return;

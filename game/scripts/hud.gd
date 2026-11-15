@@ -8,13 +8,14 @@ extends CanvasLayer
 @onready var ShipTelemetryGlobal: ShipTelemetry = get_node_or_null("/root/ShipTelemetryGlobal")
 
 func _ready() -> void:
-
 	var player := get_tree().get_first_node_in_group("player")
 	if player:
+		for conn in player.interaction_prompt_changed.get_connections():
+			player.interaction_prompt_changed.disconnect(conn.callable)
 		player.interaction_prompt_changed.connect(_on_prompt_changed)
 	ShipTelemetryGlobal.telemetry_updated.connect(_on_telemetry_updated)
 
-func _on_prompt_changed(promt_visible: bool, text: String) -> void:
+func _on_prompt_changed(promt_visible: bool, text: String, _extra = null) -> void:
 	prompt_label.visible = promt_visible
 	prompt_label.text = "[E] " + text
 
