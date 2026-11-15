@@ -5,14 +5,14 @@ extends Node3D
 @onready var panel_2: Interactable = $ControlPanel2
 @onready var doorway_sensor: Area3D = $DoorWaySensor
 
-const OPEN_Y := 2.4
-const CLOSED_Y := 0.0
-const MOVE_SPEED := 3.5
+const OPEN_Z := 0.0
+const CLOSED_Z := 0.81
+const MOVE_SPEED := 1
 
 var is_doorway_blocked: bool = false
 
 func _ready() -> void:
-	door_leaf.position.y = CLOSED_Y if ShipTelemetryGlobal.is_bulkhead_closed else OPEN_Y
+	door_leaf.position.z = CLOSED_Z if ShipTelemetryGlobal.is_bulkhead_closed else OPEN_Z
 	panel_1.interacted.connect(_on_panel_interacted)
 	panel_2.interacted.connect(_on_panel_interacted)
 
@@ -37,5 +37,5 @@ func _physics_process(delta: float) -> void:
 		panel_1.prompt_text = text
 		panel_2.prompt_text = text
 
-	var target_y := CLOSED_Y if ShipTelemetryGlobal.is_bulkhead_closed else OPEN_Y
-	door_leaf.position.y = move_toward(door_leaf.position.y, target_y, MOVE_SPEED * delta)
+	var target_z := CLOSED_Z if ShipTelemetryGlobal.is_bulkhead_closed else OPEN_Z
+	door_leaf.position.z = move_toward(door_leaf.position.z, target_z, MOVE_SPEED * delta)

@@ -23,7 +23,7 @@ shape = SubResource("BoxShape3D_enqfd")
 disabled = true
 
 [node name="EclssTerminal" type="EclssTerminal" parent="." unique_id=967760203]
-telemetry_path = NodePath("../../ShipTelemetry")
+telemetry_path = NodePath("/root/ShipTelemetryGlobal")
 repair_ui_path = NodePath("../EclssRepairUI")
 cartridge_slot_path = NodePath("CartridgeSlot")
 prompt_text = "Установить картридж LiOH"
@@ -56,10 +56,17 @@ layer = 5
 script = ExtResource("2_i12f4")
 
 [node name="Panel" type="Panel" parent="EclssRepairUI" unique_id=73144927]
-offset_left = 68.0
-offset_top = 72.0
-offset_right = 829.0
-offset_bottom = 502.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.5
+offset_top = -215.0
+offset_right = 380.5
+offset_bottom = 215.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ValveDiagram" type="Control" parent="EclssRepairUI/Panel" unique_id=206068507]
 anchors_preset = 0

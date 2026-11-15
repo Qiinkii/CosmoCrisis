@@ -24,7 +24,7 @@ func _ready() -> void:
 		base_move_speed = player.move_speed
 		base_mouse_sensitivity = player.mouse_sensitivity
 
-	# Сбрасываем визуал на старте (на случай если крутил ползунки шейдера в редакторе)
+	# Сбрасываем визуал на старте
 	effect_rect.visible = false
 	var mat := effect_rect.material as ShaderMaterial
 	if mat != null:
@@ -33,7 +33,25 @@ func _ready() -> void:
 
 	if telemetry != null and not telemetry.mission_failed.is_connected(_on_mission_failed):
 		telemetry.mission_failed.connect(_on_mission_failed)
+
+func _process(_delta: float) -> void:
+	if telemetry == null:
+		return
+
+	# Эффект начинается при CO2 > 0.5% и достигает максимума (1.0) при 2.0%
+	var severity: float = clampf((telemetry.co2_level - 0.5) / 1.5, 0.0, 1.0)
+
+	effect_rect.visible = severity > 0.01
+	var mat := effect_rect.material as ShaderMaterial
+	if mat != null:
+		mat.set_shader_parameter("blur_strength", severity * 3.0)
+		mat.set_shader_parameter("vignette_strength", severity * 0.85)
+
+	if player != null:
+		player.move_speed = lerpf(base_move_speed, base_move_speed * 0.45, severity)
+		player.mouse_sensitivity = lerpf(base_mouse_sensitivity, base_mouse_sensitivity * 0.5, severity)
+
 func _on_mission_failed(reason: String) -> void:
-		print("ПОРАЗКА: ", reason)
-		await get_tree().create_timer(2.0).timeout
-		get_tree().reload_current_scene()
+	print("ПОРАЗКА: ", reason)
+	await get_tree().create_timer(2.0).timeout
+	get_tree().reload_current_scene()

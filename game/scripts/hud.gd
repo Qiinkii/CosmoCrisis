@@ -1,10 +1,10 @@
 extends CanvasLayer
 
-@onready var prompt_label: Label = $CenterContainer/VBoxContainer/PromptLabel
+@onready var prompt_label: Label = $PromptLabel
 @onready var progress_label: Label = $MarginContainer/VBoxContainer/ProgressLabel
 @onready var co2_label: Label = $MarginContainer/VBoxContainer/CO2Label
 @onready var pressure_label: Label = $MarginContainer/VBoxContainer/PressureLabel
-@onready var ShipTelemetryGlobal: ShipTelemetry = get_node_or_null("/root/Ship/ShipTelemetry")
+@onready var ShipTelemetryGlobal: ShipTelemetry = get_node_or_null("/root/ShipTelemetryGlobal")
 
 func _ready() -> void:
 
