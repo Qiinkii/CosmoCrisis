@@ -16,6 +16,7 @@ albedo_color = Color(0.015, 0.03, 0.025, 1)
 
 [node name="Sensor" type="RigidBody3D" unique_id=557809991]
 script = ExtResource("1_5rtne")
+point_along_up_axis = true
 
 [node name="Leak_Detector2" parent="." unique_id=2069227958 instance=ExtResource("1_edrlx")]
 
