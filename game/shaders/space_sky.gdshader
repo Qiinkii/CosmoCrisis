@@ -11,13 +11,15 @@ float hash21(vec2 p) {
 }
 
 void sky() {
-    vec3 direction = normalize(SKY_COORDS);
+    // FIX 1: SKY_COORDS is a vec2 in Godot 4; the view direction is EYEDIR.
+    vec3 direction = normalize(EYEDIR);
     vec2 uv = vec2(
         atan(direction.z, direction.x) / TAU + 0.5,
         asin(clamp(direction.y, -1.0, 1.0)) / PI + 0.5
     );
 
-    float haze = smoothstep(-0.45, 0.8, sin(uv.x * 8.0 + sin(uv.y * 5.0)) * cos(uv.y * 7.0));
+    // FIX 4: TAU makes the haze wrap seamlessly at uv.x = 0 / 1.
+    float haze = smoothstep(-0.45, 0.8, sin(uv.x * TAU + sin(uv.y * 5.0)) * cos(uv.y * 7.0));
     vec3 background_color = mix(space_color, nebula_color, haze * 0.25);
 
     // Randomized stars: every sky cell has a stable random position, color,
@@ -27,10 +29,16 @@ void sky() {
     vec2 cell = floor(grid);
     vec2 cell_uv = fract(grid);
     float star_chance = hash21(cell);
-    vec2 star_uv = vec2(hash21(cell + 17.17), hash21(cell + 43.71));
+
+    // FIX 2: keep star centers away from cell edges so halos aren't clipped.
+    vec2 star_uv = 0.15 + 0.7 * vec2(hash21(cell + 17.17), hash21(cell + 43.71));
+
     float size_seed = hash21(cell + 79.31);
     float star_radius = mix(0.018, 0.055, size_seed);
-    float star_distance = length((cell_uv - star_uv) * vec2(1.0, 0.5));
+
+    // FIX 3: cells are already square, so no vertical squash (stars were ovals).
+    float star_distance = length(cell_uv - star_uv);
+
     float star_core = 1.0 - smoothstep(star_radius * 0.25, star_radius, star_distance);
     float star_halo = 1.0 - smoothstep(star_radius, star_radius + 0.055, star_distance);
     float star_mask = step(0.60, star_chance) * (star_core + star_halo * 0.18);
