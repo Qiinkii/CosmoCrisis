@@ -129,25 +129,25 @@ void ShipTelemetry::_process(double delta){
         engineering_pressure += flow;
     }
 
-    if(air_temperature >= 60.0){
+        if(air_temperature >= 60.0){
         air_temperature = 60.0;
         is_mission_active = false;
-        emit_signal("mission_failed", "Небезпечний перегрів: температура повітря на кораблі досягла 60°C.");
+        emit_signal("mission_failed", String::utf8("Небезпечний перегрів: температура повітря на кораблі досягла 60°C."));
         return;
     }
 
     if(co2_level >= 2.0){
         is_mission_active = false;
-        emit_signal("mission_failed", "Гостра гіперкапнія: парціальний тиск CO2 перевищив 15 мм рт. ст.");
+        emit_signal("mission_failed", String::utf8("Гостра гіперкапнія: парціальний тиск CO2 перевищив 15 мм рт. ст."));
         return;
     }
 
     if(cockpit_pressure <= 50.0){
         is_mission_active = false;
-        emit_signal("mission_failed", "Декомпресія: атмосферний тиск впав нижче межі Армстронга/гіпоксії (50 кПа).");
+        emit_signal("mission_failed", String::utf8("Декомпресія: атмосферний тиск впав нижче межі Армстронга/гіпоксії (50 кПа)."));
         return;
     }
-
+    
     emit_signal("telemetry_updated");
 
     print_timer += delta;
