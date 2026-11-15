@@ -5,6 +5,10 @@ uniform vec3 nebula_color : source_color = vec3(0.006, 0.010, 0.026);
 uniform float star_brightness : hint_range(1.0, 8.0) = 4.0;
 uniform float star_density : hint_range(0.0, 1.0) = 0.05;
 
+// Shifts the hash inputs so the same shader can produce a different star layout.
+// (0, 0) reproduces the original sky; keep values small (< ~64) for hash precision.
+uniform vec2 seed_offset = vec2(0.0);
+
 // Glimmering / color-cycling stars
 uniform float special_fraction : hint_range(0.0, 0.5) = 0.12;
 uniform float super_fraction : hint_range(0.0, 0.5) = 0.03;   // extra-strong glimmer stars
@@ -49,7 +53,7 @@ void sky() {
     vec3 background_color = mix(space_color, nebula_color, haze * 0.25);
 
     vec2 grid = uv * vec2(300.0, 150.0);
-    vec2 cell = floor(grid);
+    vec2 cell = floor(grid) + seed_offset;
     vec2 cell_uv = fract(grid);
     float star_chance = hash21(cell);
     vec2 star_uv = 0.15 + 0.7 * vec2(hash21(cell + 17.17), hash21(cell + 43.71));
