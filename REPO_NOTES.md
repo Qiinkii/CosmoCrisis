@@ -3,59 +3,51 @@
 ## Repository
 - GitHub: https://github.com/S3T-dev/CosmoCrisis
 - Repo ID: 1457524217
+- No root `README.md` was present when these notes were reviewed.
 
 ## Language composition
 - C++: 98.3%
 - Python: 1.7%
 
-This repository is overwhelmingly C++-based, with a very small Python footprint. The project structure and build files indicate this is a Godot-based native game/simulation extension rather than a standard C++ desktop app.
+The project is a Godot game with a C++ GDExtension and Godot-native project content (scenes, GDScript, shaders, and assets). The supplied language breakdown reports only C++ and Python; it does not represent the full range of Godot project files.
 
 ## Repository layout
-- Top-level files:
-  - `SConstruct` builds a shared library using `godot-cpp` and compiles `src/*.cpp`
-  - `extension_api.json` suggests a Godot extension API metadata file
-  - `game/` contains the Godot project files and gameplay assets
-  - `src/` contains the C++ extension implementation and core gameplay logic
-- `game/project.godot` identifies a Godot 4.7 project with:
-  - config/name="Prototipe"
-  - main scene set to a scene in the game project
-  - autoloaded `ShipTelemetryGlobal`
-  - physics engine set to Jolt Physics
-- `src/` contains likely gameplay systems such as:
-  - `player_controller.*`
-  - `ship_telemetry.*`
-  - `interactable.*`
-  - `hull_breach_point.*`
-  - `eclss_terminal.*`
-  - registration hooks in `register_types.*`
+- `SConstruct` — SCons build entry point. Sets the default Godot API version to `4.7`, loads `godot-cpp/SConstruct`, compiles `src/*.cpp`, and writes the shared library under `game/bin/` with platform suffixes.
+- `extension_api.json` — Godot extension API metadata.
+- `src/` — Native extension sources. The classes include `ShipTelemetry`, `Interactable`, `PlayerController`, `EclssTerminal`, and `HullBreachPoint`; `register_types.cpp` registers them at scene initialization.
+- `game/project.godot` — Godot project settings. Project name is `Prototipe`; project features identify Godot `4.7` and Forward Plus. It configures `ShipTelemetryGlobal` as an autoload, Jolt Physics, 120 physics ticks per second, and a main scene by UID.
+- `game/scenes/` — Godot scenes, including `main.tscn`, `player.tscn`, `ship.tscn`, `hull_breach.tscn`, `ship_telemetry.tscn`, and interaction/UI scenes.
+- `game/scripts/` — GDScript gameplay/UI support, including bulkhead door, engineering zone, HUD, and hypercapnia effects scripts.
+- `game/shaders/`, `game/shatl/`, and `game/ui/` — Shader, ship/model, and UI content.
+- `game/bin/orbital_crisis.gdextension` — GDExtension manifest. It declares the `orbital_crisis_init` entry point and library paths for Linux and Windows x86_64 debug/release builds. Its compatibility minimum is Godot 4.2; the SCons API version default is 4.7.
 
-## Build / runtime model
-- Build uses SCons (`SConstruct`), not CMake.
-- It compiles a shared library artifact into `game/bin/orbital_crisis...`
-- The native library is integrated with a Godot project through `godot-cpp` and API version `4.7`.
-- This strongly suggests a Godot custom module / extension for gameplay logic, likely a 3D space/simulation game.
+## Build and runtime
+- Build with SCons from the repository root; the build script expects `godot-cpp/` to be present. The root `.gitignore` ignores that directory, so ensure it is provisioned locally (for example, as a submodule or checkout) before building.
+- The build compiles all top-level `src/*.cpp` files into a shared library at `game/bin/orbital_crisis...`.
+- Godot loads the native library through `game/bin/orbital_crisis.gdextension`. The manifest names Linux and Windows x86_64 targets; do not assume macOS or other architectures are configured.
+- `game/project.godot` selects the startup scene by UID. Confirm which scene owns that UID before assuming `game/scenes/main.tscn` is the configured entry scene.
+- The project ignores Godot editor cache, SCons intermediates, native build outputs, and `godot-cpp/`. The `game/bin/` directory contains the manifest and checked-in `.a` files; these are not the runtime `.so`/`.dll` paths declared by the manifest.
 
-## Working assumptions
-- Primary development language is C++.
-- Build/test workflow is driven by SCons and Godot project configuration.
-- The game logic is split between Godot scenes/scripts and a native C++ extension layer.
-- Python files may be helper scripts, tooling, or small build/data support tasks.
-- The project is likely a 3D game or simulation prototype, not a traditional engine library.
+## Working assumptions and cautions
+- C++ implements registered native gameplay classes; Godot scenes and GDScript provide the game/project layer.
+- The project settings and assets suggest a 3D spacecraft/simulation prototype, but verify behavior in scenes/scripts before relying on that interpretation.
+- The main scene UID and the visible `main.tscn` UID differ, so resolve the UID rather than presuming they are the same scene.
+- No test suite or automated validation command was identified in the inspected root/build/project files. Treat a successful native build and opening/running the Godot project as separate checks.
 
-## Personal notes
-- Start by checking the Godot project files in `game/` and the main scene entry point.
-- Review `SConstruct` and the generated library path to confirm the native build target.
-- Inspect the C++ registration layer (`register_types.*`) and major gameplay classes in `src/`.
-- Check Godot scenes/scripts for gameplay flow and serialized objects before making changes.
-- Verify whether there are tests or validation scripts beyond the Godot project runtime.
+## Suggested workflow
+1. Check the configured main-scene UID and trace its scene resource.
+2. Review the relevant scene and GDScript alongside the C++ class before changing gameplay behavior.
+3. Ensure the matching `godot-cpp` version/API metadata is available, then build with SCons.
+4. Verify the generated library path and platform-specific filename against `game/bin/orbital_crisis.gdextension`.
+5. Open/run the Godot project and exercise the affected gameplay path; add focused tests or validation if appropriate.
 
 ## Follow-up checklist
-- [x] Inspect root layout
-- [x] Read README / setup docs
-- [x] Locate build system files
-- [x] Find main C++ entry points
-- [ ] Check test coverage or validation scripts
-- [ ] Review any Python helper scripts
+- [x] Inspect root layout and build configuration.
+- [x] Inspect Godot project settings, extension manifest, and native registration.
+- [x] Confirm language composition.
+- [ ] Resolve the configured main-scene UID.
+- [ ] Identify/add automated tests or a repeatable validation workflow.
+- [ ] Confirm the required `godot-cpp` source/version and build prerequisites.
 
 ## Short memory cue
-Godot 4.7 + SCons + godot-cpp native extension; C++ gameplay layer under `src/` with Godot project in `game/`; confirm build target and main scene first.
+Godot 4.7 project + SCons-built `godot-cpp` GDExtension; native gameplay classes are under `src/`, Godot content under `game/`. Check the startup-scene UID and platform library manifest before building or changing entry-scene behavior.
