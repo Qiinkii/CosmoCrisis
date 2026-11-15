@@ -17,6 +17,10 @@ void PlayerController::_bind_methods(){
     ClassDB::bind_method(D_METHOD("take_held_item"), &PlayerController::take_held_item);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "held_item_id"), "set_held_item_id", "get_held_item_id");
 
+    ClassDB::bind_method(D_METHOD("get_jump_velocity"), &PlayerController::get_jump_velocity);
+    ClassDB::bind_method(D_METHOD("set_jump_velocity", "val"), &PlayerController::set_jump_velocity);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "jump_velocity"), "set_jump_velocity", "get_jump_velocity");
+
     ClassDB::bind_method(D_METHOD("get_can_move"), &PlayerController::get_can_move);
     ClassDB::bind_method(D_METHOD("set_can_move", "move"), &PlayerController::set_can_move);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "can_move"), "set_can_move", "get_can_move");
@@ -114,6 +118,9 @@ void PlayerController::_physics_process(double delta){
     else{
         velocity.x = Math::move_toward(velocity.x, (real_t)0.0, (real_t)(friction * delta));
         velocity.z = Math::move_toward(velocity.z, (real_t)0.0, (real_t)(friction * delta));
+    }
+    if(is_on_floor() && Input::get_singleton()->is_action_just_pressed("jump")){
+        velocity.y = jump_velocity;
     }
     set_velocity(velocity);
     move_and_slide();
@@ -290,4 +297,11 @@ double PlayerController::get_garvity() const{
 
 void PlayerController::set_garvity(double val){
     garvity = val;
+}
+
+double PlayerController::get_jump_velocity() const{
+    return jump_velocity;
+}
+void PlayerController::set_jump_velocity(double val){
+    jump_velocity = val;
 }
