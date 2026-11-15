@@ -79,4 +79,6 @@ public:
     void repair_cooling_system();
     void trigger_hull_breach();
     void repair_hull_breach();
+
+    void reset_mission();
 };

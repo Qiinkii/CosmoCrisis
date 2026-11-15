@@ -61,6 +61,8 @@ void ShipTelemetry::_bind_methods(){
     ClassDB::bind_method(D_METHOD("repair_cooling_system"), &ShipTelemetry::repair_cooling_system);
     ClassDB::bind_method(D_METHOD("trigger_hull_breach"), &ShipTelemetry::trigger_hull_breach);
     ClassDB::bind_method(D_METHOD("repair_hull_breach"), &ShipTelemetry::repair_hull_breach);
+    ClassDB::bind_method(D_METHOD("repair_hull_breach"), &ShipTelemetry::repair_hull_breach);
+    ClassDB::bind_method(D_METHOD("reset_mission"), &ShipTelemetry::reset_mission);
 
     ADD_SIGNAL(MethodInfo("telemetry_updated"));
     ADD_SIGNAL(MethodInfo("mission_failed", PropertyInfo(Variant::STRING, "reason")));
@@ -130,25 +132,25 @@ void ShipTelemetry::_process(double delta){
         engineering_pressure += flow;
     }
 
-    if(air_temperature >= 60.0){
+        if(air_temperature >= 60.0){
         air_temperature = 60.0;
         is_mission_active = false;
-        emit_signal("mission_failed", "Небезпечний перегрів: температура повітря на кораблі досягла 60°C.");
+        emit_signal("mission_failed", String::utf8("Небезпечний перегрів: температура повітря на кораблі досягла 60°C."));
         return;
     }
 
     if(co2_level >= 2.0){
         is_mission_active = false;
-        emit_signal("mission_failed", "Гостра гіперкапнія: парціальний тиск CO2 перевищив 15 мм рт. ст.");
+        emit_signal("mission_failed", String::utf8("Гостра гіперкапнія: парціальний тиск CO2 перевищив 15 мм рт. ст."));
         return;
     }
 
     if(cockpit_pressure <= 50.0 || engineering_pressure <= 50.0){
         is_mission_active = false;
-        emit_signal("mission_failed", "Декомпресія: атмосферний тиск впав нижче межі Армстронга/гіпоксії (50 кПа).");
+        emit_signal("mission_failed", String::utf8("Декомпресія: атмосферний тиск впав нижче межі Армстронга/гіпоксії (50 кПа)."));
         return;
     }
-
+    
     emit_signal("telemetry_updated");
 
     print_timer += delta;
@@ -283,4 +285,27 @@ bool ShipTelemetry::get_is_player_in_engineering() const{
 
 void ShipTelemetry::set_is_player_in_engineering(bool val){
     is_player_in_engineering = val;
+}
+
+void ShipTelemetry::reset_mission(){
+    print_timer = 0.0;
+
+    co2_level = 0.04;
+    air_temperature = 22.0;
+    flight_progress = 0.0;
+    cockpit_pressure = 101.3;
+    engineering_pressure = 101.3;
+    active_breach_id = 0;
+
+    is_eclss_working = true;
+    is_cooling_system_working = true;
+    is_hull_breached = false;
+    is_bulkhead_closed = false;
+    is_player_in_engineering = false;
+
+    breach_crisis_triggered = false;
+    co2_crisis_triggered = false;
+    cooling_crisis_triggered = false;
+
+    is_mission_active = true;
 }

@@ -24,5 +24,7 @@ void fragment() {
 
     // Fade vision toward black as temperature rises above 55°C.
     color.rgb = mix(color.rgb, vec3(0.0), clamp(blackout_strength, 0.0, 1.0));
-    COLOR = color;
+
+    // FIX: force full opacity so sky and bright pixels can't show through.
+    COLOR = vec4(color.rgb, 1.0);
 }

@@ -3,16 +3,48 @@
 [ext_resource type="PackedScene" uid="uid://4bpmk276jowh" path="res://scenes/player.tscn" id="1_q631a"]
 [ext_resource type="PackedScene" uid="uid://de8xoqngnhmss" path="res://ui/hud.tscn" id="2_tfsc7"]
 [ext_resource type="PackedScene" uid="uid://dwrtrmx44vagq" path="res://scenes/hypercapnia_effects.tscn" id="7_3m36u"]
-[ext_resource type="PackedScene" uid="uid://bpr7yvpmlus3w" path="res://scenes/lastship.tscn" id="8_8qiel"]
+[ext_resource type="PackedScene" uid="uid://j0kt1d2vu0kq" path="res://scenes/BulkheadDoor.tscn" id="7_8qiel"]
+[ext_resource type="PackedScene" uid="uid://bpr7yvpmlus3w" path="res://shatl/lastship.tscn" id="8_8qiel"]
+[ext_resource type="Shader" path="res://shaders/space_sky.gdshader" id="9_space_sky"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_space_sky"]
+shader = ExtResource("9_space_sky")
+
+[sub_resource type="Sky" id="Sky_space"]
+sky_material = SubResource("ShaderMaterial_space_sky")
 
 [sub_resource type="Environment" id="Environment_yf5fn"]
-background_mode = 1
-background_color = Color(0.41215247, 0.41215247, 0.41215247, 1)
+background_mode = 2
+sky = SubResource("Sky_space")
+ambient_light_source = 2
+ambient_light_color = Color(0.62, 0.68, 0.78, 1)
+ambient_light_energy = 0.45
 
 [node name="Ship" type="Node3D" unique_id=901573337]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146275382]
 environment = SubResource("Environment_yf5fn")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1297775780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+light_energy = 2.0
+omni_range = 10.0
+omni_attenuation = 1.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=583435589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -9)
+light_energy = 2.0
+omni_range = 10.0
+omni_attenuation = 1.0
+
+[node name="Area3D" type="Area3D" parent="." unique_id=2054795951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -9)
+collision_layer = 0
+monitorable = false
+script = ExtResource("2_2gnfn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1535599599]
+shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="HypercapniaEffects" parent="." unique_id=132580576 instance=ExtResource("7_3m36u")]
 telemetry_path = NodePath("")

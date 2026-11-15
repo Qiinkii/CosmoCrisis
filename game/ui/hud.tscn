@@ -1,6 +1,19 @@
 [gd_scene format=3 uid="uid://de8xoqngnhmss"]
 
 [ext_resource type="Script" uid="uid://bmajwmf0khgiw" path="res://scripts/hud.gd" id="1_rbyyf"]
+[ext_resource type="Script" path="res://scripts/interaction_progress_ring.gd" id="2_ring"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
+bg_color = Color(0.035, 0.055, 0.075, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32, 0.72, 0.82, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="Hud" type="CanvasLayer" unique_id=1293581850]
 script = ExtResource("1_rbyyf")
@@ -20,19 +33,62 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 
-[node name="PromptLabel" type="Label" parent="." unique_id=416783207]
+[node name="InteractionPrompt" type="PanelContainer" parent="." unique_id=1792104862]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = 21.0
-offset_right = 200.0
-offset_bottom = 44.0
+offset_left = 14.0
+offset_top = -18.0
+offset_right = 142.0
+offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_prompt")
+
+[node name="Content" type="MarginContainer" parent="InteractionPrompt" unique_id=1792104863]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 4
+
+[node name="PromptRow" type="HBoxContainer" parent="InteractionPrompt/Content" unique_id=1792104864]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HoldKeyRing" type="Control" parent="InteractionPrompt/Content/PromptRow" unique_id=1792104867]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+script = ExtResource("2_ring")
+
+[node name="ELabel" type="Label" parent="InteractionPrompt/Content/PromptRow/HoldKeyRing" unique_id=1792104868]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -9.0
+offset_right = 7.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.95, 0.99, 1, 1)
+theme_override_font_sizes/font_size = 11
 horizontal_alignment = 1
+vertical_alignment = 1
+text = "E"
+
+[node name="PromptLabel" type="Label" parent="InteractionPrompt/Content/PromptRow" unique_id=1792104865]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.97, 0.98, 1)
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=899539961]
 anchors_preset = 1

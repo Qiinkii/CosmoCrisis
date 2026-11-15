@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Prototipe"
-run/main_scene="uid://5obrr453us73"
+run/main_scene="res://ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 ShipTelemetryGlobal="*uid://cxs7bhejye52s"
+DeathScreen="*res://ui/death_screen.tscn"
 
 [display]
 
