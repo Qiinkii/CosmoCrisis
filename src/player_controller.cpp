@@ -12,9 +12,10 @@ using namespace godot;
 
 void PlayerController::_bind_methods(){
     ClassDB::bind_method(D_METHOD("get_held_item_id"), &PlayerController::get_held_item_id);
+    ClassDB::bind_method(D_METHOD("set_held_item_id", "id"), &PlayerController::set_held_item_id);
     ClassDB::bind_method(D_METHOD("clear_held_item"), &PlayerController::clear_held_item);
     ClassDB::bind_method(D_METHOD("take_held_item"), &PlayerController::take_held_item);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "held_item_id"), "", "get_held_item_id");
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "held_item_id"), "set_held_item_id", "get_held_item_id");
 
     ClassDB::bind_method(D_METHOD("get_can_move"), &PlayerController::get_can_move);
     ClassDB::bind_method(D_METHOD("set_can_move", "move"), &PlayerController::set_can_move);
@@ -218,6 +219,10 @@ void PlayerController::_physics_process(double delta){
 
 godot::String PlayerController::get_held_item_id() const{
     return held_item_id;
+}
+
+void PlayerController::set_held_item_id(const String &id) {
+    held_item_id = id;
 }
 
 void PlayerController::clear_held_item(){

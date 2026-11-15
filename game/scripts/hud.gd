@@ -13,6 +13,8 @@ func _ready() -> void:
 	prompt_overlay.visible = false
 	var player := get_tree().get_first_node_in_group("player")
 	if player:
+		for conn in player.interaction_prompt_changed.get_connections():
+			player.interaction_prompt_changed.disconnect(conn.callable)
 		player.interaction_prompt_changed.connect(_on_prompt_changed)
 	if ShipTelemetryGlobal != null:
 		ShipTelemetryGlobal.telemetry_updated.connect(_on_telemetry_updated)

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://c3nelhnix7t56"]
+
+[ext_resource type="PackedScene" uid="uid://044o32b0y0b4" path="res://bag_patch/Epoxy_Patch.glb" id="1_uk11o"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
+size = Vector3(0.2, 0.1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_57qmd"]
+size = Vector3(0.3, 0.1, 0.3)
+
+[node name="BandAid" type="RigidBody3D" unique_id=1664600962]
+
+[node name="Epoxy_Patch2" parent="." unique_id=2140711164 instance=ExtResource("1_uk11o")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1139632329]
+transform = Transform3D(1, 0, 0, 0, 1.5, 0, 0, 0, 0.099999964, 0, 0, 0)
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="Interactable" type="Interactable" parent="." unique_id=216702131]
+prompt_text = "Epoxy Patch"
+item_id = "epoxy_patch"
+is_pickup = true
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable" unique_id=1904234634]
+transform = Transform3D(0.7, 0, 0, 0, 1.5840001, 0, 0, 0, 0.099999964, 0, 0, 0)
+shape = SubResource("BoxShape3D_57qmd")

@@ -1,5 +1,4 @@
 #include <godot_cpp/classes/engine.hpp>
-#include <godot_cpp/classes/node3d.hpp>
 #include "hull_breach_point.hpp"
 #include "player_controller.hpp"
 #include "ship_telemetry.hpp"
@@ -21,43 +20,50 @@ void  HullBreachPoint::_bind_methods(){
     ClassDB::bind_method(D_METHOD("on_breach_spawned", "id"), &HullBreachPoint::on_breach_spawned);
 }
 
-void  HullBreachPoint::_ready(){
-    if(Engine::get_singleton()->is_editor_hint()){
+void HullBreachPoint::_ready() {
+    if (Engine::get_singleton()->is_editor_hint()) {
         return;
     }
-    set_visible(false);
+
+    breach_mesh = Object::cast_to<Node3D>(get_node_or_null("BreachMesh"));
+    patched_mesh = Object::cast_to<Node3D>(get_node_or_null("PatchedMesh"));
+
+    if (breach_mesh != nullptr) breach_mesh->set_visible(false);
+    if (patched_mesh != nullptr) patched_mesh->set_visible(false);
     set_collision_layer(0);
 
-    Node *telemetry = get_node_or_null(telemetry_path);
-    if(telemetry != nullptr){
+    Node *telemetry = get_node_or_null("/root/ShipTelemetryGlobal");
+    if (telemetry != nullptr) {
         telemetry->connect("hull_breach_spawned", Callable(this, "on_breach_spawned"));
     }
 }
 
-void HullBreachPoint::on_breach_spawned(int id){
-    if(id != location_id){
+void HullBreachPoint::on_breach_spawned(int id) {
+    if (id != location_id) {
         return;
     }
-    set_visible(true);
+
+    if (breach_mesh != nullptr) breach_mesh->set_visible(true);
+    if (patched_mesh != nullptr) patched_mesh->set_visible(false);
     set_collision_layer(2);
 }
 
-void HullBreachPoint::interact(Node *player){
+void HullBreachPoint::interact(Node *player) {
     Interactable::interact(player);
     PlayerController *pc = Object::cast_to<PlayerController>(player);
-    if(pc == nullptr){
-        return;
-    }
-    if (pc->get_held_item_id() != required_item_id){
+    if (pc == nullptr || pc->get_held_item_id() != required_item_id) {
         return;
     }
 
     pc->clear_held_item();
-    ShipTelemetry *telemetry = Object::cast_to<ShipTelemetry>(get_node_or_null(telemetry_path));
-    if(telemetry != nullptr){
+
+    ShipTelemetry *telemetry = Object::cast_to<ShipTelemetry>(get_node_or_null("/root/ShipTelemetryGlobal"));
+    if (telemetry != nullptr) {
         telemetry->repair_hull_breach();
     }
-    set_visible(false);
+
+    if (breach_mesh != nullptr) breach_mesh->set_visible(false);
+    if (patched_mesh != nullptr) patched_mesh->set_visible(true);
     set_collision_layer(0);
 }
 

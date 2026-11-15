@@ -2,6 +2,7 @@
 #include "interactable.hpp"
 #include <godot_cpp/variant/node_path.hpp>
 #include <godot_cpp/variant/string.hpp>
+#include <godot_cpp/classes/node3d.hpp>
 
 class HullBreachPoint: public Interactable{
     GDCLASS(HullBreachPoint, Interactable);
@@ -9,6 +10,8 @@ private:
     int location_id = 1;
     godot::String required_item_id = "epoxy_patch";
     godot::NodePath telemetry_path;
+    godot::Node3D *breach_mesh = nullptr;
+    godot::Node3D *patched_mesh = nullptr;
 protected:
     static void _bind_methods();
 public:

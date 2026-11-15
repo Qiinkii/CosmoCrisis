@@ -121,6 +121,9 @@ void ShipTelemetry::_process(double delta){
     if(is_hull_breached){
         engineering_pressure = MAX(0.0, engineering_pressure - 2.2 * delta);
     }
+    else{
+        engineering_pressure = Math::move_toward(engineering_pressure, 101.3, 5.0 * delta);
+    }
 
     if(!is_bulkhead_closed){
         double diff = cockpit_pressure - engineering_pressure;
@@ -142,7 +145,7 @@ void ShipTelemetry::_process(double delta){
         return;
     }
 
-    if(cockpit_pressure <= 50.0){
+    if(cockpit_pressure <= 50.0 || engineering_pressure <= 50.0){
         is_mission_active = false;
         emit_signal("mission_failed", String::utf8("Декомпресія: атмосферний тиск впав нижче межі Армстронга/гіпоксії (50 кПа)."));
         return;

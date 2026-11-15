@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cefxgu6liscws"]
 
 [ext_resource type="PackedScene" uid="uid://cgmvebg2bgkmk" path="res://scenes/pickup_item.tscn" id="1_enqfd"]
-[ext_resource type="Script" uid="uid://c8rfr3how0b6v" path="res://scenes/eclss_repair_ui.gd" id="2_i12f4"]
+[ext_resource type="Script" uid="uid://c8rfr3how0b6v" path="res://scripts/eclss_repair_ui.gd" id="2_i12f4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nlrkg"]
 size = Vector3(1.0844727, 1, 1.0666504)
