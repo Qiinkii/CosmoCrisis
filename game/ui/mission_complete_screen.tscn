@@ -1,0 +1,128 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/mission_complete_screen.gd" id="1_complete"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.02, 0.05, 0.05, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.85, 0.65, 0.9)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="MissionCompleteScreen" type="CanvasLayer"]
+process_mode = 3
+layer = 100
+visible = false
+script = ExtResource("1_complete")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0.04, 0.06, 0.82)
+
+[node name="Center" type="CenterContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Root/Center"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="Root/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 36
+
+[node name="Content" type="VBoxContainer" parent="Root/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.95, 0.7, 1)
+theme_override_font_sizes/font_size = 54
+text = "МІСІЮ ВИКОНАНО"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.7, 0.68, 1)
+theme_override_font_sizes/font_size = 18
+text = "ЕКІПАЖ ДОСТАВЛЕНО ДО ПУНКТУ ПРИЗНАЧЕННЯ"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+
+[node name="ReportBox" type="VBoxContainer" parent="Root/Center/Panel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MessageLabel" type="Label" parent="Root/Center/Panel/Margin/Content/ReportBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 0.93, 1)
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="StatsLabel" type="Label" parent="Root/Center/Panel/Margin/Content/ReportBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+
+[node name="ButtonsRow" type="HBoxContainer" parent="Root/Center/Panel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="Root/Center/Panel/Margin/Content/ButtonsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "ЛЕТІТИ ЗНОВУ"
+
+[node name="MainMenuButton" type="Button" parent="Root/Center/Panel/Margin/Content/ButtonsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "ГОЛОВНЕ МЕНЮ"
+
+[node name="QuitButton" type="Button" parent="Root/Center/Panel/Margin/Content/ButtonsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "ВИЙТИ"
