@@ -9,6 +9,18 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.32, 0.72, 0.82, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_key"]
+bg_color = Color(0.12, 0.22, 0.26, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.42, 0.82, 0.9, 0.9)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
@@ -16,17 +28,17 @@ corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_background"]
 bg_color = Color(0.10, 0.16, 0.19, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_fill"]
 bg_color = Color(0.28, 0.82, 0.91, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="Hud" type="CanvasLayer" unique_id=1293581850]
 script = ExtResource("1_rbyyf")
@@ -53,35 +65,50 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -130.0
-offset_top = 28.0
-offset_right = 130.0
-offset_bottom = 92.0
+offset_left = 14.0
+offset_top = -18.0
+offset_right = 206.0
+offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_prompt")
 
 [node name="Content" type="MarginContainer" parent="InteractionPrompt" unique_id=1792104863]
 layout_mode = 2
-theme_override_constants/margin_left = 14
-theme_override_constants/margin_top = 9
-theme_override_constants/margin_right = 14
-theme_override_constants/margin_bottom = 9
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 5
 
-[node name="PromptVBox" type="VBoxContainer" parent="InteractionPrompt/Content" unique_id=1792104864]
+[node name="PromptRow" type="HBoxContainer" parent="InteractionPrompt/Content" unique_id=1792104864]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="PromptLabel" type="Label" parent="InteractionPrompt/Content/PromptVBox" unique_id=1792104865]
+[node name="PromptLabel" type="Label" parent="InteractionPrompt/Content/PromptRow" unique_id=1792104865]
+custom_minimum_size = Vector2(76, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.92, 0.97, 0.98, 1)
-theme_override_font_sizes/font_size = 16
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 1
 
-[node name="InteractionBar" type="ProgressBar" parent="InteractionPrompt/Content/PromptVBox" unique_id=1792104866]
-custom_minimum_size = Vector2(210, 8)
+[node name="HoldKey" type="PanelContainer" parent="InteractionPrompt/Content/PromptRow" unique_id=1792104867]
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_key")
+
+[node name="ELabel" type="Label" parent="InteractionPrompt/Content/PromptRow/HoldKey" unique_id=1792104868]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.99, 1, 1)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "E"
+
+[node name="InteractionBar" type="ProgressBar" parent="InteractionPrompt/Content/PromptRow" unique_id=1792104866]
+custom_minimum_size = Vector2(58, 6)
+layout_mode = 2
+size_flags_vertical = 4
 max_value = 1.0
 show_percentage = false
 theme_override_styles/background = SubResource("StyleBoxFlat_bar_background")

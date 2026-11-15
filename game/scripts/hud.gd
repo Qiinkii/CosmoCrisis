@@ -1,8 +1,8 @@
 extends CanvasLayer
 
 @onready var prompt_overlay: PanelContainer = $InteractionPrompt
-@onready var prompt_label: Label = $InteractionPrompt/Content/PromptVBox/PromptLabel
-@onready var interaction_bar: ProgressBar = $InteractionPrompt/Content/PromptVBox/InteractionBar
+@onready var prompt_label: Label = $InteractionPrompt/Content/PromptRow/PromptLabel
+@onready var interaction_bar: ProgressBar = $InteractionPrompt/Content/PromptRow/InteractionBar
 @onready var progress_label: Label = $MarginContainer/VBoxContainer/ProgressLabel
 @onready var co2_label: Label = $MarginContainer/VBoxContainer/CO2Label
 @onready var temperature_label: Label = $MarginContainer/VBoxContainer/TemperatureLabel
@@ -20,7 +20,7 @@ func _ready() -> void:
 func _on_prompt_changed(prompt_visible: bool, text: String, hold_progress: float) -> void:
 	prompt_overlay.visible = prompt_visible
 	prompt_label.visible = prompt_visible
-	prompt_label.text = "[E] " + text
+	prompt_label.text = text
 	interaction_bar.value = hold_progress
 	interaction_bar.visible = prompt_visible
 
