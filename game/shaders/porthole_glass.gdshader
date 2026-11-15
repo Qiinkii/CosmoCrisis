@@ -1,17 +1,19 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_disabled, specular_schlick_ggx;
+// Premultiplied alpha: ALPHA controls how much of the view behind the glass
+// is hidden, but the reflection is NOT dimmed by it.
+render_mode blend_premul_alpha, depth_draw_opaque, cull_disabled, specular_schlick_ggx;
 
-uniform vec4 glass_tint : source_color = vec4(0.55, 0.70, 0.85, 0.05);
-uniform float reflection_strength : hint_range(0.0, 1.0) = 0.30;
+uniform vec4 glass_tint : source_color = vec4(0.55, 0.70, 0.85, 0.06);
+uniform float glass_roughness : hint_range(0.0, 0.3) = 0.02;
+uniform float reflection_strength : hint_range(0.0, 1.0) = 0.6;
 uniform float fresnel_power : hint_range(0.5, 8.0) = 3.0;
-uniform float glass_roughness : hint_range(0.0, 0.5) = 0.04;
 
-uniform float glare_strength : hint_range(0.0, 1.0) = 0.12;
+uniform float glare_strength : hint_range(0.0, 1.0) = 0.08;
 uniform float glare_width : hint_range(0.02, 0.5) = 0.12;
 uniform float glare_angle : hint_range(-1.0, 1.0) = 0.6;
 uniform vec3 glare_color : source_color = vec3(0.75, 0.85, 1.0);
 
-uniform float smudge_strength : hint_range(0.0, 0.3) = 0.04;
+uniform float smudge_strength : hint_range(0.0, 0.3) = 0.03;
 
 float hash21(vec2 p) {
     p = fract(p * vec2(123.34, 456.21));
@@ -31,9 +33,9 @@ float value_noise(vec2 p) {
 }
 
 void fragment() {
-    // Double-sided glass: flip the normal on back faces
     vec3 n = normalize(NORMAL);
     if (!FRONT_FACING) { n = -n; }
+    NORMAL = n;
     vec3 v = normalize(VIEW);
 
     float fres = pow(1.0 - clamp(dot(n, v), 0.0, 1.0), fresnel_power);
@@ -44,10 +46,13 @@ void fragment() {
 
     float smudge = value_noise(UV * 8.0) * value_noise(UV * 21.0 + 3.7) * smudge_strength;
 
-    ALBEDO = glass_tint.rgb;
-    ALPHA = clamp(glass_tint.a + fres * reflection_strength + glare * 0.5 + smudge, 0.0, 1.0);
-    ROUGHNESS = glass_roughness + smudge * 2.0;
+    // Glass body: slightly more opaque at grazing angles
+    float body_alpha = clamp(glass_tint.a + fres * 0.25 + smudge, 0.0, 1.0);
+
+    ALPHA = body_alpha;
+    ALBEDO = glass_tint.rgb * body_alpha;   // premultiplied
     METALLIC = 0.0;
-    SPECULAR = 0.9;
-    EMISSION = glare_color * (glare + fres * 0.03);
+    ROUGHNESS = clamp(glass_roughness + smudge * 2.0, 0.0, 1.0);
+    SPECULAR = reflection_strength;         // how strong the probe reflection is
+    EMISSION = glare_color * glare;
 }
