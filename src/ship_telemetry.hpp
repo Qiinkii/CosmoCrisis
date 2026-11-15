@@ -9,6 +9,7 @@ private:
     double print_timer = 0.0;
 
     double co2_level = 0.04;
+    double air_temperature = 22.0;
     double flight_progress = 0.0;
     double flight_speed = 0.5;
     double cockpit_pressure = 101.3;
@@ -35,6 +36,9 @@ public:
     // Гетери стетери для інкапсульованих змінних
     double get_co2_level() const;
     void set_co2_level(double p_level);
+
+    double get_air_temperature() const;
+    void set_air_temperature(double p_temperature);
 
     double get_flight_progress() const;
     void set_flight_progress(double p_val);

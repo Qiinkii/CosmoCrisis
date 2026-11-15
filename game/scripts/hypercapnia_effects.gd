@@ -24,12 +24,13 @@ func _ready() -> void:
 		base_move_speed = player.move_speed
 		base_mouse_sensitivity = player.mouse_sensitivity
 
-	# Сбрасываем визуал на старте
+	# Reset screen effects at startup.
 	effect_rect.visible = false
 	var mat := effect_rect.material as ShaderMaterial
 	if mat != null:
 		mat.set_shader_parameter("blur_strength", 0.0)
 		mat.set_shader_parameter("vignette_strength", 0.0)
+		mat.set_shader_parameter("heat_haze_strength", 0.0)
 
 	if telemetry != null and not telemetry.mission_failed.is_connected(_on_mission_failed):
 		telemetry.mission_failed.connect(_on_mission_failed)
@@ -38,14 +39,17 @@ func _process(_delta: float) -> void:
 	if telemetry == null:
 		return
 
-	# Эффект начинается при CO2 > 0.5% и достигает максимума (1.0) при 2.0%
+	# CO2 effects start at 0.5% and reach maximum at 2.0%.
 	var severity: float = clampf((telemetry.co2_level - 0.5) / 1.5, 0.0, 1.0)
+	# Heat haze starts above 40°C and intensifies up to the 50°C failure threshold.
+	var heat_severity: float = clampf((telemetry.air_temperature - 40.0) / 10.0, 0.0, 1.0)
 
-	effect_rect.visible = severity > 0.01
+	effect_rect.visible = severity > 0.01 or heat_severity > 0.01
 	var mat := effect_rect.material as ShaderMaterial
 	if mat != null:
 		mat.set_shader_parameter("blur_strength", severity * 3.0)
 		mat.set_shader_parameter("vignette_strength", severity * 0.85)
+		mat.set_shader_parameter("heat_haze_strength", heat_severity)
 
 	if player != null:
 		player.move_speed = lerpf(base_move_speed, base_move_speed * 0.45, severity)

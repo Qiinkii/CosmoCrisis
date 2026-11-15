@@ -11,6 +11,10 @@ void ShipTelemetry::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_co2_level", "p_level"), &ShipTelemetry::set_co2_level);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "co2_level"), "set_co2_level", "get_co2_level");
 
+    ClassDB::bind_method(D_METHOD("get_air_temperature"), &ShipTelemetry::get_air_temperature);
+    ClassDB::bind_method(D_METHOD("set_air_temperature", "p_temperature"), &ShipTelemetry::set_air_temperature);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "air_temperature"), "set_air_temperature", "get_air_temperature");
+
     ClassDB::bind_method(D_METHOD("get_flight_progress"), &ShipTelemetry::get_flight_progress);
     ClassDB::bind_method(D_METHOD("set_flight_progress", "p-val"), &ShipTelemetry::set_flight_progress);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "flight_progress"), "set_flight_progress", "get_flight_progress");
@@ -85,9 +89,11 @@ void ShipTelemetry::_process(double delta){
     }
     if(is_eclss_working){
         co2_level = Math::move_toward(co2_level, 0.04, 0.08 * delta);
+        air_temperature = Math::move_toward(air_temperature, 22.0, 0.2 * delta);
     }
     else{
         co2_level += 0.05 * delta;
+        air_temperature += 0.3 * delta;
     }
 
     if(is_hull_breached){
@@ -99,6 +105,13 @@ void ShipTelemetry::_process(double delta){
         double flow = diff * 0.8 * delta;
         cockpit_pressure -= flow;
         engineering_pressure += flow;
+    }
+
+    if(air_temperature >= 50.0){
+        air_temperature = 50.0;
+        is_mission_active = false;
+        emit_signal("mission_failed", "Небезпечний перегрів: температура повітря на кораблі досягла 50°C.");
+        return;
     }
 
     if(co2_level >= 2.0){
@@ -118,7 +131,7 @@ void ShipTelemetry::_process(double delta){
     print_timer += delta;
     if(print_timer >= 1.0){
         print_timer = 0.0;
-        UtilityFunctions::print("Progress: ", flight_progress, " | CO2: ", co2_level, " | Speed: ", flight_speed);
+        UtilityFunctions::print("Progress: ", flight_progress, " | CO2: ", co2_level, " | Temperature: ", air_temperature, " C | Speed: ", flight_speed);
         UtilityFunctions::print("CockPit: ", cockpit_pressure, " | Engineering: ", engineering_pressure);
     }
 }
@@ -129,6 +142,14 @@ double ShipTelemetry::get_co2_level() const{
 
 void ShipTelemetry::set_co2_level(double p_level){
     co2_level = p_level;
+}
+
+double ShipTelemetry::get_air_temperature() const{
+    return air_temperature;
+}
+
+void ShipTelemetry::set_air_temperature(double p_temperature){
+    air_temperature = p_temperature;
 }
 
 double ShipTelemetry::get_flight_progress() const{
