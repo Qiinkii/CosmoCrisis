@@ -67,6 +67,5 @@ func _set_shader_parameter(effect: ColorRect, parameter: StringName, value: floa
 		mat.set_shader_parameter(parameter, value)
 
 func _on_mission_failed(reason: String) -> void:
+	# Game-over flow (death screen + restart) is handled by the DeathScreen autoload.
 	print("ПОРАЗКА: ", reason)
-	await get_tree().create_timer(2.0).timeout
-	get_tree().reload_current_scene()
