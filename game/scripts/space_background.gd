@@ -4,6 +4,8 @@ extends SubViewportContainer
 ##
 ## The sky is infinitely far away, so as the camera circles the hole and keeps
 ## looking at it, the stars drift past exactly like a real change of heading.
+## The black hole itself turns with the camera (see `view_follow`) so the
+## accretion disk and lensing arcs keep facing the viewer.
 ## The star layout is randomised on every launch via the shader's
 ## `seed_offset` uniform.
 
@@ -15,6 +17,10 @@ extends SubViewportContainer
 ## +/- this many degrees around `front_azimuth_deg` instead of a full lap.
 @export_range(0.0, 180.0, 1.0) var sweep_half_angle_deg: float = 0.0
 @export var front_azimuth_deg: float = 0.0
+## How much the black hole turns with the camera's view angle.
+## 1 = its front always faces the camera, 0 = it stays fixed and the camera
+## really circles around it (the far side of the lensing arcs becomes visible).
+@export_range(0.0, 1.0, 0.05) var view_follow: float = 1.0
 ## Average camera height above the disk plane, plus a slow up/down sway.
 @export var elevation_deg: float = 14.0
 @export var elevation_sway_deg: float = 8.0
@@ -26,6 +32,7 @@ extends SubViewportContainer
 
 @onready var camera: Camera3D = %Camera
 @onready var black_hole: Node3D = %BlackHole
+@onready var black_hole_pivot: Node3D = %BlackHolePivot
 @onready var world_environment: WorldEnvironment = %WorldEnvironment
 
 var _azimuth_deg: float = 0.0
@@ -33,9 +40,9 @@ var _time: float = 0.0
 
 func _ready() -> void:
 	var sky: Sky = world_environment.environment.sky
-	var material := sky.sky_material as ShaderMaterial
-	if material != null:
-		material.set_shader_parameter(
+	var sky_material := sky.sky_material as ShaderMaterial
+	if sky_material != null:
+		sky_material.set_shader_parameter(
 			"seed_offset",
 			Vector2(randf_range(0.0, 64.0), randf_range(0.0, 64.0))
 		)
@@ -60,6 +67,11 @@ func _apply_camera() -> void:
 		elevation_deg + sin(_time * TAU / elevation_period) * elevation_sway_deg
 	)
 	var azimuth := deg_to_rad(_azimuth_deg)
+
+	# Turn the black hole with the camera. The pivot rotates around world Y only,
+	# so the model keeps the disk tilt it was authored with.
+	black_hole_pivot.rotation.y = azimuth * view_follow
+
 	var center := black_hole.global_position
 	var direction := Vector3(
 		sin(azimuth) * cos(elevation),
@@ -70,10 +82,3 @@ func _apply_camera() -> void:
 
 	# Slide the camera sideways/up in its own frame so the hole appears off-centre
 	# (parallel shift, so the orbit itself is unchanged). Sized from the visible
-	# width/height at the hole's distance so it holds at any window shape.
-	var view_size := get_size()
-	var aspect := view_size.x / maxf(view_size.y, 1.0)
-	var half_height := orbit_distance * tan(deg_to_rad(camera.fov) * 0.5)
-	var half_width := half_height * aspect
-	camera.h_offset = -2.0 * hole_screen_x * half_width
-	camera.v_offset = -2.0 * hole_screen_y * half_height
