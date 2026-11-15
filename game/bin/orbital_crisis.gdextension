@@ -1,6 +1,6 @@
 [configuration]
 entry_symbol = "orbital_crisis_init"
-compatibility_minimum = "4.2"
+compatibility_minimum = "4.7"
 
 [libraries]
 linux.debug.x86_64 = "res://bin/liborbital_crisis.linux.template_debug.x86_64.so"
