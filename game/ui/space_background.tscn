@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/space_background.gd" id="1_bg"]
 [ext_resource type="Shader" path="res://shaders/space_sky.gdshader" id="2_sky"]
+[ext_resource type="PackedScene" path="res://models/black_hole.glb" id="3_hole"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
 resource_local_to_scene = true
@@ -15,6 +16,9 @@ sky_material = SubResource("ShaderMaterial_sky")
 resource_local_to_scene = true
 background_mode = 2
 sky = SubResource("Sky_menu")
+glow_enabled = true
+glow_intensity = 0.7
+glow_hdr_threshold = 1.2
 
 [node name="SpaceBackground" type="SubViewportContainer"]
 layout_mode = 3
@@ -36,6 +40,9 @@ render_target_update_mode = 4
 unique_name_in_owner = true
 environment = SubResource("Environment_menu")
 
+[node name="BlackHole" parent="SubViewport" instance=ExtResource("3_hole")]
+unique_name_in_owner = true
+
 [node name="Camera" type="Camera3D" parent="SubViewport"]
 unique_name_in_owner = true
-fov = 70.0
+fov = 45.0
