@@ -107,6 +107,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "ПОЧАТИ ЗНОВУ"
 
+[node name="MainMenuButton" type="Button" parent="Root/Center/Panel/Margin/Content/ButtonsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "ГОЛОВНЕ МЕНЮ"
+
 [node name="QuitButton" type="Button" parent="Root/Center/Panel/Margin/Content/ButtonsRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(220, 48)
