@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://c3nelhnix7t56"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+size = Vector3(0.2, 0.1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
+size = Vector3(0.2, 0.1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_57qmd"]
+size = Vector3(0.3, 0.2, 0.3)
+
+[node name="BandAid" type="RigidBody3D" unique_id=1664600962]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2058334756]
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1139632329]
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="Interactable" type="Interactable" parent="." unique_id=216702131]
+prompt_text = "Epoxy Patch"
+item_id = "epoxy_patch"
+is_pickup = true
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable" unique_id=1904234634]
+shape = SubResource("BoxShape3D_57qmd")

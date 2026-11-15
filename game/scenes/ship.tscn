@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cefxgu6liscws" path="res://scenes/Terminal.tscn" id="6_7j21i"]
 [ext_resource type="PackedScene" uid="uid://dwrtrmx44vagq" path="res://scenes/hypercapnia_effects.tscn" id="7_3m36u"]
 [ext_resource type="PackedScene" uid="uid://j0kt1d2vu0kq" path="res://scenes/BulkheadDoor.tscn" id="7_8qiel"]
-[ext_resource type="PackedScene" uid="uid://bpr7yvpmlus3w" path="res://shatl/lastship.tscn" id="8_8qiel"]
+[ext_resource type="PackedScene" uid="uid://bpr7yvpmlus3w" path="res://scenes/lastship.tscn" id="8_8qiel"]
 
 [sub_resource type="Environment" id="Environment_yf5fn"]
 background_mode = 1

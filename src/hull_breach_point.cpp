@@ -25,6 +25,10 @@ void  HullBreachPoint::_ready(){
     if(Engine::get_singleton()->is_editor_hint()){
         return;
     }
+    if (!is_inside_tree()){    
+        return;
+    } 
+
     set_visible(false);
     set_collision_layer(0);
 

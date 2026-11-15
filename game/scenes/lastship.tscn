@@ -25051,6 +25051,8 @@ _data = {
 &"Spare_O2_1_Open_004": SubResource("Animation_uxnjf")
 }
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+
 [node name="lastship" type="Node3D" unique_id=1299875653]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
 
@@ -27465,3 +27467,50 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4442139, 0, -0.3017162)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=771491326]
 libraries/ = SubResource("AnimationLibrary_ps4ty")
+
+[node name="HullBreachPoint" type="HullBreachPoint" parent="." unique_id=79302029]
+required_item_id = "Seal the hole"
+telemetry_path = NodePath("/root/ShipTelemetryGlobal")
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, -0.28131226, 1.2157794)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HullBreachPoint" unique_id=1637266889]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="HullBreachPoint2" type="HullBreachPoint" parent="." unique_id=604270201]
+location_id = 2
+required_item_id = "Seal the hole"
+telemetry_path = NodePath("/root/ShipTelemetryGlobal")
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0.80976695, -0.4494635, -1.1914824)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HullBreachPoint2" unique_id=1028412625]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="HullBreachPoint3" type="HullBreachPoint" parent="." unique_id=1960044861]
+location_id = 3
+required_item_id = "Seal the hole"
+telemetry_path = NodePath("/root/ShipTelemetryGlobal")
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -2.1820061, -0.4494635, -1.1624539)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HullBreachPoint3" unique_id=939212613]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="HullBreachPoint4" type="HullBreachPoint" parent="." unique_id=1042946441]
+location_id = 4
+required_item_id = "Seal the hole"
+telemetry_path = NodePath("/root/ShipTelemetryGlobal")
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -2.1820061, 0.091838576, 1.1428285)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HullBreachPoint4" unique_id=406664801]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("BoxShape3D_g4v7s")
