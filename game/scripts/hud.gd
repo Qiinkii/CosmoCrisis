@@ -18,6 +18,7 @@ func _ready() -> void:
 		player.interaction_prompt_changed.connect(_on_prompt_changed)
 	if ShipTelemetryGlobal != null:
 		ShipTelemetryGlobal.telemetry_updated.connect(_on_telemetry_updated)
+		_on_telemetry_updated()
 
 func _on_prompt_changed(prompt_visible: bool, text: String, hold_progress: float) -> void:
 	prompt_overlay.visible = prompt_visible
@@ -28,10 +29,7 @@ func _on_prompt_changed(prompt_visible: bool, text: String, hold_progress: float
 func _on_telemetry_updated() -> void:
 	if ShipTelemetryGlobal == null:
 		return
-	progress_label.text = "ПОЛІТ: %.1f%%" % ShipTelemetryGlobal.flight_progress
-	co2_label.text = "CO2: %.2f%%" % ShipTelemetryGlobal.co2_level
-	temperature_label.text = "ТЕМПЕРАТУРА: %.1f°C" % ShipTelemetryGlobal.air_temperature
-	pressure_label.text = "ТИСК (КАБ / ІНЖ): %.1f / %.1f кПа" % [
-		ShipTelemetryGlobal.cockpit_pressure,
-		ShipTelemetryGlobal.engineering_pressure
-	]
+	progress_label.text = Localization.trf("hud.progress", [ShipTelemetryGlobal.flight_progress])
+	co2_label.text = Localization.trf("hud.co2", [ShipTelemetryGlobal.co2_level])
+	temperature_label.text = Localization.trf("hud.temperature", [ShipTelemetryGlobal.air_temperature])
+	pressure_label.text = Localization.trf("hud.pressure", [ShipTelemetryGlobal.cockpit_pressure, ShipTelemetryGlobal.engineering_pressure])

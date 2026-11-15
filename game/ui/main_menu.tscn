@@ -108,6 +108,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="SettingsTitle" type="Label" parent="Margin/Content/SettingsBox"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "НАЛАШТУВАННЯ"
@@ -117,6 +118,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="VolumeLabel" type="Label" parent="Margin/Content/SettingsBox/VolumeRow"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Гучність"
@@ -130,6 +132,24 @@ size_flags_vertical = 4
 max_value = 1.0
 step = 0.05
 value = 1.0
+
+[node name="LanguageRow" type="HBoxContainer" parent="Margin/Content/SettingsBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LanguageLabel" type="Label" parent="Margin/Content/SettingsBox/LanguageRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Мова"
+
+[node name="LanguageOption" type="OptionButton" parent="Margin/Content/SettingsBox/LanguageRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 2
+item_0/text = "Українська"
+item_1/text = "English"
 
 [node name="FullscreenCheck" type="CheckButton" parent="Margin/Content/SettingsBox"]
 unique_name_in_owner = true
