@@ -13,9 +13,10 @@ private:
     double flight_speed = 0.5;
     double cockpit_pressure = 101.3;
     double engineering_pressure = 101.3;
-
+    int active_breach_id = 0;
 
     bool is_eclss_working = true;
+    bool breach_crisis_triggered = false;
     bool co2_crisis_triggered = false;
     bool is_hull_breached = false;
     bool is_bulkhead_closed = false;

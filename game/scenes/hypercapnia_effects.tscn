@@ -9,6 +9,7 @@ shader_parameter/blur_strength = 0.0
 shader_parameter/vignette_strength = 0.0
 
 [node name="HypercapniaEffects" type="CanvasLayer" unique_id=132580576]
+layer = 10
 script = ExtResource("1_53db2")
 telemetry_path = NodePath("../ShipTelemetry")
 player_path = NodePath("../CSGCombiner3D/Player")

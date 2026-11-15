@@ -1,5 +1,5 @@
 extends Area3D
-@onready var ShipTelemetryGlobal: ShipTelemetry = get_node_or_null("/root/Ship/ShipTelemetry")
+@onready var ShipTelemetryGlobal: ShipTelemetry = get_node_or_null("/root/ShipTelemetryGlobal")
 
 
 # Called when the node enters the scene tree for the first time.

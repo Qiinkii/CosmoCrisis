@@ -1,4 +1,5 @@
 #include "ship_telemetry.hpp"
+#include <random>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -54,6 +55,7 @@ void ShipTelemetry::_bind_methods(){
     ADD_SIGNAL(MethodInfo("telemetry_updated"));
     ADD_SIGNAL(MethodInfo("mission_failed", PropertyInfo(Variant::STRING, "reason")));
     ADD_SIGNAL(MethodInfo("mission_completed"));
+    ADD_SIGNAL(MethodInfo("hull_breach_spawned", PropertyInfo(Variant::INT, "location_id")));
 }
 
 void ShipTelemetry::_process(double delta){
@@ -76,6 +78,10 @@ void ShipTelemetry::_process(double delta){
         co2_crisis_triggered = true;
         is_eclss_working = false;
         UtilityFunctions::print(String::utf8("УВАГА! Впав тиск водню в реакторі Сабатьє!"));
+    }
+    if(!breach_crisis_triggered && flight_progress >= 50){
+        breach_crisis_triggered = true;
+        trigger_hull_breach();
     }
     if(is_eclss_working){
         co2_level = Math::move_toward(co2_level, 0.04, 0.08 * delta);
@@ -198,7 +204,13 @@ void ShipTelemetry::repair_co2_system(){
 }
 
 void ShipTelemetry::trigger_hull_breach(){
+    static std::random_device rd;
+    static std::mt19937_64 gen(rd());
+    std::uniform_int_distribution<int> range(1,4);
+
+    active_breach_id = range(gen);
     is_hull_breached = true;
+    emit_signal("hull_breach_spawned", active_breach_id);
 }
 
 void ShipTelemetry::repair_hull_breach(){
