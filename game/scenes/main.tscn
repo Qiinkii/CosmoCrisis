@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://be3f47wk2jfbl"]
+
+[ext_resource type="PackedScene" uid="uid://dq0afvfplh7hf" path="res://shatl/lastship.glb" id="1_o5qli"]
+
+[node name="Main" type="Node3D" unique_id=1074127878]
+
+[node name="lastship" parent="." unique_id=1299875653 instance=ExtResource("1_o5qli")]

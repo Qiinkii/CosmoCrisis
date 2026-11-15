@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cgmvebg2bgkmk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
+size = Vector3(0.3, 0.3, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_57qmd"]
+size = Vector3(0.3, 0.3, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(0.35, 0.35, 0.35)
+
+[node name="PickupItem" type="RigidBody3D" unique_id=1987923263]
+linear_damp = 0.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=741296290]
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1909063797]
+mesh = SubResource("BoxMesh_57qmd")
+
+[node name="Interactable" type="Interactable" parent="." unique_id=419055933]
+prompt_text = "Взяти картридж LiOH"
+item_id = "lioh_cartridge"
+is_pickup = true
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable" unique_id=353798697]
+shape = SubResource("BoxShape3D_g4v7s")

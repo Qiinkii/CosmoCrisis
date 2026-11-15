@@ -1,0 +1,227 @@
+[gd_scene format=3 uid="uid://cefxgu6liscws"]
+
+[ext_resource type="PackedScene" uid="uid://cgmvebg2bgkmk" path="res://scenes/pickup_item.tscn" id="1_enqfd"]
+[ext_resource type="Script" uid="uid://c8rfr3how0b6v" path="res://scenes/eclss_repair_ui.gd" id="2_i12f4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nlrkg"]
+size = Vector3(1.0844727, 1, 1.0666504)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_enqfd"]
+size = Vector3(0.5, 0.7, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i12f4"]
+size = Vector3(1.2, 1.2, 1)
+
+[node name="Terminal" type="StaticBody3D" unique_id=891120400]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1540179905]
+layers = 2
+mesh = SubResource("BoxMesh_nlrkg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1317940695]
+shape = SubResource("BoxShape3D_enqfd")
+disabled = true
+
+[node name="EclssTerminal" type="EclssTerminal" parent="." unique_id=967760203]
+telemetry_path = NodePath("/root/ShipTelemetryGlobal")
+repair_ui_path = NodePath("../EclssRepairUI")
+cartridge_slot_path = NodePath("CartridgeSlot")
+prompt_text = "Установить картридж LiOH"
+item_id = "lioh_cartridge"
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EclssTerminal" unique_id=1196511287]
+shape = SubResource("BoxShape3D_i12f4")
+
+[node name="CartridgeSlot" type="Marker3D" parent="EclssTerminal" unique_id=1772569303]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.087947845, 0.49678397)
+
+[node name="SpentCartridge" parent="EclssTerminal/CartridgeSlot" unique_id=1987923263 instance=ExtResource("1_enqfd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.7, 0, 0, 0.14243478)
+collision_layer = 0
+collision_mask = 0
+freeze = true
+
+[node name="MeshInstance3D" parent="EclssTerminal/CartridgeSlot/SpentCartridge" index="1" unique_id=1909063797]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.009941578)
+
+[node name="Interactable" parent="EclssTerminal/CartridgeSlot/SpentCartridge" index="2" unique_id=419055933]
+prompt_text = "Замінити картридж LiOH"
+item_id = "spent_cartridge"
+is_pickup = false
+collision_layer = 0
+
+[node name="EclssRepairUI" type="CanvasLayer" parent="." unique_id=150475236]
+layer = 5
+script = ExtResource("2_i12f4")
+
+[node name="Panel" type="Panel" parent="EclssRepairUI" unique_id=73144927]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.5
+offset_top = -215.0
+offset_right = 380.5
+offset_bottom = 215.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ValveDiagram" type="Control" parent="EclssRepairUI/Panel" unique_id=206068507]
+anchors_preset = 0
+offset_left = 250.0
+offset_top = 40.0
+offset_right = 510.0
+offset_bottom = 300.0
+
+[node name="PipeUp" type="ColorRect" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=52719325]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 30.0
+offset_right = 140.0
+offset_bottom = 120.0
+
+[node name="PipeRight" type="ColorRect" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=1319614817]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 120.0
+offset_right = 230.0
+offset_bottom = 140.0
+
+[node name="PipeDown" type="ColorRect" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=1036458960]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 140.0
+offset_right = 140.0
+offset_bottom = 230.0
+
+[node name="PipeLeft" type="ColorRect" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=782076879]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 120.0
+offset_right = 120.0
+offset_bottom = 140.0
+
+[node name="LabelUp" type="Label" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=435749765]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 2.0
+offset_right = 148.0
+offset_bottom = 25.0
+text = "Main"
+
+[node name="LabelRight" type="Label" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=569969553]
+layout_mode = 0
+offset_left = 235.0
+offset_top = 119.0
+offset_right = 287.0
+offset_bottom = 142.0
+text = "Isolate"
+
+[node name="LabelDown" type="Label" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=1825007560]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 234.0
+offset_right = 153.0
+offset_bottom = 257.0
+text = "LiOH"
+
+[node name="LabelLeft" type="Label" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=1206095654]
+layout_mode = 0
+offset_left = -23.0
+offset_top = 117.0
+offset_right = 23.0
+offset_bottom = 140.0
+text = "Purge"
+
+[node name="THandle" type="Control" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=2116642903]
+anchors_preset = 0
+offset_left = 80.0
+offset_top = 80.0
+offset_right = 180.0
+offset_bottom = 180.0
+pivot_offset = Vector2(50, 50)
+mouse_filter = 2
+
+[node name="Crossbar" type="ColorRect" parent="EclssRepairUI/Panel/ValveDiagram/THandle" unique_id=1770720695]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 90.0
+offset_bottom = 60.0
+mouse_filter = 2
+color = Color(0.9019608, 0.49411765, 0.13333334, 1)
+
+[node name="Stem" type="ColorRect" parent="EclssRepairUI/Panel/ValveDiagram/THandle" unique_id=793482587]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 50.0
+offset_right = 60.0
+offset_bottom = 90.0
+mouse_filter = 2
+color = Color(0.9019608, 0.49411765, 0.13333334, 1)
+
+[node name="CenterCap" type="ColorRect" parent="EclssRepairUI/Panel/ValveDiagram/THandle" unique_id=287838297]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 36.0
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+color = Color(0.17254902, 0.24313726, 0.3137255, 1)
+
+[node name="CompassButtons" type="Control" parent="EclssRepairUI/Panel/ValveDiagram" unique_id=2036716298]
+anchors_preset = 0
+offset_right = 260.0
+offset_bottom = 260.0
+
+[node name="BtnUp" type="Button" parent="EclssRepairUI/Panel/ValveDiagram/CompassButtons" unique_id=1113708953]
+layout_mode = 0
+offset_left = 90.0
+offset_right = 170.0
+offset_bottom = 85.0
+flat = true
+
+[node name="BtnRight" type="Button" parent="EclssRepairUI/Panel/ValveDiagram/CompassButtons" unique_id=1258460067]
+layout_mode = 0
+offset_left = 175.0
+offset_top = 90.0
+offset_right = 260.0
+offset_bottom = 170.0
+flat = true
+
+[node name="BtnDown" type="Button" parent="EclssRepairUI/Panel/ValveDiagram/CompassButtons" unique_id=1584813532]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 175.0
+offset_right = 170.0
+offset_bottom = 260.0
+flat = true
+
+[node name="BtnLeft" type="Button" parent="EclssRepairUI/Panel/ValveDiagram/CompassButtons" unique_id=1984961449]
+layout_mode = 0
+offset_top = 90.0
+offset_right = 85.0
+offset_bottom = 170.0
+flat = true
+
+[node name="ConfirmButton" type="Button" parent="EclssRepairUI/Panel" unique_id=1555737575]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 330.0
+offset_right = 530.0
+offset_bottom = 375.0
+text = "Confirm
+
+"
+
+[node name="CloseButton" type="Button" parent="EclssRepairUI/Panel" unique_id=338069060]
+layout_mode = 0
+offset_left = 721.0
+offset_top = -1.0
+offset_right = 761.0
+offset_bottom = 39.0
+text = "X"
+
+[editable path="EclssTerminal/CartridgeSlot/SpentCartridge"]

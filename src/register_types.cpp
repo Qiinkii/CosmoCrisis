@@ -3,6 +3,8 @@
 #include "register_types.hpp"
 #include "interactable.hpp"
 #include "player_controller.hpp"
+#include "eclss_terminal.hpp"
+#include "hull_breach_point.hpp"
 
 void initialize_orbital_module(godot::ModuleInitializationLevel p_level){
     if(p_level != godot::MODULE_INITIALIZATION_LEVEL_SCENE)
@@ -11,6 +13,8 @@ void initialize_orbital_module(godot::ModuleInitializationLevel p_level){
     GDREGISTER_CLASS(ShipTelemetry);
     GDREGISTER_CLASS(Interactable);
     GDREGISTER_CLASS(PlayerController);
+    GDREGISTER_CLASS(EclssTerminal);
+    GDREGISTER_CLASS(HullBreachPoint);
 }
 
 void uninitialize_orbital_module(godot::ModuleInitializationLevel p_level){
