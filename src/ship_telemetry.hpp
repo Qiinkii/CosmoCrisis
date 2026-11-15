@@ -14,7 +14,9 @@ private:
     double cockpit_pressure = 101.3;
     double engineering_pressure = 101.3;
 
+
     bool is_eclss_working = true;
+    bool co2_crisis_triggered = false;
     bool is_hull_breached = false;
     bool is_bulkhead_closed = false;
     bool is_mission_active = true;

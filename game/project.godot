@@ -15,10 +15,6 @@ run/main_scene="uid://5obrr453us73"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-ShipTelemetryGlobal="*uid://cxs7bhejye52s"
-
 [display]
 
 window/stretch/mode="canvas_items"

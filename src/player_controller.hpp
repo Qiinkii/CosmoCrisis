@@ -35,6 +35,7 @@ public:
 
     godot::String get_held_item_id() const;
     void clear_held_item();
+    godot::Node3D *take_held_item();
     bool get_can_move() const;
     void set_can_move(bool move);
     double get_move_speed() const;

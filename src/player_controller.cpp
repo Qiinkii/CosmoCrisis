@@ -13,6 +13,7 @@ using namespace godot;
 void PlayerController::_bind_methods(){
     ClassDB::bind_method(D_METHOD("get_held_item_id"), &PlayerController::get_held_item_id);
     ClassDB::bind_method(D_METHOD("clear_held_item"), &PlayerController::clear_held_item);
+    ClassDB::bind_method(D_METHOD("take_held_item"), &PlayerController::take_held_item);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "held_item_id"), "", "get_held_item_id");
 
     ClassDB::bind_method(D_METHOD("get_can_move"), &PlayerController::get_can_move);
@@ -210,12 +211,23 @@ godot::String PlayerController::get_held_item_id() const{
 
 void PlayerController::clear_held_item(){
     if (hand_slot != nullptr && hand_slot->get_child_count() > 0) {
-        hand_slot->get_child(0)->queue_free(); 
+        hand_slot->get_child(0)->queue_free();
     }
     held_item_id = "";
     emit_signal("held_item_changed", held_item_id);
 }
 
+Node3D *PlayerController::take_held_item() {
+    if (hand_slot != nullptr && hand_slot->get_child_count() > 0) {
+        Node3D *item = Object::cast_to<Node3D>(hand_slot->get_child(0));
+        held_item_id = "";
+        emit_signal("held_item_changed", held_item_id);
+        return item;
+    }
+    held_item_id = "";
+    emit_signal("held_item_changed", held_item_id);
+    return nullptr;
+}
 bool PlayerController::get_can_move() const{
     return can_move;
 }

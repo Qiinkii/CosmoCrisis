@@ -1,6 +1,7 @@
 #pragma once
 #include "interactable.hpp"
 #include <godot_cpp/variant/node_path.hpp>
+#include <godot_cpp/variant/string.hpp>
 
 class EclssTerminal : public Interactable {
     GDCLASS(EclssTerminal, Interactable);
@@ -8,6 +9,7 @@ class EclssTerminal : public Interactable {
 private:
     godot::NodePath telemetry_path;
     godot::NodePath repair_ui_path;
+    godot::NodePath cartridge_slot_path;
     godot::String required_item_id = "lioh_cartridge";
 
 protected:
@@ -20,8 +22,12 @@ public:
     void set_repair_ui_path(const godot::NodePath &path);
     godot::NodePath get_repair_ui_path() const;
 
+    void set_cartridge_slot_path(const godot::NodePath &path);
+    godot::NodePath get_cartridge_slot_path() const;
+
     void set_required_item_id(const godot::String &id);
     godot::String get_required_item_id() const;
 
     void interact(godot::Node *player) override;
+    void install_cartridge(godot::Node *player);
 };

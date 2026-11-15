@@ -4,8 +4,10 @@ extends CanvasLayer
 @onready var progress_label: Label = $MarginContainer/VBoxContainer/ProgressLabel
 @onready var co2_label: Label = $MarginContainer/VBoxContainer/CO2Label
 @onready var pressure_label: Label = $MarginContainer/VBoxContainer/PressureLabel
+@onready var ShipTelemetryGlobal: ShipTelemetry = get_node_or_null("/root/Ship/ShipTelemetry")
 
 func _ready() -> void:
+
 	var player := get_tree().get_first_node_in_group("player")
 	if player:
 		player.interaction_prompt_changed.connect(_on_prompt_changed)

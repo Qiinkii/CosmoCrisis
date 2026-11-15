@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://b7i54xlvgwkn" path="res://scripts/engineering_zone.gd" id="2_2gnfn"]
 [ext_resource type="PackedScene" uid="uid://cgmvebg2bgkmk" path="res://scenes/pickup_item.tscn" id="2_4tobq"]
 [ext_resource type="PackedScene" uid="uid://de8xoqngnhmss" path="res://ui/hud.tscn" id="2_tfsc7"]
-[ext_resource type="Script" uid="uid://c8rfr3how0b6v" path="res://scenes/eclss_repair_ui.gd" id="5_gudjc"]
 [ext_resource type="PackedScene" uid="uid://cefxgu6liscws" path="res://scenes/Terminal.tscn" id="6_7j21i"]
+[ext_resource type="PackedScene" uid="uid://dwrtrmx44vagq" path="res://scenes/hypercapnia_effects.tscn" id="7_3m36u"]
 
 [sub_resource type="Environment" id="Environment_yf5fn"]
 background_mode = 1
@@ -65,48 +65,11 @@ script = ExtResource("2_2gnfn")
 shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="ShipTelemetry" type="ShipTelemetry" parent="." unique_id=448838125]
-is_eclss_working = false
-
-[node name="EclssRepairUI" type="CanvasLayer" parent="." unique_id=1397065981]
-script = ExtResource("5_gudjc")
-
-[node name="Panel" type="Panel" parent="EclssRepairUI" unique_id=260603849]
-offset_left = 140.0
-offset_top = 80.0
-offset_right = 961.0
-offset_bottom = 510.0
-
-[node name="ValveAButton" type="Button" parent="EclssRepairUI/Panel" unique_id=937773877]
-layout_mode = 0
-offset_left = 568.0
-offset_top = 18.0
-offset_right = 804.0
-offset_bottom = 182.0
-
-[node name="ValveBButton" type="Button" parent="EclssRepairUI/Panel" unique_id=1945615417]
-layout_mode = 0
-offset_left = 26.0
-offset_top = 19.0
-offset_right = 262.0
-offset_bottom = 183.0
-
-[node name="ConfirmButton" type="Button" parent="EclssRepairUI/Panel" unique_id=10374868]
-layout_mode = 0
-offset_left = 294.0
-offset_top = 250.0
-offset_right = 530.0
-offset_bottom = 414.0
-disabled = true
-
-[node name="CloseButton" type="Button" parent="EclssRepairUI/Panel" unique_id=2044388342]
-layout_mode = 0
-offset_left = 690.0
-offset_top = 358.0
-offset_right = 821.0
-offset_bottom = 429.0
 
 [node name="Terminal" parent="." unique_id=891120400 instance=ExtResource("6_7j21i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -8)
+transform = Transform3D(0.12706463, 0, -0.9918944, 0, 1, 0, 0.9918944, 0, 0.12706463, 3.2206345, 1.2732558, -8.057636)
+
+[node name="HypercapniaEffects" parent="." unique_id=132580576 instance=ExtResource("7_3m36u")]
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]
