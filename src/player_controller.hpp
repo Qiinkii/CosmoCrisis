@@ -24,6 +24,8 @@ private:
 
     godot::String held_item_id = "";
     bool can_move = true;
+    uint64_t charging_target_id = 0;
+    double interaction_hold_progress = 0.0;
 
 protected:
     static void _bind_methods();
