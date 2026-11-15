@@ -1,37 +1,43 @@
-extends Node3D
-## Attach to the root node "lastship" in res://shatl/lastship.tscn.
+extends Node
 
 const SHADER_PATH := "res://shaders/porthole_glass.gdshader"
 
-## Tick this in the inspector to make the glass clearly visible (for testing).
-@export var debug_visible: bool = false
-@export_range(0.0, 1.0) var base_opacity: float = 0.06
-@export_range(0.0, 1.0) var reflection_strength: float = 0.3
-@export_range(0.0, 1.0) var glare_strength: float = 0.12
+## Set to true to make the glass obviously visible while testing.
+const DEBUG_VISIBLE := false
+
+var _mat: ShaderMaterial
 
 func _ready() -> void:
+	print("GlassApplier: started")
 	if not ResourceLoader.exists(SHADER_PATH):
-		push_error("apply_glass: shader not found at " + SHADER_PATH)
+		push_error("GlassApplier: shader not found at " + SHADER_PATH)
 		return
 	var shader := load(SHADER_PATH) as Shader
 	if shader == null:
-		push_error("apply_glass: could not load shader (check it for compile errors)")
+		push_error("GlassApplier: shader failed to load (check it for compile errors)")
 		return
 
-	var mat := ShaderMaterial.new()
-	mat.shader = shader
-	if debug_visible:
-		mat.set_shader_parameter("glass_tint", Color(0.3, 0.8, 1.0, 0.5))
-		mat.set_shader_parameter("reflection_strength", 1.0)
-		mat.set_shader_parameter("glare_strength", 0.6)
-	else:
-		mat.set_shader_parameter("glass_tint", Color(0.55, 0.70, 0.85, base_opacity))
-		mat.set_shader_parameter("reflection_strength", reflection_strength)
-		mat.set_shader_parameter("glare_strength", glare_strength)
+	_mat = ShaderMaterial.new()
+	_mat.shader = shader
+	if DEBUG_VISIBLE:
+		_mat.set_shader_parameter("glass_tint", Color(0.3, 0.8, 1.0, 0.5))
+		_mat.set_shader_parameter("reflection_strength", 1.0)
+		_mat.set_shader_parameter("glare_strength", 0.6)
 
+	# Apply to glass that already exists, and to any that gets added later.
+	get_tree().node_added.connect(_on_node_added)
 	var count := 0
-	for node in find_children("*", "MeshInstance3D", true, false):
-		if String(node.name).to_lower().contains("glass"):
-			(node as MeshInstance3D).material_override = mat
+	for node in get_tree().root.find_children("*", "MeshInstance3D", true, false):
+		if _try_apply(node):
 			count += 1
-	print("apply_glass: applied to %d glass meshes" % count)
+	print("GlassApplier: applied to %d glass meshes" % count)
+
+func _on_node_added(node: Node) -> void:
+	if _try_apply(node):
+		print("GlassApplier: applied to ", node.name)
+
+func _try_apply(node: Node) -> bool:
+	if node is MeshInstance3D and String(node.name).to_lower().contains("glass"):
+		(node as MeshInstance3D).material_override = _mat
+		return true
+	return false
