@@ -6,7 +6,7 @@ height = 1.8
 
 [node name="Player" type="PlayerController" unique_id=641960212 groups=["player"]]
 
-[node name="Body" type="CollisionShape3D" parent="." unique_id=1939830448]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1939830448]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
 shape = SubResource("CapsuleShape3D_g4v7s")
 
