@@ -6,6 +6,8 @@
 #include <godot_cpp/classes/marker3d.hpp>
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/variant/string.hpp>
+#include <godot_cpp/classes/collision_shape3d.hpp>
+#include <godot_cpp/classes/box_shape3d.hpp>
 
 class PlayerController: public godot::CharacterBody3D{
     GDCLASS(PlayerController, godot::CharacterBody3D);
@@ -23,6 +25,14 @@ private:
     double garvity = 3;
     double jump_velocity = 4;
 
+    // У приватній секції player_controller.hpp:
+    double crouch_speed = 2.0;
+    double standing_height = 2.0;
+    double crouching_height = 1.0;
+    bool is_crouching = false;
+
+    godot::CollisionShape3D *collision_shape = nullptr;
+
     godot::String held_item_id = "";
     bool can_move = true;
     uint64_t charging_target_id = 0;
@@ -38,6 +48,7 @@ public:
 
     godot::String get_held_item_id() const;
     void set_held_item_id(const godot::String &id);
+    bool place_held_item(godot::Node3D *target_slot);
     void clear_held_item();
     godot::Node3D *take_held_item();
     bool get_can_move() const;

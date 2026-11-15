@@ -19,7 +19,7 @@ void PlayerController::_bind_methods(){
 
     ClassDB::bind_method(D_METHOD("get_jump_velocity"), &PlayerController::get_jump_velocity);
     ClassDB::bind_method(D_METHOD("set_jump_velocity", "val"), &PlayerController::set_jump_velocity);
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "jump_velocity"), "set_jump_velocity", "get_jump_velocity");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "jump_velocity"), "set_jump_velocity", "get_jump_velocity");
 
     ClassDB::bind_method(D_METHOD("get_can_move"), &PlayerController::get_can_move);
     ClassDB::bind_method(D_METHOD("set_can_move", "move"), &PlayerController::set_can_move);
@@ -251,6 +251,44 @@ Node3D *PlayerController::take_held_item() {
     emit_signal("held_item_changed", held_item_id);
     return nullptr;
 }
+
+bool PlayerController::place_held_item(Node3D *target_slot) {
+    if (target_slot == nullptr || hand_slot == nullptr || hand_slot->get_child_count() == 0) {
+        return false;
+    }
+
+    Node3D *item = Object::cast_to<Node3D>(hand_slot->get_child(0));
+    if (item == nullptr) {
+        return false;
+    }
+
+    item->reparent(target_slot, false);
+    item->set_position(Vector3(0, 0, 0));
+    item->set_rotation(Vector3(0, 0, 0));
+    item->set_visible(true);
+
+    RigidBody3D *rb = Object::cast_to<RigidBody3D>(item);
+    if (rb != nullptr) {
+        rb->set_linear_velocity(Vector3(0, 0, 0));
+        rb->set_angular_velocity(Vector3(0, 0, 0));
+        rb->set_freeze_enabled(true);
+        rb->set_collision_layer(0);
+        rb->set_collision_mask(0);
+    }
+
+    Interactable *inter = Object::cast_to<Interactable>(item->get_node_or_null("Interactable"));
+    if (inter != nullptr) {
+        inter->set_collision_layer(0);
+        inter->set_monitoring(false);
+        inter->set_monitorable(false);
+        inter->set_is_pickup(false);
+    }
+
+    held_item_id = "";
+    emit_signal("held_item_changed", held_item_id);
+    return true;
+}
+
 bool PlayerController::get_can_move() const{
     return can_move;
 }
