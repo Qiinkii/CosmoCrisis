@@ -44,7 +44,7 @@ size = Vector3(6, 3, 6)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2683253, 0.44853628, -6.732758)
 
 [node name="Player" parent="CSGCombiner3D" unique_id=641960212 instance=ExtResource("1_q631a")]
-transform = Transform3D(-4.371138e-08, 0, 1, 0, 1, 0, -1, 0, -4.371138e-08, -1.6106014, -0.18179488, 0.09733534)
+transform = Transform3D(-4.371138e-08, 0, 1, 0, 1, 0, -1, 0, -4.371138e-08, 11.584054, -0.6929351, 0.09733534)
 
 [node name="Hud" parent="CSGCombiner3D/Player" unique_id=1293581850 instance=ExtResource("2_tfsc7")]
 
@@ -74,11 +74,11 @@ telemetry_path = NodePath("")
 [node name="BulkheadDoor" parent="." unique_id=1006830687 instance=ExtResource("7_8qiel")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -4.5)
 
-[node name="lastship" parent="." unique_id=1299875653 instance=ExtResource("8_8qiel")]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 14.25366, 0, 0)
-
 [node name="Terminal" parent="." unique_id=891120400 instance=ExtResource("6_7j21i")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.914794, 1, -9)
+
+[node name="lastship" parent="." unique_id=1299875653 instance=ExtResource("8_8qiel")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 11.983041, 0, 0)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]

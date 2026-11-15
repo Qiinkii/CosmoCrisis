@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://c35227ao8h8uu"]
+
+[ext_resource type="Texture2D" uid="uid://bj3n8b1r6xwl8" path="res://textures/BreachMesh.png" id="1_n8ak5"]
+[ext_resource type="Texture2D" uid="uid://0pd8shqx6iok" path="res://textures/PatchMesh.png" id="2_pimrd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fjg1u"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_vat4j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5u4mx"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_color = Color(0.7162962, 0.7162962, 0.7162962, 1)
+albedo_texture = ExtResource("1_n8ak5")
+
+[sub_resource type="QuadMesh" id="QuadMesh_jh3y7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_480ol"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_color = Color(0.8346142, 0.83461434, 0.8346141, 1)
+albedo_texture = ExtResource("2_pimrd")
+
+[node name="Breach" type="HullBreachPoint" unique_id=1573815054]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1011031124]
+transform = Transform3D(0.099999994, 0, 0, 0, 0.099999994, 0, 0, 0, 0.06999999, 0, 0, 0)
+shape = SubResource("BoxShape3D_fjg1u")
+
+[node name="BreachMesh" type="MeshInstance3D" parent="." unique_id=2082207699]
+transform = Transform3D(-0.15, 0, 2.2649372e-08, 0, 0.15, 0, -2.2649372e-08, 0, -0.15, 0, 0, 0)
+layers = 2
+mesh = SubResource("QuadMesh_vat4j")
+surface_material_override/0 = SubResource("StandardMaterial3D_5u4mx")
+
+[node name="PatchedMesh" type="MeshInstance3D" parent="." unique_id=2084424659]
+transform = Transform3D(-0.15, 0, 2.2649372e-08, 0, 0.15, 0, -2.2649372e-08, 0, -0.15, 0, 0, 0)
+mesh = SubResource("QuadMesh_jh3y7")
+surface_material_override/0 = SubResource("StandardMaterial3D_480ol")
