@@ -1,10 +1,14 @@
 [gd_scene format=4 uid="uid://bn33j1df1o48x"]
 
+[ext_resource type="Script" uid="uid://bnueqf5rgd771" path="res://scripts/telemetry_tablet.gd" id="1_1e7px"]
 [ext_resource type="Texture2D" uid="uid://dcw5xi16mdgd7" path="res://models/HATAK_Rugged_Tablet_Brushed_titanium.png" id="1_nk2fr"]
 [ext_resource type="Texture2D" uid="uid://c2uf68brcp4so" path="res://models/HATAK_Rugged_Tablet_Pressure_frame_alloy.png" id="2_1e7px"]
 [ext_resource type="Texture2D" uid="uid://dudotejuh7c55" path="res://models/HATAK_Rugged_Tablet_Seal_rubber.png" id="3_7serw"]
 [ext_resource type="Texture2D" uid="uid://6saj5atl0agw" path="res://models/HATAK_Rugged_Tablet_Hull_charcoal.png" id="4_crc8g"]
 [ext_resource type="Texture2D" uid="uid://ekrbofe4n5qp" path="res://models/HATAK_Rugged_Tablet_Control_oxide_red.png" id="5_q3dch"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(1.0510254, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7psse"]
 resource_name = "Tablet | rear titanium cover"
@@ -49,7 +53,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_u3rka"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_nk2fr"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Back_Cover"
 _surfaces = [{
 "aabb": AABB(-0.147, -0.0925, -0.0175, 0.294, 0.181, 0.005),
@@ -93,7 +97,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_57nql"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_1e7px"]
 resource_name = "HATAK_Rugged_Tablet_Cylinder_004"
 _surfaces = [{
 "aabb": AABB(-0.0022, -0.00045, -0.0022, 0.0044, 0.0009, 0.0044),
@@ -132,7 +136,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_h4yyx"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_7serw"]
 resource_name = "HATAK_Rugged_Tablet_Cube_005"
 _surfaces = [{
 "aabb": AABB(-0.0012, -0.0002, -6e-05, 0.0024, 0.0004, 0.00012),
@@ -164,7 +168,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_udd0j"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_crc8g"]
 resource_name = "HATAK_Rugged_Tablet_Cylinder_005"
 _surfaces = [{
 "aabb": AABB(-0.0022, -0.00045, -0.0022, 0.0044, 0.0009, 0.0044),
@@ -196,7 +200,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_vpx5q"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_q3dch"]
 resource_name = "HATAK_Rugged_Tablet_Cube_006"
 _surfaces = [{
 "aabb": AABB(-0.0012, -0.0002, -6e-05, 0.0024, 0.0004, 0.00012),
@@ -228,7 +232,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_u6t6w"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_81qm8"]
 resource_name = "HATAK_Rugged_Tablet_Cylinder_006"
 _surfaces = [{
 "aabb": AABB(-0.0022, -0.00045, -0.0022, 0.0044, 0.0009, 0.0044),
@@ -260,7 +264,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ckdfh"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_k2t3k"]
 resource_name = "HATAK_Rugged_Tablet_Cube_007"
 _surfaces = [{
 "aabb": AABB(-0.0012, -0.0002, -6e-05, 0.0024, 0.0004, 0.00012),
@@ -292,7 +296,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_63aph"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_ny6wr"]
 resource_name = "HATAK_Rugged_Tablet_Cylinder_007"
 _surfaces = [{
 "aabb": AABB(-0.0022, -0.00045, -0.0022, 0.0044, 0.0009, 0.0044),
@@ -324,7 +328,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_48ha4"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_gnwwp"]
 resource_name = "HATAK_Rugged_Tablet_Cube_008"
 _surfaces = [{
 "aabb": AABB(-0.0012, -0.0002, -6e-05, 0.0024, 0.0004, 0.00012),
@@ -356,7 +360,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_jvnmg"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_r70x7"]
 resource_name = "HATAK_Rugged_Tablet_Cylinder_002"
 _surfaces = [{
 "aabb": AABB(-0.0022, -0.00045, -0.0022, 0.0044, 0.0009, 0.0044),
@@ -388,7 +392,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_77ixa"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_i8yh7"]
 resource_name = "HATAK_Rugged_Tablet_Cube_002"
 _surfaces = [{
 "aabb": AABB(-0.0012, -0.0002, -6e-05, 0.0024, 0.0004, 0.00012),
@@ -420,7 +424,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_o2dqj"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_lwoq6"]
 resource_name = "HATAK_Rugged_Tablet_Cylinder_003"
 _surfaces = [{
 "aabb": AABB(-0.0022, -0.00045, -0.0022, 0.0044, 0.0009, 0.0044),
@@ -452,7 +456,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_xrbwp"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_v35ax"]
 resource_name = "HATAK_Rugged_Tablet_Cube_003"
 _surfaces = [{
 "aabb": AABB(-0.0012, -0.0002, -6e-05, 0.0024, 0.0004, 0.00012),
@@ -493,7 +497,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_vm1j2"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_jfm7a"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Bumper_Lower_Left"
 _surfaces = [{
 "aabb": AABB(-0.158, -0.103, -0.017, 0.040000007, 0.036, 0.041),
@@ -525,7 +529,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_xyinj"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_vdntn"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Bumper_Lower_Right"
 _surfaces = [{
 "aabb": AABB(0.118, -0.103, -0.017, 0.040000007, 0.036, 0.041),
@@ -557,7 +561,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_pnano"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_3mqmv"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Bumper_Upper_Left"
 _surfaces = [{
 "aabb": AABB(-0.158, 0.067, -0.017, 0.040000007, 0.036, 0.041),
@@ -589,7 +593,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_q6bid"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_q8yij"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Bumper_Upper_Right"
 _surfaces = [{
 "aabb": AABB(0.118, 0.067, -0.017, 0.040000007, 0.036, 0.041),
@@ -641,7 +645,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_8yi1v"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_bcqr2"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Chassis"
 _surfaces = [{
 "aabb": AABB(-0.155, -0.102, -0.0125, 0.31, 0.204, 0.026999999),
@@ -686,7 +690,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_rk0v7"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_pvshj"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Corner_Trim_Lower_Left"
 _surfaces = [{
 "aabb": AABB(-0.1365, -0.101, 0.0246, 0.017000005, 0.003000006, 0.0008000005),
@@ -718,7 +722,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_mcp54"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_3qwvv"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Corner_Trim_Lower_Right"
 _surfaces = [{
 "aabb": AABB(0.1195, -0.101, 0.0246, 0.017000005, 0.003000006, 0.0008000005),
@@ -750,7 +754,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_yil2l"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_jk2us"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Corner_Trim_Upper_Left"
 _surfaces = [{
 "aabb": AABB(-0.1365, 0.098, 0.0246, 0.017000005, 0.003000006, 0.0008000005),
@@ -782,7 +786,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_pfhjn"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_bx27t"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Corner_Trim_Upper_Right"
 _surfaces = [{
 "aabb": AABB(0.1195, 0.098, 0.0246, 0.017000005, 0.003000006, 0.0008000005),
@@ -814,7 +818,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_codbo"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_5gkbt"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Dock_Connector_Seal"
 _surfaces = [{
 "aabb": AABB(-0.025, -0.0835, -0.0198, 0.05, 0.008999996, 0.0015999991),
@@ -853,7 +857,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_5gyt3"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_myb22"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Dock_Contact_1"
 _surfaces = [{
 "aabb": AABB(-0.018, -0.08125, -0.0204, 0.003999999, 0.004499994, 0.00060000084),
@@ -885,7 +889,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_7t74u"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_aa1gq"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Dock_Contact_2"
 _surfaces = [{
 "aabb": AABB(-0.01, -0.08125, -0.0204, 0.0039999997, 0.004499994, 0.00060000084),
@@ -917,7 +921,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_1m8fq"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_eyy1o"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Dock_Contact_3"
 _surfaces = [{
 "aabb": AABB(-0.002, -0.08125, -0.0204, 0.004, 0.004499994, 0.00060000084),
@@ -949,7 +953,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_1qg2d"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_cwrsm"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Dock_Contact_4"
 _surfaces = [{
 "aabb": AABB(0.006, -0.08125, -0.0204, 0.0039999997, 0.004499994, 0.00060000084),
@@ -981,7 +985,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_157ov"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_gjr4b"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Dock_Contact_5"
 _surfaces = [{
 "aabb": AABB(0.014, -0.08125, -0.0204, 0.003999999, 0.004499994, 0.00060000084),
@@ -1013,7 +1017,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_oho70"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_el74x"]
 resource_name = "HATAK_Rugged_Tablet_Cylinder"
 _surfaces = [{
 "aabb": AABB(-0.0022, -0.00045, -0.0022, 0.0044, 0.0009, 0.0044),
@@ -1045,7 +1049,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_xn2lt"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_bjb4n"]
 resource_name = "HATAK_Rugged_Tablet_Cube"
 _surfaces = [{
 "aabb": AABB(-0.0012, -0.0002, -6e-05, 0.0024, 0.0004, 0.00012),
@@ -1077,7 +1081,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_3mc84"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_15mk4"]
 resource_name = "HATAK_Rugged_Tablet_Cylinder_001"
 _surfaces = [{
 "aabb": AABB(-0.0022, -0.00045, -0.0022, 0.0044, 0.0009, 0.0044),
@@ -1109,7 +1113,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_gjmgb"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_kcwsi"]
 resource_name = "HATAK_Rugged_Tablet_Cube_001"
 _surfaces = [{
 "aabb": AABB(-0.0012, -0.0002, -6e-05, 0.0024, 0.0004, 0.00012),
@@ -1141,7 +1145,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_e0fti"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_c0wjq"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Left_Grip_Rib_1"
 _surfaces = [{
 "aabb": AABB(-0.1559, -0.03035, 0.0011, 0.011800006, 0.0026999991, 0.0009999999),
@@ -1173,7 +1177,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_8s0kq"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_bc7pj"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Left_Grip_Rib_2"
 _surfaces = [{
 "aabb": AABB(-0.1559, -0.01435, 0.0011, 0.011800006, 0.0027, 0.0009999999),
@@ -1205,7 +1209,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_g3yl7"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_u1nf1"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Left_Grip_Rib_3"
 _surfaces = [{
 "aabb": AABB(-0.1559, 0.00165, 0.0011, 0.011800006, 0.0027, 0.0009999999),
@@ -1237,7 +1241,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ihch8"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_bds2o"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Left_Grip_Rib_4"
 _surfaces = [{
 "aabb": AABB(-0.1559, 0.01765, 0.0011, 0.011800006, 0.0026999991, 0.0009999999),
@@ -1269,7 +1273,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_4ib4v"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_4q62m"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Left_Hand_Grip"
 _surfaces = [{
 "aabb": AABB(-0.1555, -0.0445, -0.007, 0.0109999925, 0.078999996, 0.008),
@@ -1301,7 +1305,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_yeafk"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_sp4l0"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Left_Thumb_Pad"
 _surfaces = [{
 "aabb": AABB(-0.14275, 0.006, 0.0158, 0.007499993, 0.033999998, 0.0020000003),
@@ -1333,7 +1337,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_tn0ix"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_3f8au"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Perimeter_Seal"
 _surfaces = [{
 "aabb": AABB(-0.1545, -0.101, -0.012, 0.309, 0.2, 0.0028),
@@ -1374,7 +1378,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_74ytm"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_ebtkx"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Power_Button"
 _surfaces = [{
 "aabb": AABB(0.13435, -0.03525, 0.0178, 0.0092999935, 0.014500001, 0.0023999996),
@@ -1406,7 +1410,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_qyfc4"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_g6f71"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Power_Button_Seat"
 _surfaces = [{
 "aabb": AABB(0.1325, -0.0375, 0.0159, 0.013000011, 0.019000001, 0.0022),
@@ -1445,7 +1449,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_w56t7"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_iayxw"]
 resource_name = "HATAK_Rugged_Tablet_Power glyph"
 _surfaces = [{
 "aabb": AABB(0.13635, -0.030650001, 0.0201, 0.0052999854, 0.0044859517, 0.000500001),
@@ -1478,7 +1482,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_pjcdn"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_2rtqe"]
 resource_name = "HATAK_Rugged_Tablet_Cube_004"
 _surfaces = [{
 "aabb": AABB(-0.00025, -0.0013, -0.000125, 0.0005, 0.0026, 0.00025),
@@ -1510,7 +1514,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_rd8jb"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_dexbw"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Rear_Blank_ID_Plate"
 _surfaces = [{
 "aabb": AABB(-0.066, 0.03, -0.0213, 0.042, 0.01, 0.000599999),
@@ -1542,7 +1546,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_n5syo"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_xed68"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Rear_Grip_Pad"
 _surfaces = [{
 "aabb": AABB(-0.0595, -0.0315, -0.0237, 0.119, 0.051, 0.0033999998),
@@ -1574,7 +1578,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_3rgij"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_4q3ll"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Rear_Grip_Ridge_1"
 _surfaces = [{
 "aabb": AABB(-0.047, -0.02375, -0.02505, 0.094, 0.0034999996, 0.0014999993),
@@ -1606,7 +1610,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_u7juo"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_4xxwa"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Rear_Grip_Ridge_2"
 _surfaces = [{
 "aabb": AABB(-0.047, -0.01575, -0.02505, 0.094, 0.0035000006, 0.0014999993),
@@ -1638,7 +1642,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_pjs0d"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_4pu8d"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Rear_Grip_Ridge_3"
 _surfaces = [{
 "aabb": AABB(-0.047, -0.00775, -0.02505, 0.094, 0.0034999996, 0.0014999993),
@@ -1670,7 +1674,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_iw7vx"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_217r4"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Rear_Grip_Ridge_4"
 _surfaces = [{
 "aabb": AABB(-0.047, 0.00025, -0.02505, 0.094, 0.0034999999, 0.0014999993),
@@ -1702,7 +1706,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_jdrn1"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_2ahkm"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Rear_Grip_Ridge_5"
 _surfaces = [{
 "aabb": AABB(-0.047, 0.00825, -0.02505, 0.094, 0.0034999996, 0.0014999993),
@@ -1745,7 +1749,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_a0l2y"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_uawyg"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Rear_Service_Plate"
 _surfaces = [{
 "aabb": AABB(-0.092, -0.059, -0.0206, 0.184, 0.114, 0.0022),
@@ -1790,7 +1794,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_5hm3r"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_nowd2"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Rear_Service_Seal"
 _surfaces = [{
 "aabb": AABB(-0.094, -0.061, -0.01905, 0.188, 0.118, 0.0014999993),
@@ -1822,7 +1826,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_q8m6w"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_7e18t"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Right_Grip_Rib_1"
 _surfaces = [{
 "aabb": AABB(0.1441, -0.03035, 0.0011, 0.011800006, 0.0026999991, 0.0009999999),
@@ -1854,7 +1858,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_xdgn2"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_7vf2t"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Right_Grip_Rib_2"
 _surfaces = [{
 "aabb": AABB(0.1441, -0.01435, 0.0011, 0.011800006, 0.0027, 0.0009999999),
@@ -1886,7 +1890,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_lpsjm"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_swfl1"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Right_Grip_Rib_3"
 _surfaces = [{
 "aabb": AABB(0.1441, 0.00165, 0.0011, 0.011800006, 0.0027, 0.0009999999),
@@ -1918,7 +1922,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_4nxma"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_og5mn"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Right_Grip_Rib_4"
 _surfaces = [{
 "aabb": AABB(0.1441, 0.01765, 0.0011, 0.011800006, 0.0026999991, 0.0009999999),
@@ -1950,7 +1954,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_1blwa"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_dn333"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Right_Hand_Grip"
 _surfaces = [{
 "aabb": AABB(0.1445, -0.0445, -0.007, 0.0109999925, 0.078999996, 0.008),
@@ -1982,7 +1986,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ypkf6"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_xnxtg"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Right_Thumb_Pad"
 _surfaces = [{
 "aabb": AABB(0.13525, 0.006, 0.0158, 0.007499993, 0.033999998, 0.0020000003),
@@ -2014,7 +2018,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_vi6fo"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_apr73"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Right_Volume_Rocker"
 _surfaces = [{
 "aabb": AABB(0.15525, 0.0275, -0.0045, 0.0034999996, 0.029, 0.0069999998),
@@ -2046,7 +2050,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_41mtp"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_otcbf"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Screen_Bezel"
 _surfaces = [{
 "aabb": AABB(-0.1315, -0.0855, 0.0145, 0.263, 0.169, 0.0040000007),
@@ -2087,7 +2091,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_irfwd"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_i2fns"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Screen_Display"
 _surfaces = [{
 "aabb": AABB(-0.124, -0.0785, 0.019, 0.248, 0.155, 1e-05),
@@ -2119,7 +2123,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_28m6f"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_lj0b8"]
 resource_name = "HATAK_Rugged_Tablet_Cube_009"
 _surfaces = [{
 "aabb": AABB(-0.001, -0.007, -0.0045, 0.002, 0.014, 0.009),
@@ -2151,7 +2155,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_vehhl"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_omoxx"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Speaker_Recess_1"
 _surfaces = [{
 "aabb": AABB(-0.0395, 0.08215, 0.01505, 0.079, 0.0023000017, 0.0007000007),
@@ -2183,7 +2187,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_xecdt"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_xnghb"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Speaker_Recess_2"
 _surfaces = [{
 "aabb": AABB(-0.0395, 0.08605, 0.01505, 0.079, 0.0023000017, 0.0007000007),
@@ -2223,7 +2227,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_av6a2"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_x2x5u"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Status_LED"
 _surfaces = [{
 "aabb": AABB(-0.14125, 0.07015, 0.0162, 0.0045000017, 0.001699999, 0.0008000005),
@@ -2255,7 +2259,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_csmfg"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_jug8q"]
 resource_name = "HATAK_Rugged_Tablet_Tablet_Status_LED_Seat"
 _surfaces = [{
 "aabb": AABB(-0.143, 0.0693, 0.0156, 0.008000001, 0.003399998, 0.0008000005),
@@ -2273,230 +2277,249 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_toiou")
 
-[node name="HATAK_Rugged_Tablet2" type="Node3D" unique_id=442364947]
+[node name="RigidBody3D" type="RigidBody3D" unique_id=565783276]
+script = ExtResource("1_1e7px")
 
-[node name="HATAK_Rugged_Tablet" type="Node3D" parent="." unique_id=1030243275]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=974995449]
+transform = Transform3D(0.31097513, 0, 0, 0, 0.21011747, 0, 0, 0, -0.05569966, 0.005102539, 0, 0)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="HATAK_Rugged_Tablet" type="Node3D" parent="." unique_id=526293409]
 metadata/extras = {
 "asset_description": "Rugged handheld tablet; screen is separate, blank and replaceable.",
 "units": "meters"
 }
 
-[node name="Tablet_Back_Cover" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1024269454]
-mesh = SubResource("ArrayMesh_u3rka")
+[node name="Tablet_Back_Cover" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1991872368]
+mesh = SubResource("ArrayMesh_nk2fr")
 
-[node name="Tablet_Back_Screw_-0_081_-0_048" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=211364393]
+[node name="Tablet_Back_Screw_-0_081_-0_048" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=156354521]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -0.081, -0.048, -0.0213)
-mesh = SubResource("ArrayMesh_57nql")
+mesh = SubResource("ArrayMesh_1e7px")
 
-[node name="Tablet_Back_Screw_-0_081_-0_048_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=883329560]
+[node name="Tablet_Back_Screw_-0_081_-0_048_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=28570142]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.081, -0.048, -0.02178)
-mesh = SubResource("ArrayMesh_h4yyx")
+mesh = SubResource("ArrayMesh_7serw")
 
-[node name="Tablet_Back_Screw_-0_081_0_045" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1878340492]
+[node name="Tablet_Back_Screw_-0_081_0_045" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2033744244]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -0.081, 0.045, -0.0213)
-mesh = SubResource("ArrayMesh_udd0j")
+mesh = SubResource("ArrayMesh_crc8g")
 
-[node name="Tablet_Back_Screw_-0_081_0_045_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1591371203]
+[node name="Tablet_Back_Screw_-0_081_0_045_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1161162724]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.081, 0.045, -0.02178)
-mesh = SubResource("ArrayMesh_vpx5q")
+mesh = SubResource("ArrayMesh_q3dch")
 
-[node name="Tablet_Back_Screw_0_081_-0_048" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=261601409]
+[node name="Tablet_Back_Screw_0_081_-0_048" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2094005335]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0.081, -0.048, -0.0213)
-mesh = SubResource("ArrayMesh_u6t6w")
+mesh = SubResource("ArrayMesh_81qm8")
 
-[node name="Tablet_Back_Screw_0_081_-0_048_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=844071111]
+[node name="Tablet_Back_Screw_0_081_-0_048_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1744904946]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.081, -0.048, -0.02178)
-mesh = SubResource("ArrayMesh_ckdfh")
+mesh = SubResource("ArrayMesh_k2t3k")
 
-[node name="Tablet_Back_Screw_0_081_0_045" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1236716868]
+[node name="Tablet_Back_Screw_0_081_0_045" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=268233616]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0.081, 0.045, -0.0213)
-mesh = SubResource("ArrayMesh_63aph")
+mesh = SubResource("ArrayMesh_ny6wr")
 
-[node name="Tablet_Back_Screw_0_081_0_045_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1168522585]
+[node name="Tablet_Back_Screw_0_081_0_045_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1990435358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.081, 0.045, -0.02178)
-mesh = SubResource("ArrayMesh_48ha4")
+mesh = SubResource("ArrayMesh_gnwwp")
 
-[node name="Tablet_Bottom_Screw_L" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=693741367]
+[node name="Tablet_Bottom_Screw_L" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=844633352]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -0.109, -0.089, 0.0157)
-mesh = SubResource("ArrayMesh_jvnmg")
+mesh = SubResource("ArrayMesh_r70x7")
 
-[node name="Tablet_Bottom_Screw_L_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1195142504]
+[node name="Tablet_Bottom_Screw_L_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1232435531]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.109, -0.089, 0.01618)
-mesh = SubResource("ArrayMesh_77ixa")
+mesh = SubResource("ArrayMesh_i8yh7")
 
-[node name="Tablet_Bottom_Screw_R" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=24790474]
+[node name="Tablet_Bottom_Screw_R" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1282289106]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0.109, -0.089, 0.0157)
-mesh = SubResource("ArrayMesh_o2dqj")
+mesh = SubResource("ArrayMesh_lwoq6")
 
-[node name="Tablet_Bottom_Screw_R_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1705599254]
+[node name="Tablet_Bottom_Screw_R_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1106363600]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.109, -0.089, 0.01618)
-mesh = SubResource("ArrayMesh_xrbwp")
+mesh = SubResource("ArrayMesh_v35ax")
 
-[node name="Tablet_Bumper_Lower_Left" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=428423088]
-mesh = SubResource("ArrayMesh_vm1j2")
+[node name="Tablet_Bumper_Lower_Left" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=973037412]
+mesh = SubResource("ArrayMesh_jfm7a")
 
-[node name="Tablet_Bumper_Lower_Right" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1113069118]
-mesh = SubResource("ArrayMesh_xyinj")
+[node name="Tablet_Bumper_Lower_Right" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=678778417]
+mesh = SubResource("ArrayMesh_vdntn")
 
-[node name="Tablet_Bumper_Upper_Left" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=183626100]
-mesh = SubResource("ArrayMesh_pnano")
+[node name="Tablet_Bumper_Upper_Left" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=886386160]
+mesh = SubResource("ArrayMesh_3mqmv")
 
-[node name="Tablet_Bumper_Upper_Right" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1404206402]
-mesh = SubResource("ArrayMesh_q6bid")
+[node name="Tablet_Bumper_Upper_Right" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1041961111]
+mesh = SubResource("ArrayMesh_q8yij")
 
-[node name="Tablet_Chassis" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1688603185]
-mesh = SubResource("ArrayMesh_8yi1v")
+[node name="Tablet_Chassis" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1590913196]
+mesh = SubResource("ArrayMesh_bcqr2")
 
-[node name="Tablet_Corner_Trim_Lower_Left" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2125040152]
-mesh = SubResource("ArrayMesh_rk0v7")
+[node name="Tablet_Corner_Trim_Lower_Left" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1284444928]
+mesh = SubResource("ArrayMesh_pvshj")
 
-[node name="Tablet_Corner_Trim_Lower_Right" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1408832499]
-mesh = SubResource("ArrayMesh_mcp54")
+[node name="Tablet_Corner_Trim_Lower_Right" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1371775115]
+mesh = SubResource("ArrayMesh_3qwvv")
 
-[node name="Tablet_Corner_Trim_Upper_Left" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2020132340]
-mesh = SubResource("ArrayMesh_yil2l")
+[node name="Tablet_Corner_Trim_Upper_Left" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1502146767]
+mesh = SubResource("ArrayMesh_jk2us")
 
-[node name="Tablet_Corner_Trim_Upper_Right" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=768290947]
-mesh = SubResource("ArrayMesh_pfhjn")
+[node name="Tablet_Corner_Trim_Upper_Right" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=542620215]
+mesh = SubResource("ArrayMesh_bx27t")
 
-[node name="Tablet_Dock_Connector_Seal" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=789392233]
-mesh = SubResource("ArrayMesh_codbo")
+[node name="Tablet_Dock_Connector_Seal" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=631287316]
+mesh = SubResource("ArrayMesh_5gkbt")
 
-[node name="Tablet_Dock_Contact_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=707140911]
-mesh = SubResource("ArrayMesh_5gyt3")
+[node name="Tablet_Dock_Contact_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1214399639]
+mesh = SubResource("ArrayMesh_myb22")
 
-[node name="Tablet_Dock_Contact_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=137355279]
-mesh = SubResource("ArrayMesh_7t74u")
+[node name="Tablet_Dock_Contact_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=461975062]
+mesh = SubResource("ArrayMesh_aa1gq")
 
-[node name="Tablet_Dock_Contact_3" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1442938070]
-mesh = SubResource("ArrayMesh_1m8fq")
+[node name="Tablet_Dock_Contact_3" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=753791208]
+mesh = SubResource("ArrayMesh_eyy1o")
 
-[node name="Tablet_Dock_Contact_4" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=241884180]
-mesh = SubResource("ArrayMesh_1qg2d")
+[node name="Tablet_Dock_Contact_4" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2040229365]
+mesh = SubResource("ArrayMesh_cwrsm")
 
-[node name="Tablet_Dock_Contact_5" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=964965631]
-mesh = SubResource("ArrayMesh_157ov")
+[node name="Tablet_Dock_Contact_5" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1192247040]
+mesh = SubResource("ArrayMesh_gjr4b")
 
-[node name="Tablet_Front_Screw_L" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1638798838]
+[node name="Tablet_Front_Screw_L" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1787990798]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -0.108, 0.087, 0.0157)
-mesh = SubResource("ArrayMesh_oho70")
+mesh = SubResource("ArrayMesh_el74x")
 
-[node name="Tablet_Front_Screw_L_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1960797727]
+[node name="Tablet_Front_Screw_L_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1201055434]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.108, 0.087, 0.01618)
-mesh = SubResource("ArrayMesh_xn2lt")
+mesh = SubResource("ArrayMesh_bjb4n")
 
-[node name="Tablet_Front_Screw_R" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1559569968]
+[node name="Tablet_Front_Screw_R" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=382372592]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0.108, 0.087, 0.0157)
-mesh = SubResource("ArrayMesh_3mc84")
+mesh = SubResource("ArrayMesh_15mk4")
 
-[node name="Tablet_Front_Screw_R_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=643691805]
+[node name="Tablet_Front_Screw_R_Drive" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1093961878]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.108, 0.087, 0.01618)
-mesh = SubResource("ArrayMesh_gjmgb")
+mesh = SubResource("ArrayMesh_kcwsi")
 
-[node name="Tablet_Left_Grip_Rib_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=786412489]
-mesh = SubResource("ArrayMesh_e0fti")
+[node name="Tablet_Left_Grip_Rib_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1932458049]
+mesh = SubResource("ArrayMesh_c0wjq")
 
-[node name="Tablet_Left_Grip_Rib_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1285790283]
-mesh = SubResource("ArrayMesh_8s0kq")
+[node name="Tablet_Left_Grip_Rib_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=195030670]
+mesh = SubResource("ArrayMesh_bc7pj")
 
-[node name="Tablet_Left_Grip_Rib_3" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=727491381]
-mesh = SubResource("ArrayMesh_g3yl7")
+[node name="Tablet_Left_Grip_Rib_3" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=568017457]
+mesh = SubResource("ArrayMesh_u1nf1")
 
-[node name="Tablet_Left_Grip_Rib_4" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1073822809]
-mesh = SubResource("ArrayMesh_ihch8")
+[node name="Tablet_Left_Grip_Rib_4" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1448738458]
+mesh = SubResource("ArrayMesh_bds2o")
 
-[node name="Tablet_Left_Hand_Grip" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2028894449]
-mesh = SubResource("ArrayMesh_4ib4v")
+[node name="Tablet_Left_Hand_Grip" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=133562680]
+mesh = SubResource("ArrayMesh_4q62m")
 
-[node name="Tablet_Left_Thumb_Pad" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2082128166]
-mesh = SubResource("ArrayMesh_yeafk")
+[node name="Tablet_Left_Thumb_Pad" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1892064699]
+mesh = SubResource("ArrayMesh_sp4l0")
 
-[node name="Tablet_Perimeter_Seal" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1269631580]
-mesh = SubResource("ArrayMesh_tn0ix")
+[node name="Tablet_Perimeter_Seal" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1343123688]
+mesh = SubResource("ArrayMesh_3f8au")
 
-[node name="Tablet_Power_Button" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=128395174]
-mesh = SubResource("ArrayMesh_74ytm")
+[node name="Tablet_Power_Button" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1492946414]
+mesh = SubResource("ArrayMesh_ebtkx")
 
-[node name="Tablet_Power_Button_Seat" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=425753163]
-mesh = SubResource("ArrayMesh_qyfc4")
+[node name="Tablet_Power_Button_Seat" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=384407364]
+mesh = SubResource("ArrayMesh_g6f71")
 
-[node name="Tablet_Power_Glyph_Arc" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2078934185]
-mesh = SubResource("ArrayMesh_w56t7")
+[node name="Tablet_Power_Glyph_Arc" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1312834507]
+mesh = SubResource("ArrayMesh_iayxw")
 
-[node name="Tablet_Power_Glyph_Line" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1966217242]
+[node name="Tablet_Power_Glyph_Line" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1830178407]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.139, -0.0258, 0.02038)
-mesh = SubResource("ArrayMesh_pjcdn")
+mesh = SubResource("ArrayMesh_2rtqe")
 
-[node name="Tablet_Rear_Blank_ID_Plate" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=971832294]
-mesh = SubResource("ArrayMesh_rd8jb")
+[node name="Tablet_Rear_Blank_ID_Plate" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1231184059]
+mesh = SubResource("ArrayMesh_dexbw")
 
-[node name="Tablet_Rear_Grip_Pad" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2032348393]
-mesh = SubResource("ArrayMesh_n5syo")
+[node name="Tablet_Rear_Grip_Pad" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=443151711]
+mesh = SubResource("ArrayMesh_xed68")
 
-[node name="Tablet_Rear_Grip_Ridge_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1395553255]
-mesh = SubResource("ArrayMesh_3rgij")
+[node name="Tablet_Rear_Grip_Ridge_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=563978489]
+mesh = SubResource("ArrayMesh_4q3ll")
 
-[node name="Tablet_Rear_Grip_Ridge_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1975264704]
-mesh = SubResource("ArrayMesh_u7juo")
+[node name="Tablet_Rear_Grip_Ridge_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=658236508]
+mesh = SubResource("ArrayMesh_4xxwa")
 
-[node name="Tablet_Rear_Grip_Ridge_3" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=811977881]
-mesh = SubResource("ArrayMesh_pjs0d")
+[node name="Tablet_Rear_Grip_Ridge_3" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=615204923]
+mesh = SubResource("ArrayMesh_4pu8d")
 
-[node name="Tablet_Rear_Grip_Ridge_4" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=355420897]
-mesh = SubResource("ArrayMesh_iw7vx")
+[node name="Tablet_Rear_Grip_Ridge_4" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=444978198]
+mesh = SubResource("ArrayMesh_217r4")
 
-[node name="Tablet_Rear_Grip_Ridge_5" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1091483836]
-mesh = SubResource("ArrayMesh_jdrn1")
+[node name="Tablet_Rear_Grip_Ridge_5" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1561186773]
+mesh = SubResource("ArrayMesh_2ahkm")
 
-[node name="Tablet_Rear_Service_Plate" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=573362798]
-mesh = SubResource("ArrayMesh_a0l2y")
+[node name="Tablet_Rear_Service_Plate" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=925497652]
+mesh = SubResource("ArrayMesh_uawyg")
 
-[node name="Tablet_Rear_Service_Seal" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1741009782]
-mesh = SubResource("ArrayMesh_5hm3r")
+[node name="Tablet_Rear_Service_Seal" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1063725276]
+mesh = SubResource("ArrayMesh_nowd2")
 
-[node name="Tablet_Right_Grip_Rib_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1738170194]
-mesh = SubResource("ArrayMesh_q8m6w")
+[node name="Tablet_Right_Grip_Rib_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2074416093]
+mesh = SubResource("ArrayMesh_7e18t")
 
-[node name="Tablet_Right_Grip_Rib_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1236768884]
-mesh = SubResource("ArrayMesh_xdgn2")
+[node name="Tablet_Right_Grip_Rib_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1635604906]
+mesh = SubResource("ArrayMesh_7vf2t")
 
-[node name="Tablet_Right_Grip_Rib_3" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=625055027]
-mesh = SubResource("ArrayMesh_lpsjm")
+[node name="Tablet_Right_Grip_Rib_3" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=990642963]
+mesh = SubResource("ArrayMesh_swfl1")
 
-[node name="Tablet_Right_Grip_Rib_4" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1301530103]
-mesh = SubResource("ArrayMesh_4nxma")
+[node name="Tablet_Right_Grip_Rib_4" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1880433441]
+mesh = SubResource("ArrayMesh_og5mn")
 
-[node name="Tablet_Right_Hand_Grip" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=476197818]
-mesh = SubResource("ArrayMesh_1blwa")
+[node name="Tablet_Right_Hand_Grip" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2126967479]
+mesh = SubResource("ArrayMesh_dn333")
 
-[node name="Tablet_Right_Thumb_Pad" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=57844015]
-mesh = SubResource("ArrayMesh_ypkf6")
+[node name="Tablet_Right_Thumb_Pad" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=600064561]
+mesh = SubResource("ArrayMesh_xnxtg")
 
-[node name="Tablet_Right_Volume_Rocker" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1094754851]
-mesh = SubResource("ArrayMesh_vi6fo")
+[node name="Tablet_Right_Volume_Rocker" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=727494266]
+mesh = SubResource("ArrayMesh_apr73")
 
-[node name="Tablet_Screen_Bezel" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1570044541]
-mesh = SubResource("ArrayMesh_41mtp")
+[node name="Tablet_Screen_Bezel" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=19361780]
+mesh = SubResource("ArrayMesh_otcbf")
 
-[node name="Tablet_Screen_Display" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1528756693]
-mesh = SubResource("ArrayMesh_irfwd")
+[node name="Tablet_Screen_Display" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1448331507]
+mesh = SubResource("ArrayMesh_i2fns")
 metadata/extras = {
 "purpose": "Replace this material or its base-colour texture with the game screen.",
 "screen_aspect_ratio": "16:10"
 }
 
-[node name="Tablet_Sealed_USB_Port" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=1013838928]
+[node name="SubViewport" type="SubViewport" parent="HATAK_Rugged_Tablet/Tablet_Screen_Display" unique_id=1707668361]
+size = Vector2i(248, 155)
+
+[node name="Tablet_Sealed_USB_Port" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=118788590]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.156, -0.058, -0.001)
-mesh = SubResource("ArrayMesh_28m6f")
+mesh = SubResource("ArrayMesh_lj0b8")
 
-[node name="Tablet_Speaker_Recess_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=131893908]
-mesh = SubResource("ArrayMesh_vehhl")
+[node name="Tablet_Speaker_Recess_1" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=177264726]
+mesh = SubResource("ArrayMesh_omoxx")
 
-[node name="Tablet_Speaker_Recess_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=345294972]
-mesh = SubResource("ArrayMesh_xecdt")
+[node name="Tablet_Speaker_Recess_2" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=85356634]
+mesh = SubResource("ArrayMesh_xnghb")
 
-[node name="Tablet_Status_LED" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=196703098]
-mesh = SubResource("ArrayMesh_av6a2")
+[node name="Tablet_Status_LED" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=869175530]
+mesh = SubResource("ArrayMesh_x2x5u")
 
-[node name="Tablet_Status_LED_Seat" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=666662625]
-mesh = SubResource("ArrayMesh_csmfg")
+[node name="Tablet_Status_LED_Seat" type="MeshInstance3D" parent="HATAK_Rugged_Tablet" unique_id=2146076148]
+mesh = SubResource("ArrayMesh_jug8q")
+
+[node name="Interactable" type="Interactable" parent="." unique_id=1936183802]
+prompt_text = "Tablet"
+item_id = "telemetry_tablet"
+is_pickup = true
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable" unique_id=2021344657]
+transform = Transform3D(0.33519307, 0, 0, 0, 0.23052776, 0, 0, 0, -0.060297206, 0.005102539, 0, 0)
+shape = SubResource("BoxShape3D_g4v7s")

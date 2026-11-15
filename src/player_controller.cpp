@@ -154,6 +154,15 @@ void PlayerController::_physics_process(double delta) {
     set_velocity(velocity);
     move_and_slide();
 
+    if (hand_slot != nullptr) {
+        Vector3 target_hand_pos = (held_item_id == "telemetry_tablet")
+            ? Vector3(0.0f, -0.045f, -0.28f)   // по центру перед камерою
+            : Vector3(0.22f, -0.18f, -0.35f);  // збоку в правій руці для інших предметів
+
+        Vector3 current_pos = hand_slot->get_position();
+        hand_slot->set_position(current_pos.lerp(target_hand_pos, (real_t)(delta * 10.0)));
+    }
+
     // 2. Interaction & Hold-to-Interact
     Interactable *target = nullptr;
     bool show_prompt = false;
@@ -200,7 +209,15 @@ void PlayerController::_physics_process(double delta) {
 
                         rb->reparent(hand_slot, false);
                         rb->set_position(Vector3(0, 0, 0));
-                        rb->set_rotation(Vector3(0, 0, 0));
+                        if (target->get_item_id() == "telemetry_tablet") {
+                            rb->set_rotation(Vector3(
+                            Math::deg_to_rad(0.0), 
+                            Math::deg_to_rad(0.0), // спробуй 0, 90, 180 або -90, залежно від орієнтації меша
+                            Math::deg_to_rad(0.0)));
+                        }
+                        else {
+                            rb->set_rotation(Vector3(0, 0, 0));
+                        }
 
                         emit_signal("held_item_changed", held_item_id);
                         show_prompt = false;

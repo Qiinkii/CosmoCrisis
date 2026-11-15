@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://ogdyp8ou6kjp"]
+
+[ext_resource type="PackedScene" uid="uid://b8hdihi185fmb" path="res://models/HATAK_Rugged_Tablet.glb" id="1_6a75r"]
+
+[node name="HATAK_Rugged_Tablet2" unique_id=442364947 instance=ExtResource("1_6a75r")]

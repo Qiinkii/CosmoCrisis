@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b7i54xlvgwkn" path="res://scripts/engineering_zone.gd" id="2_2gnfn"]
 [ext_resource type="PackedScene" uid="uid://de8xoqngnhmss" path="res://ui/hud.tscn" id="2_tfsc7"]
 [ext_resource type="PackedScene" uid="uid://dwrtrmx44vagq" path="res://scenes/hypercapnia_effects.tscn" id="7_3m36u"]
+[ext_resource type="PackedScene" uid="uid://bn33j1df1o48x" path="res://scenes/tablet.tscn" id="7_8qiel"]
 [ext_resource type="PackedScene" uid="uid://bpr7yvpmlus3w" path="res://scenes/lastship.tscn" id="8_8qiel"]
 [ext_resource type="Shader" uid="uid://btktmfnk0olsr" path="res://shaders/space_sky.gdshader" id="9_space_sky"]
 
@@ -64,6 +65,9 @@ jump_velocity = 1.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.821987, 0)
 
 [node name="Hud" parent="Player" unique_id=1293581850 instance=ExtResource("2_tfsc7")]
+
+[node name="RigidBody3D" parent="." unique_id=565783276 instance=ExtResource("7_8qiel")]
+transform = Transform3D(-0.014706418, 0, -0.9998919, 0, 1, 0, 0.9998919, 0, -0.014706418, 3.1300483, 0, 0)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]
