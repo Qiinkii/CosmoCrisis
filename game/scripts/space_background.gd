@@ -78,7 +78,21 @@ func _apply_camera() -> void:
 		sin(elevation),
 		cos(azimuth) * cos(elevation)
 	)
-	camera.look_at_from_position(center + direction * orbit_distance, center, Vector3.UP)
+	var cam_pos := center + direction * orbit_distance
+	camera.look_at_from_position(cam_pos, center, Vector3.UP)
 
-	# Slide the camera sideways/up in its own frame so the hole appears off-centre
-	# (parallel shift, so the orbit itself is unchanged). Sized from the visible
+	# Make the hole appear off-centre: slide the camera sideways/up in its own
+	# frame (a parallel shift, so it still looks straight at the hole's direction).
+	# Moving the camera LEFT makes the hole appear to the RIGHT, hence the minus.
+	# Sized from the visible width/height at the hole's distance so the position
+	# holds at any window shape. h_offset/v_offset are not used on purpose.
+	var view_size := get_size()
+	var aspect := view_size.x / maxf(view_size.y, 1.0)
+	var half_height := orbit_distance * tan(deg_to_rad(camera.fov) * 0.5)
+	var half_width := half_height * aspect
+	var cam_basis := camera.global_transform.basis
+	camera.global_position = cam_pos \
+		- cam_basis.x * (2.0 * hole_screen_x * half_width) \
+		- cam_basis.y * (2.0 * hole_screen_y * half_height)
+	camera.h_offset = 0.0
+	camera.v_offset = 0.0
