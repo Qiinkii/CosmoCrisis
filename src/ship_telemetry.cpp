@@ -7,6 +7,7 @@
 using namespace godot;
 
 void ShipTelemetry::_bind_methods(){
+    UtilityFunctions::print("ShipTelemetry::_bind_methods v2");
     ClassDB::bind_method(D_METHOD("get_co2_level"), &ShipTelemetry::get_co2_level);
     ClassDB::bind_method(D_METHOD("set_co2_level", "p_level"), &ShipTelemetry::set_co2_level);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "co2_level"), "set_co2_level", "get_co2_level");
@@ -61,9 +62,8 @@ void ShipTelemetry::_bind_methods(){
     ClassDB::bind_method(D_METHOD("repair_cooling_system"), &ShipTelemetry::repair_cooling_system);
     ClassDB::bind_method(D_METHOD("trigger_hull_breach"), &ShipTelemetry::trigger_hull_breach);
     ClassDB::bind_method(D_METHOD("repair_hull_breach"), &ShipTelemetry::repair_hull_breach);
-    ClassDB::bind_method(D_METHOD("repair_hull_breach"), &ShipTelemetry::repair_hull_breach);
     ClassDB::bind_method(D_METHOD("reset_mission"), &ShipTelemetry::reset_mission);
-
+    
     ADD_SIGNAL(MethodInfo("telemetry_updated"));
     ADD_SIGNAL(MethodInfo("mission_failed", PropertyInfo(Variant::STRING, "reason")));
     ADD_SIGNAL(MethodInfo("mission_completed"));
