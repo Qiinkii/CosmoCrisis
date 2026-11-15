@@ -40,7 +40,7 @@ void PlayerController::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_garvity", "val"), &PlayerController::set_garvity);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "garvity"), "set_garvity", "get_garvity");
 
-    ADD_SIGNAL(MethodInfo("interaction_prompt_changed", PropertyInfo(Variant::BOOL, "visible"), PropertyInfo(Variant::STRING, "text")));
+    ADD_SIGNAL(MethodInfo("interaction_prompt_changed", PropertyInfo(Variant::BOOL, "visible"), PropertyInfo(Variant::STRING, "text"), PropertyInfo(Variant::FLOAT, "progress")));
     ADD_SIGNAL(MethodInfo("held_item_changed", PropertyInfo(Variant::STRING, "item_id")));
 }
 
@@ -53,8 +53,8 @@ void PlayerController::_ready(){
     camera = get_node<Camera3D>("Head/Camera3D");
     interaction_ray = get_node<RayCast3D>("Head/Camera3D/InteractionRay");
     if (interaction_ray != nullptr) {
-    interaction_ray->add_exception(this);
-}
+        interaction_ray->add_exception(this);
+    }
     hand_slot = get_node<Marker3D>("Head/Camera3D/HandSlot");
     Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_CAPTURED);
 }
@@ -117,58 +117,69 @@ void PlayerController::_physics_process(double delta){
     set_velocity(velocity);
     move_and_slide();
 
-    // 1. Обновление подсказки при наведении луча
+    Input *input = Input::get_singleton();
+    Interactable *target = nullptr;
+    bool show_prompt = false;
     if (interaction_ray != nullptr && interaction_ray->is_colliding()) {
-        Interactable *target = Object::cast_to<Interactable>(interaction_ray->get_collider());
+        target = Object::cast_to<Interactable>(interaction_ray->get_collider());
         if (target != nullptr) {
-            bool show = !target->get_is_pickup() || held_item_id.is_empty();
-            emit_signal("interaction_prompt_changed", show, target->get_prompt_text());
-        } else {
-            emit_signal("interaction_prompt_changed", false, "");
+            show_prompt = !target->get_is_pickup() || held_item_id.is_empty();
         }
+    }
+
+    if (!show_prompt || target == nullptr) {
+        charging_target_id = 0;
+        interaction_hold_progress = 0.0;
     } else {
-        emit_signal("interaction_prompt_changed", false, "");
-    }
+        const uint64_t target_id = static_cast<uint64_t>(target->get_instance_id());
+        if (charging_target_id != target_id) {
+            charging_target_id = target_id;
+            interaction_hold_progress = 0.0;
+        }
 
-    // 2. Взаимодействие при нажатии E ("interact")
-  if (Input::get_singleton()->is_action_just_pressed("interact")) {
-        UtilityFunctions::print("E pressed | colliding: ", interaction_ray != nullptr && interaction_ray->is_colliding());
-        if (interaction_ray != nullptr && interaction_ray->is_colliding()) {
-            Object *col = interaction_ray->get_collider();
-            UtilityFunctions::print("Ray hit: ", col, " | as Interactable: ", Object::cast_to<Interactable>(col));
-            Interactable *target = Object::cast_to<Interactable>(col);
-            if (target != nullptr) {
-                if (target->get_is_pickup()) {
-                    if (held_item_id.is_empty() && hand_slot != nullptr && hand_slot->get_child_count() == 0) {
-                        RigidBody3D *rb = Object::cast_to<RigidBody3D>(target->get_parent());
-                        if (rb != nullptr) {
-                            held_item_id = target->get_item_id();
+        if (input->is_action_pressed("interact")) {
+            interaction_hold_progress += delta / 0.5;
+        } else {
+            // Filling takes 0.5s; draining takes 1.5x as long (0.75s).
+            interaction_hold_progress -= delta / 0.75;
+        }
+        interaction_hold_progress = Math::clamp(interaction_hold_progress, 0.0, 1.0);
 
-                            rb->set_freeze_enabled(true);
-                            rb->set_collision_layer(0);
-                            rb->set_collision_mask(0);
+        if (interaction_hold_progress >= 1.0) {
+            if (target->get_is_pickup()) {
+                if (held_item_id.is_empty() && hand_slot != nullptr && hand_slot->get_child_count() == 0) {
+                    RigidBody3D *rb = Object::cast_to<RigidBody3D>(target->get_parent());
+                    if (rb != nullptr) {
+                        held_item_id = target->get_item_id();
 
-                            target->set_monitoring(false);
-                            target->set_monitorable(false);
-                            target->set_collision_layer(0);
+                        rb->set_freeze_enabled(true);
+                        rb->set_collision_layer(0);
+                        rb->set_collision_mask(0);
 
-                            rb->reparent(hand_slot, false);
-                            rb->set_position(Vector3(0, 0, 0));
-                            rb->set_rotation(Vector3(0, 0, 0));
+                        target->set_monitoring(false);
+                        target->set_monitorable(false);
+                        target->set_collision_layer(0);
 
-                            emit_signal("held_item_changed", held_item_id);
-                        }
+                        rb->reparent(hand_slot, false);
+                        rb->set_position(Vector3(0, 0, 0));
+                        rb->set_rotation(Vector3(0, 0, 0));
+
+                        emit_signal("held_item_changed", held_item_id);
+                        show_prompt = false;
                     }
-                } else {
-                    // Взаимодействие со щитком (срабатывает и с кубом в руке, и без него)
-                    target->interact(this);
                 }
+            } else {
+                target->interact(this);
             }
+            interaction_hold_progress = 0.0;
+            charging_target_id = 0;
         }
     }
+
+    emit_signal("interaction_prompt_changed", show_prompt, show_prompt ? target->get_prompt_text() : String(""), interaction_hold_progress);
 
     // 3. Выбрасывание предметов куба
-    if(Input::get_singleton()->is_action_just_pressed("drop")){
+    if(input->is_action_just_pressed("drop")){
         if(!held_item_id.is_empty() && hand_slot->get_child_count() > 0){
             Node3D *held_node = Object::cast_to<Node3D>(hand_slot->get_child(0));
             RigidBody3D *rb = Object::cast_to<RigidBody3D>(held_node);
