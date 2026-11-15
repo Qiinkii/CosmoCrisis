@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://be3f47wk2jfbl"]
 
-[ext_resource type="PackedScene" uid="uid://dq0afvfplh7hf" path="res://shatl/lastship.glb" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://dq0afvfplh7hf" path="res://shatl2/lastship.glb" id="1_o5qli"]
 [ext_resource type="Shader" path="res://shaders/space_sky.gdshader" id="2_space_sky"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_space_sky"]
