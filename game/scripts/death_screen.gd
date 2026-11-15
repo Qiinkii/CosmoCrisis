@@ -4,14 +4,16 @@ extends CanvasLayer
 ## Registered as an autoload (see project.godot) so it keeps listening to
 ## ShipTelemetryGlobal across scene reloads. When the telemetry emits
 ## `mission_failed`, the game is paused, the overlay fades in and the player
-## can restart the mission or quit.
+## can restart the mission, return to the main menu or quit.
 
 const FADE_DURATION := 1.5
+const MAIN_MENU_SCENE := "res://ui/main_menu.tscn"
 
 @onready var root: Control = %Root
 @onready var reason_label: Label = %ReasonLabel
 @onready var stats_label: Label = %StatsLabel
 @onready var restart_button: Button = %RestartButton
+@onready var main_menu_button: Button = %MainMenuButton
 @onready var quit_button: Button = %QuitButton
 
 var telemetry: Node = null
@@ -23,6 +25,7 @@ func _ready() -> void:
 	visible = false
 
 	restart_button.pressed.connect(_on_restart_pressed)
+	main_menu_button.pressed.connect(_on_main_menu_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 
 	telemetry = get_node_or_null("/root/ShipTelemetryGlobal")
@@ -43,6 +46,7 @@ func show_death_screen(reason: String) -> void:
 
 	# Block input until the fade has finished so a stray click can't skip it.
 	restart_button.disabled = true
+	main_menu_button.disabled = true
 	quit_button.disabled = true
 
 	root.modulate.a = 0.0
@@ -56,11 +60,13 @@ func show_death_screen(reason: String) -> void:
 
 func _on_fade_finished() -> void:
 	restart_button.disabled = false
+	main_menu_button.disabled = false
 	quit_button.disabled = false
 	restart_button.grab_focus()
 
 func _on_restart_pressed() -> void:
 	restart_button.disabled = true
+	main_menu_button.disabled = true
 	quit_button.disabled = true
 
 	_reset_telemetry()
@@ -70,6 +76,17 @@ func _on_restart_pressed() -> void:
 	get_tree().paused = false
 	# The player's _ready() captures the mouse again after the reload.
 	get_tree().reload_current_scene()
+
+func _on_main_menu_pressed() -> void:
+	restart_button.disabled = true
+	main_menu_button.disabled = true
+	quit_button.disabled = true
+
+	_is_showing = false
+	visible = false
+	get_tree().paused = false
+	# The main menu keeps the telemetry inactive and resets it on "Start".
+	get_tree().change_scene_to_file(MAIN_MENU_SCENE)
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
